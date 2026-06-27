@@ -1,0 +1,124 @@
+{
+  "feedback": {
+    "feedback1": { "nama": "Zainal Ilmi", "pesan": "Pelayanan cetak dokumennya cepat sekali, admin sangat responsif saat dihubungi lewat WhatsApp." },
+    "feedback2": { "nama": "Siti Aminah", "pesan": "Hasil cetak foto sangat tajam dan warnanya akurat. Bagus sekali untuk harga segini." },
+    "feedback3": { "nama": "Budi Santoso", "pesan": "Fitur peta untuk ongkir otomatisnya sangat membantu, jadi tidak perlu tebak-tebakan harga lagi." },
+    "feedback4": { "nama": "Dewi Lestari", "pesan": "Kertas foto yang digunakan tebal dan berkualitas, di luar ekspektasi saya untuk cetakan lokal." },
+    "feedback5": { "nama": "Ahmad Fauzi", "pesan": "Sistem webnya modern sekali, kalkulasi harganya transparan dan tidak ada biaya tersembunyi." },
+    "feedback6": { "nama": "Rina Wijaya", "pesan": "Proses fotocopy dokumen rapi dan penjilidannya sangat kuat. Terima kasih banyak." },
+    "feedback7": { "nama": "Eko Prasetyo", "pesan": "Sangat praktis, tinggal upload file dari rumah lalu tunggu kurir datang mengantar." },
+    "feedback8": { "nama": "Mega Utami", "pesan": "Mohon ditambahkan pilihan jenis kertas baru untuk cetak brosur jilid tipis." },
+    "feedback9": { "nama": "Rian Hidayat", "pesan": "Respon pengiriman sangat cepat, dokumen tugas kuliah saya sampai tepat waktu sebelum deadline." },
+    "feedback10": { "nama": "Fitriani", "pesan": "Tampilan website adminnya sangat keren dan responsif saat diakses dari HP saya." },
+    "feedback11": { "nama": "Hendra Wijaya", "pesan": "Harga per lembar cetak dokumen hitam putih sangat bersaing dibanding toko lain." },
+    "feedback12": { "nama": "Anisa Rahma", "pesan": "Kualitas warna cetak posternya sangat cerah, tidak pecah sama sekali gambarnya." },
+    "feedback13": { "nama": "Taufik Rahman", "pesan": "Metode pembayaran menggunakan QRIS sangat memudahkan proses transaksi harian." },
+    "feedback14": { "nama": "Yulia Putri", "pesan": "Website ini sangat memudahkan mahasiswa yang butuh cetak tugas darurat di malam hari." },
+    "feedback15": { "nama": "Dedi Suhendra", "pesan": "Saran saja, mungkin antarmuka pemilihan ukuran kertas bisa dibuat lebih menonjol." },
+    "feedback16": { "nama": "Sri Wahyuni", "pesan": "Hasil cetak jilid lakban rapi sekali, potongan kertasnya juga sangat presisi." },
+    "feedback17": { "nama": "Fajar Nugraha", "pesan": "Sistem pelacakan jarak peta bekerja dengan baik, estimasi ongkirnya sangat akurat." },
+    "feedback18": { "nama": "Larasati", "pesan": "Admin percetakan sangat ramah dan sabar membantu mengoreksi format dokumen saya yang keliru." },
+    "feedback19": { "nama": "Rizky Ramadhan", "pesan": "Kecepatan muat halaman webnya luar biasa cepat meskipun kuota internet saya sedang lambat." },
+    "feedback20": { "nama": "Indah Permata", "pesan": "Dasbor pemesanan kondisionalnya cerdas, alur cetak foto dan dokumen terpisah dengan jelas." },
+    "feedback21": { "nama": "Andi Wijaya", "pesan": "Hasil warna untuk fotocopy berwarna cukup solid dan mendekati dokumen aslinya." },
+    "feedback22": { "nama": "Maya Sofiah", "pesan": "Sangat membantu untuk cetak e-book dalam jumlah banyak, dapat potongan harga juga." },
+    "feedback23": { "nama": "Bambang Hermawan", "pesan": "Kemasan pengiriman dokumen sangat aman, dilapisi plastik jadi tidak takut basah kalau hujan." },
+    "feedback24": { "nama": "Novianti", "pesan": "Fitur hitung otomatis stok barang di halaman admin membuat manajemen toko makin efisien." },
+    "feedback25": { "nama": "Aditya Pratama", "pesan": "Aplikasi cetak paling praktis di tingkat kota ini, pertahankan terus performanya." },
+    "feedback26": { "nama": "Santi Rahayu", "pesan": "Ukuran foto 4x6 hasilnya pas dan tidak buram, langsung siap dipakai untuk berkas kerja." },
+    "feedback27": { "nama": "Denny Caknan", "pesan": "Saran untuk menambahkan fitur cetak stiker print custom di masa depan ya bos." },
+    "feedback28": { "nama": "Gita Gutawa", "pesan": "Pilihan opsi laminasi untuk cetak foto mohon segera diaktifkan menunya." },
+    "feedback29": { "nama": "Farhan Zaki", "pesan": "Integrasi kirim pesan ke WhatsApp bekerja tanpa kendala, format teks pesanan rapi." },
+    "feedback30": { "nama": "Diana Puspita", "pesan": "Sistem validasi form pemesanan sangat baik, mencegah salah input jumlah halaman." },
+    "feedback31": { "nama": "Eka Putra", "pesan": "Cetak dokumen PDF ukuran besar lancar tanpa lag, layout tetap rapi tidak bergeser." },
+    "feedback32": { "nama": "Rini Lestari", "pesan": "Toko percetakan ritel terbaik, sistem online membuat tidak perlu mengantre lama." },
+    "feedback33": { "nama": "Guruh Soekarno", "pesan": "Warna kuning dan merah pada cetakan baliho kecil sangat menyala dan tajam." },
+    "feedback34": { "nama": "Putri Ayu", "pesan": "Terima kasih, dokumen skripsi saya berhasil dicetak dengan sangat sempurna." },
+    "feedback35": { "nama": "Hafiz Ansari", "pesan": "Akses login admin aman dan dasbor stok barang sangat mudah dipahami polanya." },
+    "feedback36": { "nama": "Ratna Sari", "pesan": "Hasil cetak bolak-balik (duplex) sangat pas presisinya, tidak menembus ke belakang." },
+    "feedback37": { "nama": "Doni Salmanan", "pesan": "Peta lokasinya sangat detail, memudahkan kurir internal toko menemukan rumah saya." },
+    "feedback38": { "nama": "Citra Kirana", "pesan": "Opsi varian kertas foto glossy sangat memuaskan kilau permukaannya." },
+    "feedback39": { "nama": "Aris Setiawan", "pesan": "Pengolahan database feedback pelanggan real-time ini membuat admin sigap merespon." },
+    "feedback40": { "nama": "Nadia Vega", "pesan": "Desain antarmuka web yang bersih membuat mata tidak lelah saat memilih menu cetak." },
+    "feedback41": { "nama": "Yusuf Mansur", "pesan": "Layanan luar biasa, harga kaki lima dengan kualitas cetak bintang lima." },
+    "feedback42": { "nama": "Wulan Guritno", "pesan": "Proses konfirmasi pembayaran QRIS terhitung instan dan langsung diproses admin." },
+    "feedback43": { "nama": "Zulkifli Hasan", "pesan": "Sistem perhitungan ongkir per kilometer sangat adil bagi pelanggan luar area." },
+    "feedback44": { "nama": "Eva Celia", "pesan": "Kritik saya hanya pada stok kertas ukuran A3 yang sering kosong di sistem." },
+    "feedback45": { "nama": "Rangga Azof", "pesan": "Penjilidan dengan opsi spiral sangat rapi dan kokoh untuk dokumen laporan." },
+    "feedback46": { "nama": "Tari Amelia", "pesan": "Suka sekali dengan efisiensi form pemesanannya, hemat waktu operasional." },
+    "feedback47": { "nama": "Kevin Sanjaya", "pesan": "Hasil cetak pamflet untuk kegiatan kampus warnanya sangat solid tidak pudar." },
+    "feedback48": { "nama": "Dinda Hauw", "pesan": "Saran untuk menambahkan ikon indikator tipe file yang didukung saat upload." },
+    "feedback49": { "nama": "Raffi Ahmad", "pesan": "Proses bisnis digital yang sangat cocok diterapkan untuk semua toko percetakan ritel." },
+    "feedback50": { "nama": "Nagita Slavina", "pesan": "Hasil cetak foto keluarga ukuran besar sangat memuaskan, detail wajah terlihat jelas." },
+    "feedback51": { "nama": "Irfan Hakim", "pesan": "Sistem antrean digital berbasis input order web ini membuat toko percetakan jadi rapi." },
+    "feedback52": { "nama": "Ayu Tingting", "pesan": "Aplikasi web statis yang sangat responsif, transisi antar halaman mulus." },
+    "feedback53": { "nama": "Boy William", "pesan": "Integrasi OpenStreetMap bekerja tanpa error di browser Safari seluler saya." },
+    "feedback54": { "nama": "Jessica Iskandar", "pesan": "Pesan kritik saya dikirim tanpa minta nomor HP, privasi saya terasa aman." },
+    "feedback55": { "nama": "Sule Sutisna", "pesan": "Dasbor admin feedback dengan paginasi ini rapi, memudahkan menghapus pesan spam." },
+    "feedback56": { "nama": "Andre Taulany", "pesan": "Tombol sensor nama di halaman admin keren banget, aman kalau layar diintip orang." },
+    "feedback57": { "nama": "Kiky Saputri", "pesan": "Kalkulator harganya akurat, pas dicocokkan dengan manifes nota fisik toko." },
+    "feedback58": { "nama": "Raditya Dika", "pesan": "Logika kondisional pada form pemilihan cetak foto sangat user-friendly." },
+    "feedback59": { "nama": "Ernest Prakasa", "pesan": "Teks info halaman paginasi sinkron dengan total feedback yang masuk." },
+    "feedback60": { "nama": "Prita Laura", "pesan": "Waktu pengerjaan cetak dokumen kilat, di luar perkiraan saya yang banyak halaman." },
+    "feedback61": { "nama": "Tantowi Yahya", "pesan": "Opsi cetak dokumen hitam putih otomatis mendeteksi tarif dasar dengan benar." },
+    "feedback62": { "nama": "Najwa Shihab", "pesan": "Transparansi sistem hitung harga ini adalah nilai plus utama platform ini." },
+    "feedback63": { "nama": "Deddy Corbuzier", "pesan": "Struktur database Firebase tertata rapi, tarikan data ke tabel admin instan." },
+    "feedback64": { "nama": "Chika Jessica", "pesan": "Desain tombol hapus dengan efek transisi memudar (fade) terlihat modern." },
+    "feedback65": { "nama": "Gading Marten", "pesan": "Cetak dokumen portofolio foto warna hitamnya pekat, tidak keabu-abuan." },
+    "feedback66": { "nama": "Gisella Anastasia", "pesan": "Saran agar menu unduh manifes pesanan dalam bentuk PDF ditambahkan nanti." },
+    "feedback67": { "nama": "Rizky Billar", "pesan": "Keamanan rules database yang baru membuat transaksi toko bebas dari bypass harga." },
+    "feedback68": { "nama": "Lesti Kejora", "pesan": "Pilihan jenis kertas foto matte/doff hasilnya elegan sekali, minim pantulan cahaya." },
+    "feedback69": { "nama": "Atta Halilintar", "pesan": "Sistem otomatisasi cetak ritel yang siap dikembangkan ke skala bisnis lebih besar." },
+    "feedback70": { "nama": "Aurel Hermansyah", "pesan": "Notifikasi instan di dasbor admin sangat membantu memberi tahu orderan baru." },
+    "feedback71": { "nama": "Verrel Bramasta", "pesan": "Alur pengisian formulir pemesanan ringkas dan tidak membingungkan pengguna awam." },
+    "feedback72": { "nama": "Natasha Wilona", "pesan": "Cetak dokumen tugas akhir lancar, hasil jilid softcover rapi dan mantap." },
+    "feedback73": { "nama": "Al Ghazali", "pesan": "Integrasi peta routing OSRM berjalan cepat saat kalkulasi rute jalan kurir." },
+    "feedback74": { "nama": "El Rumi", "pesan": "Fitur sensor nama bintang (* ) bekerja sempurna di lembar manajemen admin." }
+  },
+  "foto_paper": {
+    "paper1": {
+      "nama_paper": "Glossy Photo Paper 180gsm"
+    }
+  },
+  "stok": {
+    "barang1": {
+      "harga": 2000,
+      "nama_stok": "Binder Clips No.115",
+      "sisa_stok": 8
+    },
+    "barang2": {
+      "harga": 3000,
+      "nama_stok": "Binder Clips No.200",
+      "sisa_stok": 19
+    },
+    "barang3": {
+      "harga": 300,
+      "nama_stok": "Copy Paper HVS A4 75gsm",
+      "sisa_stok": 500
+    },
+    "barang4": {
+      "harga": 2000,
+      "nama_stok": "Glossy Photo Paper A4 180gsm",
+      "sisa_stok": 20
+    },
+    "barang5": {
+      "harga": 2000,
+      "nama_stok": "Glossy Sitcker Paper A4 135gsm",
+      "sisa_stok": 20
+    },
+    "barang6": {
+      "harga": 500,
+      "nama_stok": "Double Folio Bergaris",
+      "sisa_stok": 50
+    },
+    "barang7": {
+      "harga": 1000,
+      "nama_stok": "Map Tali",
+      "sisa_stok": 2
+    }
+  },
+  "users": {
+    "password": "Mandastana05!",
+    "username": "085754207467"
+  }
+}
