@@ -478,7 +478,8 @@
             fetch(`https://router.project-osrm.org/route/v1/driving/${homeLng},${homeLat};${selectedLng},${selectedLat}?overview=false`)
                 .then(r => r.json()).then(d => {
                     if (d.code === 'Ok' && d.routes.length > 0) {
-                        jarakKm = d.routes[0].distance / 1000; ongkosKirim = Math.round(jarakKm * 1000);
+                        jarakKm = d.routes[0].distance / 1000;
+                        ongkosKirim = Math.max(Math.round(jarakKm * 3000), 5000);
                         document.getElementById('catatanPengantaran').value = `${selectedLat.toFixed(6)}, ${selectedLng.toFixed(6)}`;
                         document.getElementById('infoOngkirForm').innerHTML = `Jarak Tempuh: <b>${jarakKm.toFixed(2)} km</b><br>Biaya Ongkir: <b>Rp${ongkosKirim.toLocaleString('id-ID')}</b>`;
                         document.getElementById('infoOngkirForm').classList.remove('hidden');
@@ -488,7 +489,8 @@
         function fallbackHitungManual() {
             const R = 6371; const dLat = (selectedLat - homeLat) * Math.PI / 180; const dLng = (selectedLng - homeLng) * Math.PI / 180;
             const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(homeLat * Math.PI / 180) * Math.cos(selectedLat * Math.PI / 180) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
-            jarakKm = R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))); ongkosKirim = Math.round(jarakKm * 1000);
+            jarakKm = R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+            ongkosKirim = Math.max(Math.round(jarakKm * 3000), 5000);
             document.getElementById('catatanPengantaran').value = `${selectedLat.toFixed(6)}, ${selectedLng.toFixed(6)}`;
             document.getElementById('infoOngkirForm').innerHTML = `Jarak (Radius): <b>${jarakKm.toFixed(2)} km</b><br>Biaya Ongkir: <b>Rp${ongkosKirim.toLocaleString('id-ID')}</b>`;
             document.getElementById('infoOngkirForm').classList.remove('hidden');
