@@ -4,81 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="ic-transparent.png" type="image/png">
-    <title>Dashboard</title>
+    <title>Maintenance</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @keyframes subtleFloat {
+        .glass-dark {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        @keyframes pulse-slow {
             0%,
             100% {
-                transform: translateY(0px) rotate(0deg);
+                opacity: 0.4;
+                transform: scale(1);
             }
             50% {
-                transform: translateY(-10px) rotate(2deg);
+                opacity: 0.6;
+                transform: scale(1.05);
             }
         }
-        .animate-float {
-            animation: subtleFloat 5s ease-in-out infinite;
+        .animate-pulse-slow {
+            animation: pulse-slow 6s infinite ease-in-out;
         }
     </style>
 </head>
-<body class="bg-slate-900 font-sans min-h-screen flex flex-col justify-center items-center p-4 relative overflow-hidden">
-    <div class="absolute w-72 h-72 rounded-full bg-cyan-500/20 blur-[80px] -top-12 -left-12 pointer-events-none"></div>
-    <div class="absolute w-80 h-80 rounded-full bg-pink-500/15 blur-[100px] bottom-10 right-0 pointer-events-none"></div>
-    <div class="absolute w-60 h-60 rounded-full bg-yellow-500/10 blur-[90px] top-1/3 right-1/4 pointer-events-none"></div>
-    <div class="absolute top-4 left-4 z-20">
-        <a href="feedback.html"
-            class="text-xs font-extrabold text-white bg-gradient-to-r from-cyan-500 to-indigo-500 hover:brightness-110 transition-all duration-300 px-4 py-2.5 rounded-2xl tracking-wide shadow-md shadow-cyan-500/10 border border-cyan-400/20 block">
-            Kritik & Saran
-        </a>
-    </div>
-    <div class="absolute top-4 right-4 z-20">
-        <a href="login.html"
-            class="text-xs font-bold text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-300 bg-white/5 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/10 tracking-wide shadow-sm block">
-            Admin Area
-        </a>
-    </div>
+<body
+    class="bg-slate-900 font-sans min-h-screen flex items-center justify-center p-4 sm:p-6 relative overflow-hidden select-none">
     <div
-        class="max-w-md w-full bg-white/[0.06] backdrop-blur-xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 sm:p-8 text-center mb-24 border border-white/10 relative z-10">
-        <h1 class="text-3xl font-black tracking-tight text-white mb-2">
-            Home <span
-                class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-400">Print</span>
-        </h1>
-        <p class="text-slate-300 text-sm font-medium px-4 leading-relaxed">
-            Cetak dokumen & foto Anda dengan kualitas tajam, cepat, dan siap antar langsung ke depan pintu rumah.
-        </p>
-        <div class="my-8 relative group">
-            <div
-                class="absolute inset-0 bg-gradient-to-tr from-cyan-500 via-pink-500 to-yellow-500 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 w-44 h-44 mx-auto">
-            </div>
-            <img src="ic.png" alt="Home Print Logo"
-                class="relative rounded-3xl mx-auto w-44 object-contain animate-float drop-shadow-[0_10px_15px_rgba(0,0,0,0.3)]">
+        class="absolute w-72 h-72 rounded-full bg-cyan-500/10 blur-[100px] -top-12 -left-12 pointer-events-none animate-pulse-slow">
+    </div>
+    <div class="absolute w-80 h-80 rounded-full bg-pink-500/10 blur-[120px] bottom-10 right-0 pointer-events-none animate-pulse-slow"
+        style="animation-delay: 3s;"></div>
+    <div class="absolute w-60 h-60 rounded-full bg-indigo-500/5 blur-[90px] top-1/3 left-1/3 pointer-events-none"></div>
+    <div
+        class="max-w-md w-full glass-dark rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)] p-8 text-center text-white relative z-10 border border-white/10">
+        <div
+            class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-tr from-cyan-500/20 to-pink-500/20 border border-white/10 mb-6 shadow-inner relative group">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                class="w-10 h-10 text-cyan-400 animate-spin" style="animation-duration: 12s;">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.43l-1.003.767c-.3.23-.45.62-.41.99.01.079.012.16.012.242 0 .083-.002.163-.012.242-.04.369.11.758.41.99l1.003.767a1.125 1.125 0 0 1 .26 1.43l-1.296 2.247a1.125 1.125 0 0 1-1.37.49l-1.216-.456a1.125 1.125 0 0 0-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281a1.125 1.125 0 0 0-.645-.87a6.528 6.528 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.43l1.004-.767c.301-.23.45-.619.41-.99a6.666 6.666 0 0 1-.012-.242c0-.083.004-.164.012-.242.04-.369-.11-.758-.41-.99l-1.004-.767a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.49l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128c.332-.183.582-.495.644-.869l.214-1.28Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
         </div>
-        <p class="text-xs text-slate-400 font-medium tracking-wide">
-            Tekan tombol di bawah untuk mulai pemesanan.
+        <h1 class="text-2xl font-black tracking-tight mb-2">
+            Sistem Sedang <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-300 to-pink-400">Maintenance</span>
+        </h1>
+        <p class="text-sm text-slate-400 leading-relaxed px-2 mb-6">
+            Kami sedang melakukan perbaikan pada sistem dan pemulihan database agar layanan menjadi lebih instan dan cepat.
+        </p>
+
+        <div class="bg-white/5 border border-white/5 rounded-2xl p-4 mb-6 text-left">
+            <p class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-1">Butuh Cetak Darurat Malam Ini?</p>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Jangan khawatir! Layanan cetak fisik (Print/Fotocopy) dan pengerjaan Jasa Jasa tetap berjalan manual via
+                WhatsApp Admin.
+            </p>
+        </div>
+        <a href="https://wa.me/6285194150059?text=Halo%20Admin%20Home%20Print,%20karena%20website%20sedang%20maintenance,%20saya%20mau%20order%20manual%20di%20sini%20ya"
+            target="_blank"
+            class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white font-bold py-3.5 px-4 rounded-xl shadow-[0_12px_24px_rgba(16,185,129,0.2)] border border-white/5 transition transform active:scale-95 text-sm tracking-wide">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
+                <path
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.455 5.703 1.458h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+            Hubungi Admin via WhatsApp
+        </a>
+        <p class="text-[10px] text-slate-500 tracking-wider uppercase mt-6">
+            &copy; 2026 Home Print & Developer. All Rights Reserved.
         </p>
     </div>
-    <div
-        class="fixed bottom-0 left-0 right-0 flex justify-center bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent p-4 pb-6 sm:pb-8 z-50 backdrop-blur-sm">
-        <a href="option-jasa.html"
-            class="w-full max-w-md bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-extrabold py-4 px-6 rounded-2xl shadow-[0_12px_30px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.97] transition-all duration-200 text-base tracking-wider border border-white/10 block">
-            Pilih Pesanan
-        </a>
-    </div>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-analytics.js";
-        const firebaseConfig = {
-            apiKey: "AIzaSyBO_jWfltM8J9obdA5Vio50kPtOqkDuDlw",
-            authDomain: "home-print-8437d.firebaseapp.com",
-            databaseURL: "https://home-print-8437d-default-rtdb.firebaseio.com",
-            projectId: "home-print-8437d",
-            storageBucket: "home-print-8437d.firebasestorage.app",
-            messagingSenderId: "418956397903",
-            appId: "1:418956397903:web:cb17eaeab729790f23093a",
-            measurementId: "G-ZHRM0PKS2D"
-        };
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-    </script>
 </body>
 </html>
