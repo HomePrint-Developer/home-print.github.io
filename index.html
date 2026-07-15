@@ -5,75 +5,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="ic-transparent.png" type="image/png">
-    <title>Layanan Tutup Sementara - Home Print</title>
+    <title>Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .glass-dark {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        @keyframes pulse-slow {
+        @keyframes subtleFloat {
 
             0%,
             100% {
-                opacity: 0.4;
-                transform: scale(1);
+                transform: translateY(0px) rotate(0deg);
             }
 
             50% {
-                opacity: 0.6;
-                transform: scale(1.05);
+                transform: translateY(-10px) rotate(2deg);
             }
         }
 
-        .animate-pulse-slow {
-            animation: pulse-slow 6s infinite ease-in-out;
+        .animate-float {
+            animation: subtleFloat 5s ease-in-out infinite;
         }
     </style>
 </head>
 
 <body
-    class="bg-slate-900 font-sans min-h-screen flex items-center justify-center p-4 sm:p-6 relative overflow-hidden select-none">
-
-    <div
-        class="absolute w-72 h-72 rounded-full bg-cyan-500/10 blur-[100px] -top-12 -left-12 pointer-events-none animate-pulse-slow">
+    class="bg-slate-900 font-sans min-h-screen flex flex-col justify-center items-center p-4 relative overflow-hidden">
+    <div class="absolute w-72 h-72 rounded-full bg-cyan-500/20 blur-[80px] -top-12 -left-12 pointer-events-none"></div>
+    <div class="absolute w-80 h-80 rounded-full bg-pink-500/15 blur-[100px] bottom-10 right-0 pointer-events-none">
     </div>
-    <div class="absolute w-80 h-80 rounded-full bg-pink-500/10 blur-[120px] bottom-10 right-0 pointer-events-none animate-pulse-slow"
-        style="animation-delay: 3s;"></div>
-    <div class="absolute w-60 h-60 rounded-full bg-indigo-500/5 blur-[90px] top-1/3 left-1/3 pointer-events-none"></div>
-
+    <div class="absolute w-60 h-60 rounded-full bg-yellow-500/10 blur-[90px] top-1/3 right-1/4 pointer-events-none">
+    </div>
+    <div class="absolute top-4 left-4 z-20">
+        <a href="feedback.html"
+            class="text-xs font-extrabold text-white bg-gradient-to-r from-cyan-500 to-indigo-500 hover:brightness-110 transition-all duration-300 px-4 py-2.5 rounded-2xl tracking-wide shadow-md shadow-cyan-500/10 border border-cyan-400/20 block">
+            Kritik & Saran
+        </a>
+    </div>
+    <div class="absolute top-4 right-4 z-20">
+        <a href="login.html"
+            class="text-xs font-bold text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-300 bg-white/5 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/10 tracking-wide shadow-sm block">
+            Admin Area
+        </a>
+    </div>
     <div
-        class="max-w-md w-full glass-dark rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)] p-8 text-center text-white relative z-10 border border-white/10">
-
-        <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-tr from-cyan-500/20 to-pink-500/20 border border-white/10 mb-6 shadow-inner relative group animate-pulse"
-            style="animation-duration: 3s;">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-10 h-10 text-pink-400">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
-            </svg>
-        </div>
-
-        <h1 class="text-2xl font-black tracking-tight mb-3">
-            Layanan Tutup <span
-                class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-300 to-indigo-400">Sementara</span>
+        class="max-w-md w-full bg-white/[0.06] backdrop-blur-xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 sm:p-8 text-center mb-24 border border-white/10 relative z-10">
+        <h1 class="text-3xl font-black tracking-tight text-white mb-2">
+            Home <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-400">Print</span>
         </h1>
-
-        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed px-1 mb-6">
-            Mohon maaf, saat ini sistem pemesanan dokumen dan pengerjaan file dinonaktifkan sampai waktu yang belum
-            ditentukan karena admin sedang dalam masa <strong>Revisi Sidang Tugas Akhir</strong>. Terima kasih banyak atas
-            pengertiannya.
+        <p class="text-slate-300 text-sm font-medium px-4 leading-relaxed">
+            Cetak dokumen & foto Anda dengan kualitas tajam, cepat, dan siap antar langsung ke depan pintu rumah.
         </p>
-
-        <div class="border-t border-white/5 my-4"></div>
-
-        <p class="text-[10px] text-slate-500 tracking-wider uppercase mt-4">
-            &copy; 2026 Home Print & Developer. All Rights Reserved.
+        <div class="my-8 relative group">
+            <div
+                class="absolute inset-0 bg-gradient-to-tr from-cyan-500 via-pink-500 to-yellow-500 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 w-44 h-44 mx-auto">
+            </div>
+            <img src="ic.png" alt="Home Print Logo"
+                class="relative rounded-3xl mx-auto w-44 object-contain animate-float drop-shadow-[0_10px_15px_rgba(0,0,0,0.3)]">
+        </div>
+        <p class="text-xs text-slate-400 font-medium tracking-wide">
+            Tekan tombol di bawah untuk mulai pemesanan.
         </p>
     </div>
+    <div
+        class="fixed bottom-0 left-0 right-0 flex justify-center bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent p-4 pb-6 sm:pb-8 z-50 backdrop-blur-sm">
+        <a href="option-jasa.html"
+            class="w-full max-w-md bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-extrabold py-4 px-6 rounded-2xl shadow-[0_12px_30px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.97] transition-all duration-200 text-base tracking-wider border border-white/10 block">
+            Pilih Pesanan
+        </a>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-analytics.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyBO_jWfltM8J9obdA5Vio50kPtOqkDuDlw",
+            authDomain: "home-print-8437d.firebaseapp.com",
+            databaseURL: "https://home-print-8437d-default-rtdb.firebaseio.com",
+            projectId: "home-print-8437d",
+            storageBucket: "home-print-8437d.firebasestorage.app",
+            messagingSenderId: "418956397903",
+            appId: "1:418956397903:web:cb17eaeab729790f23093a",
+            measurementId: "G-ZHRM0PKS2D"
+        };
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    </script>
 </body>
 
 </html>
