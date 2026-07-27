@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +17,7 @@
             z-index: 1000;
             pointer-events: none;
         }
+
         .glass-dark {
             background: rgba(255, 255, 255, 0.06);
             backdrop-filter: blur(16px);
@@ -23,6 +25,7 @@
         }
     </style>
 </head>
+
 <body class="bg-slate-900 font-sans min-h-screen p-4 flex justify-center items-start overflow-x-hidden">
     <div class="absolute w-72 h-72 rounded-full bg-cyan-500/10 blur-[80px] -top-12 -left-12 pointer-events-none"></div>
     <div class="absolute w-80 h-80 rounded-full bg-pink-500/10 blur-[100px] bottom-10 right-0 pointer-events-none">
@@ -161,7 +164,8 @@
                     class="w-5 h-5 rounded accent-cyan-500 cursor-pointer pointer-events-none">
             </div>
             <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Catatan (Opsional)</label>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Catatan
+                    (Opsional)</label>
                 <textarea id="catatanOpsional" rows="2"
                     class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition text-sm font-medium placeholder-slate-600"
                     placeholder="Contoh: Patokan rumah cat pagar hijau, jenis kertas, dll."></textarea>
@@ -220,12 +224,12 @@
                 <div class="flex justify-between"><span class="text-slate-400">Nama Lengkap:</span> <span id="resNama"
                         class="font-bold text-white"></span></div>
                 <div class="flex justify-between"><span class="text-slate-400">
-                    Jenis Layanan:
-                </span> <span id="resJasa" class="text-cyan-400 font-black"></span>
-            </div>
+                        Jenis Layanan:
+                    </span> <span id="resJasa" class="text-cyan-400 font-black"></span>
+                </div>
                 <div class="flex justify-between"><span class="text-slate-400" id="lblResDetail">
-                    Spesifikasi Detail:
-                </span> <span id="resDetail" class="font-semibold text-white"></span>
+                        Spesifikasi Detail:
+                    </span> <span id="resDetail" class="font-semibold text-white"></span>
                 </div>
                 <div class="flex justify-between"><span class="text-slate-400">Metode Pengantaran:</span> <span
                         id="resPengantaran" class="text-white truncate max-w-[200px]"></span></div>
@@ -233,11 +237,11 @@
                         Cetak:</span> <span id="resKuantitas" class="font-bold text-white"></span></div>
                 <div id="rowResRangkapJilid" class="space-y-2.5">
                     <div class="flex justify-between"><span class="text-slate-400">
-                        Jumlah Rangkap:
-                    </span> <span id="resRangkap" class="text-white"></span></div>
+                            Jumlah Rangkap:
+                        </span> <span id="resRangkap" class="text-white"></span></div>
                     <div class="flex justify-between"><span class="text-slate-400">
-                        Jilid:
-                    </span> <span id="resJilid" class="text-white"></span></div>
+                            Jilid:
+                        </span> <span id="resJilid" class="text-white"></span></div>
                 </div>
                 <div id="containerResTambahan"
                     class="border-t border-b border-white/10 py-2.5 my-2.5 space-y-1 hidden text-xs bg-white/5 p-3 rounded-xl">
@@ -247,12 +251,11 @@
                     <div id="listResTambahan" class="space-y-1"></div>
                 </div>
                 <div class="flex justify-between text-cyan-400 font-bold" id="rowOngkir"><span>
-                    Ongkos Kirim:                    
-                </span> <span id="resOngkir"></span></div>
+                        Ongkos Kirim:
+                    </span> <span id="resOngkir"></span></div>
                 <div class="flex flex-col border-t border-white/10 pt-2.5 mt-2"><span class="text-slate-400">
-                    Catatan:
-                </span> <span id="resCatatan"
-                        class="text-slate-400 italic break-words mt-1"></span></div>
+                        Catatan:
+                    </span> <span id="resCatatan" class="text-slate-400 italic break-words mt-1"></span></div>
                 <div
                     class="flex justify-between border-t border-dashed border-white/20 pt-4 mt-4 text-base font-black text-white">
                     <span>Total Pembayaran:</span>
@@ -606,4 +609,5 @@
         }
     </script>
 </body>
+
 </html>

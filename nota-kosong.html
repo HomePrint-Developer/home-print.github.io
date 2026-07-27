@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="ic-transparent.png" type="image/png">
+    <title>Buat Nota Kosong</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <style>
+        .glass-dark {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-slate-950 text-white min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-md glass-dark rounded-[32px] p-6 shadow-2xl">
+        <div class="mb-5 border-b border-white/10 pb-4 flex items-center gap-3">
+            <div>
+                <h2 class="text-xl font-black text-cyan-400 tracking-tight">Buat Nota Kosong</h2>
+                <p class="text-[11px] text-slate-400">Cetak Massal Template dengan nota Resmi</p>
+            </div>
+        </div>
+
+        <form id="bulkForm" class="space-y-4 text-xs font-semibold" onsubmit="event.preventDefault();">
+
+            <div id="fallbackFileWrapper" class="hidden bg-amber-500/10 border border-amber-500/20 rounded-xl p-3">
+                <label class="block text-amber-400 mb-1 uppercase tracking-wider">CORS Mode Browser Terdeteksi</label>
+                <input type="file" id="inTemplateFile" accept=".pdf"
+                    class="w-full text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:bg-amber-500/20 file:text-amber-400 file:font-bold hover:file:bg-amber-500/30 cursor-pointer text-[11px]">
+                <p class="text-[9px] text-amber-300/70 mt-1">Karena dibuka via file:///, silakan pilih file
+                    'nota-homeprint.pdf' secara manual sekali saja.</p>
+            </div>
+
+            <div>
+                <label class="block text-slate-400 mb-1.5 uppercase tracking-wider">Jumlah Nota Kosong yang
+                    Dicetak*</label>
+                <input type="number" id="inJumlahCetak" value="1" min="1" max="50"
+                    class="w-full px-4 py-3 bg-slate-900 border border-white/10 rounded-xl text-white outline-none focus:ring-2 focus:ring-cyan-500 text-sm">
+                <p class="text-[10px] text-slate-400 mt-1">Sistem akan menghasilkan rentang nomor nota otomatis di dalam
+                    1 file PDF.</p>
+            </div>
+
+            <div class="bg-slate-900/50 border border-white/5 rounded-xl p-3 space-y-2 font-mono text-[11px]">
+                <div class="flex justify-between">
+                    <span class="text-slate-400">Next Kode:</span>
+                    <span id="lblNextNota" class="text-cyan-400 font-bold">HP-000001</span>
+                </div>
+            </div>
+
+            <button type="button" onclick="prosesDanTimpaPdf()"
+                class="w-full bg-gradient-to-r from-cyan-500 to-indigo-600 hover:brightness-110 text-white font-bold py-3.5 rounded-xl transition uppercase tracking-wider text-xs shadow-lg">
+                Buat Nota Kosong
+            </button>
+        </form>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBO_jWfltM8J9obdA5Vio50kPtOqkDuDlw",
+            authDomain: "home-print-8437d.firebaseapp.com",
+            databaseURL: "https://home-print-8437d-default-rtdb.firebaseio.com",
+            projectId: "home-print-8437d",
+            storageBucket: "home-print-8437d.firebasestorage.app",
+            messagingSenderId: "418956397903",
+            appId: "1:418956397903:web:cb17eaeab729790f23093a",
+            measurementId: "G-ZHRM0PKS2D"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        window.currentNextIndex = 1;
+        const dbNotaRef = ref(db, 'nota');
+        onValue(dbNotaRef, (snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                window.currentNextIndex = Object.keys(data).length + 1;
+            } else {
+                window.currentNextIndex = 1;
+            }
+            const formattedNo = "HP-" + String(window.currentNextIndex).padStart(6, '0');
+            document.getElementById('lblNextNota').innerText = formattedNo;
+        });
+
+        window.uploadNotaKeFirebase = async (nomorNotaStr) => {
+            return set(ref(db, 'nota/' + nomorNotaStr), {
+                no_nota: nomorNotaStr,
+            });
+        };
+
+        fetch('nota-homeprint.pdf')
+            .then(res => { if (!res.ok) document.getElementById('fallbackFileWrapper').classList.remove('hidden'); })
+            .catch(() => document.getElementById('fallbackFileWrapper').classList.remove('hidden'));
+    </script>
+
+    <script>
+        async function prosesDanTimpaPdf() {
+                const jumlahCetak = parseInt(document.getElementById('inJumlahCetak').value) || 1;
+                const fileInput = document.getElementById('inTemplateFile').files[0];
+
+                try {
+                    let bytesTemplate;
+
+                    if (fileInput) {
+                        bytesTemplate = await new Promise((resolve) => {
+                            const reader = new FileReader();
+                            reader.onload = (e) => resolve(e.target.result);
+                            reader.readAsArrayBuffer(fileInput);
+                        });
+                    } else {
+                        bytesTemplate = await fetch('nota-homeprint.pdf').then(res => {
+                            if (!res.ok) throw new Error();
+                            return res.arrayBuffer();
+                        }).catch(() => {
+                            throw new Error("Gagal load otomatis. Silakan pilih file bernama nota-homeprint.pdf pada kotak kuning di atas!");
+                        });
+                    }
+
+                    const pdfDokumenOutput = await PDFLib.PDFDocument.create();
+                    let indexNotaJalan = window.currentNextIndex;
+                    let lastNomorNotaGenerated = "";
+
+                    for (let i = 0; i < jumlahCetak; i++) {
+                        const pdfMasterLoad = await PDFLib.PDFDocument.load(bytesTemplate);
+                        const [halamanMaster] = await pdfDokumenOutput.copyPages(pdfMasterLoad, [0]);
+
+                        const nomorNotaStr = "HP-" + String(indexNotaJalan).padStart(6, '0');
+                        lastNomorNotaGenerated = nomorNotaStr;
+                        halamanMaster.drawText(nomorNotaStr, {
+                            x: 125,
+                            y: 623.5,
+                            size: 20,
+                            color: PDFLib.rgb(0, 0, 0)
+                        });
+
+                        pdfDokumenOutput.addPage(halamanMaster);
+
+                        if (typeof window.uploadNotaKeFirebase === "function") {
+                            await window.uploadNotaKeFirebase(nomorNotaStr);
+                        }
+
+                        indexNotaJalan++;
+                    }
+
+                    const pdfBytesHasil = await pdfDokumenOutput.save();
+                    const blob = new Blob([pdfBytesHasil], { type: 'application/pdf' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = `NOTA_KOSONG_${lastNomorNotaGenerated}.pdf`;
+                    link.click();
+
+                    alert(`Berhasil! ${jumlahCetak} Halaman Nota kosong telah dibuat.`);
+
+                } catch (error) {
+                    alert(error.message);
+                    console.error(error);
+                }
+            }
+    </script>
+</body>
+
+</html>

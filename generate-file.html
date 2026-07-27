@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="ic-transparent.png" type="image/png">
+    <title>Generate File - Home Print Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        .glass-dark {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .font-times {
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        /* Mengunci Dimensi A4 Internasional & Margin Layout Narrow (1,27 cm = 12.7mm) */
+        .a4-container {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 12.7mm 12.7mm;
+            /* Mutlak Menggunakan Margin Layout Narrow 1,27 cm */
+            background: white;
+            color: #000000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+
+        /* Container Preview Responsif Anti Rusak & Anti Blank */
+        .responsive-preview-box {
+            overflow: auto;
+            max-width: 100%;
+            background: #090d16;
+            padding: 16px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: block;
+        }
+
+        /* Set Ukuran Font Sesuai Permintaan */
+        .cv-text-base {
+            font-size: 11pt;
+        }
+
+        .cv-text-title {
+            font-size: 15pt;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-slate-900 font-sans min-h-screen p-4 lg:p-8 flex flex-col lg:flex-row gap-6 items-start justify-center overflow-x-hidden">
+
+    <div
+        class="w-full lg:max-w-md glass-dark rounded-[32px] p-5 sm:p-6 text-white shrink-0 shadow-2xl overflow-y-auto max-h-[90vh]">
+        <div class="mb-4 border-b border-white/10 pb-3">
+            <h2 class="text-xl font-black text-cyan-400 tracking-tight">Dokumen Generator Engine</h2>
+            <p class="text-xs text-slate-400">Pilih jenis dokumen dan isi data pelanggan</p>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Pilih Tipe
+                Dokumen*</label>
+            <div class="grid grid-cols-2 gap-3 bg-white/5 p-1.5 rounded-xl border border-white/10 text-xs font-bold">
+                <label
+                    class="flex items-center justify-center gap-2 py-2.5 rounded-lg cursor-pointer text-slate-300 transition-all has-[:checked]:bg-cyan-500 has-[:checked]:text-white">
+                    <input type="radio" name="tipeDokumen" value="cv" checked onchange="switchForm(this.value)"
+                        class="sr-only"> Curriculum Vitae
+                </label>
+                <label
+                    class="flex items-center justify-center gap-2 py-2.5 rounded-lg cursor-pointer text-slate-300 transition-all has-[:checked]:bg-pink-500 has-[:checked]:text-white">
+                    <input type="radio" name="tipeDokumen" value="lamaran" onchange="switchForm(this.value)"
+                        class="sr-only"> Surat Lamaran
+                </label>
+            </div>
+        </div>
+
+        <form id="docForm" class="space-y-4 text-xs font-medium" onsubmit="event.preventDefault();">
+            <div>
+                <label class="block text-slate-400 uppercase mb-1 font-bold">Nama Lengkap*</label>
+                <input type="text" id="inputNama" value="M. AINI" oninput="renderLive()"
+                    class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:ring-2 focus:ring-cyan-500">
+            </div>
+
+            <div id="formBlokCv" class="space-y-4">
+                <div>
+                    <label class="block text-slate-400 uppercase mb-1 font-bold">Pas Foto Semi Formal (Wajib)*</label>
+                    <input type="file" id="inputFotoCv" accept="image/*" onchange="prosesFoto(event)"
+                        class="w-full text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-cyan-500/20 file:text-cyan-400 file:font-bold hover:file:bg-cyan-500/30 cursor-pointer">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-slate-400 uppercase mb-1 font-bold">Nomor HP</label>
+                        <input type="text" id="inputHpCv" value="+62 857-5420-7467" oninput="renderLive()"
+                            class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 uppercase mb-1 font-bold">Akun Email</label>
+                        <input type="text" id="inputEmailCv" value="ainigaul05@gmail.com" oninput="renderLive()"
+                            class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-slate-400 uppercase mb-1 font-bold">LinkedIn URL</label>
+                        <input type="text" id="inputLinkedinCv" value="linkedin.com/in/m-aini" oninput="renderLive()"
+                            class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 uppercase mb-1 font-bold">Instagram URL</label>
+                        <input type="text" id="inputInstagramCv" value="instagram.com/mhmmd_ayy" oninput="renderLive()"
+                            class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-slate-400 uppercase mb-1 font-bold">Alamat Singkat</label>
+                    <input type="text" id="inputAlamatCv" value="Barito Kuala, Kalimantan Selatan"
+                        oninput="renderLive()"
+                        class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-slate-400 uppercase mb-1 font-bold">About Singkat (Maks 50 Kata)</label>
+                    <textarea id="inputProfilCv" oninput="validateWords(this); renderLive();" rows="3"
+                        class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none">Mahasiswa aktif D3 Teknik Informatika semester 6 dengan pengalaman sebagai Beginner Software Developer. Kompeten sebagai Junior Mobile Programmer berbasis CRUD. Memiliki kemampuan problem-solving, bekerja secara efektif dalam tim, serta cepat beradaptasi dengan teknologi baru.</textarea>
+                </div>
+
+                <div class="border-t border-white/10 pt-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-cyan-400 font-bold uppercase tracking-wider">Pendidikan</label>
+                        <button type="button" onclick="addPendidikanForm()"
+                            class="bg-cyan-500 hover:bg-cyan-600 text-white font-black px-2.5 py-1 rounded-lg text-[11px]">+
+                            Tambah</button>
+                    </div>
+                    <div id="containerInputPendidikan" class="space-y-3"></div>
+                </div>
+
+                <div class="border-t border-white/10 pt-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-pink-400 font-bold uppercase tracking-wider">Pengalaman Kerja</label>
+                        <button type="button" onclick="addKerjaForm()"
+                            class="bg-pink-500 hover:bg-pink-600 text-white font-black px-2.5 py-1 rounded-lg text-[11px]">+
+                            Tambah</button>
+                    </div>
+                    <div id="containerInputKerja" class="space-y-3"></div>
+                </div>
+
+                <div class="border-t border-white/10 pt-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-yellow-400 font-bold uppercase tracking-wider">Sertifikasi</label>
+                        <button type="button" onclick="addSertifikasiForm()"
+                            class="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-black px-2.5 py-1 rounded-lg text-[11px]">+
+                            Tambah</button>
+                    </div>
+                    <div id="containerInputSertifikasi" class="space-y-4"></div>
+                </div>
+
+                <div class="border-t border-white/10 pt-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-emerald-400 font-bold uppercase tracking-wider">Keterampilan</label>
+                        <button type="button" onclick="addSkillForm()"
+                            class="bg-emerald-500 hover:bg-emerald-600 text-white font-black px-2.5 py-1 rounded-lg text-[11px]">+
+                            Tambah</button>
+                    </div>
+                    <div id="containerInputSkill" class="space-y-2"></div>
+                </div>
+            </div>
+
+            <div id="formBlokLamaran" class="hidden space-y-4">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 uppercase mb-1 font-bold">Tempat Pembuatan*</label>
+                        <input type="text" id="inputTempatLamaran" value="Mandastana" oninput="renderLive()"
+                            class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 uppercase mb-1 font-bold">Tanggal (Otomatis)</label>
+                        <input type="text" id="inputTanggalLamaran" value="30 Juni 2026" readonly
+                            class="w-full px-3 py-2.5 bg-white/10 border border-white/10 rounded-xl text-slate-400 outline-none cursor-not-allowed">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-slate-400 uppercase mb-1 font-bold">Nama Instansi / Perusahaan
+                        Tujuan*</label>
+                    <input type="text" id="inputInstansiLamaran" value="Unit Pengumpul Zakat Bakti Bersama"
+                        oninput="renderLive()"
+                        class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-slate-400 uppercase mb-1 font-bold">Alamat Lengkap Instansi*</label>
+                    <textarea id="inputAlamatInstansiLamaran" oninput="renderLive()" rows="2"
+                        class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none">Komplek Pondok Metro Indah, Kayu Tangi Ujung, Banjarmasin Utara</textarea>
+                </div>
+                <div>
+                    <label class="block text-slate-400 uppercase mb-1 font-bold">Sumber Info &amp; Nama Posisi*</label>
+                    <input type="text" id="inputInfoPosisiLamaran"
+                        value="Laman Daring / Tim Kerja Pengumpulan &amp; Penyaluran" oninput="renderLive()"
+                        class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 uppercase mb-1 font-bold">Tempat, Tanggal Lahir*</label>
+                        <input type="text" id="inputTtlLamaran" value="Batola, 07 Mei 2004" oninput="renderLive()"
+                            class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 uppercase mb-1 font-bold">Jenis Kelamin*</label>
+                        <input type="text" id="inputJkLamaran" value="Laki-laki" oninput="renderLive()"
+                            class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-400 uppercase mb-1 font-bold">Pendidikan Terakhir*</label>
+                        <input type="text" id="inputPendidikanLamaran" value="MA Nurul Islam" oninput="renderLive()"
+                            class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 uppercase mb-1 font-bold">Nomor Telepon WA*</label>
+                        <input type="text" id="inputHpLamaran" value="+628 575-4207-467" oninput="renderLive()"
+                            class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-slate-400 uppercase mb-1 font-bold">Alamat Rumah Lengkap Pelamar*</label>
+                    <textarea id="inputAlamatLamaran" oninput="renderLive()" rows="2"
+                        class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none">Jalan.Puntik Raya RT 007 RW 002 Desa Puntik Luar Kecamatan Mandastana Kabupaten Barito Kuala Provinsi Kalimantan Selatan</textarea>
+                </div>
+                <div>
+                    <label class="block text-slate-400 uppercase mb-1 font-bold">Berkas Lampiran (Pisahkan Baris
+                        Baru)*</label>
+                    <textarea id="inputLampiranLamaran" oninput="renderLive()" rows="2"
+                        class="w-full px-3 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white outline-none">Curriculum Vitae</textarea>
+                </div>
+            </div>
+
+            <button type="button" onclick="generatePdfEngine()"
+                class="w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-black py-4 rounded-xl shadow-lg transition transform active:scale-95 tracking-wider uppercase mt-4 text-sm">
+                A4 Narrow Ke PDF
+            </button>
+        </form>
+    </div>
+
+    <div class="flex-1 w-full responsive-preview-box">
+        <div id="canvasCetak" class="a4-container font-times text-justify cv-text-base">
+
+            <div id="previewCvArea" class="space-y-4">
+                <div class="flex gap-6 items-start border-b border-black pb-3 mb-2">
+                    <div
+                        class="w-[4cm] h-[5cm] border border-zinc-400 bg-zinc-50 overflow-hidden flex items-center justify-center shrink-0 rounded-sm shadow-sm">
+                        <img id="cvFoto" src="" alt="Pas Foto" class="w-full h-full object-cover hidden">
+                        <span id="fotoPlaceholder" class="text-[10px] text-zinc-400 text-center font-sans">Pas Foto<br>4
+                            cm x 5 cm</span>
+                    </div>
+
+                    <div class="flex-1">
+                        <h1 id="cvNama" class="cv-text-title font-bold text-black uppercase tracking-wide">M. AINI</h1>
+                        <div class="mt-1 flex flex-wrap gap-x-2 text-black font-sans text-xs">
+                            <span id="resHp"></span> |
+                            <a id="resEmail" class="text-blue-600 underline"></a> |
+                            <a id="resLinkedin" class="text-blue-600 underline"></a> |
+                            <a id="resInstagram" class="text-blue-600 underline"></a>
+                        </div>
+                        <p id="resAlamat" class="mt-1 text-zinc-900"></p>
+                        <p id="cvProfil" class="mt-2 text-zinc-900 leading-relaxed text-justify italic"></p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="font-bold uppercase border-b border-black pb-0.5 mb-1.5">Pendidikan</h3>
+                    <div id="resPendidikanList" class="space-y-2"></div>
+                </div>
+
+                <div>
+                    <h3 class="font-bold uppercase border-b border-black pb-0.5 mb-1.5">Pengalaman Bekerja</h3>
+                    <div id="resKerjaList" class="space-y-3"></div>
+                </div>
+
+                <div>
+                    <h3 class="font-bold uppercase border-b border-black pb-0.5 mb-1.5">Sertifikasi</h3>
+                    <div id="resSertifikasiList" class="space-y-2"></div>
+                </div>
+
+                <div>
+                    <h3 class="font-bold uppercase border-b border-black pb-0.5 mb-1.5">Keterampilan</h3>
+                    <div id="resSkillList" class="list-disc pl-5 space-y-0.5"></div>
+                </div>
+            </div>
+
+            <div id="previewLamaranArea" class="hidden space-y-4 text-black leading-relaxed">
+                <div class="text-right">
+                    <p><span id="lblTempat">Mandastana</span>, 30 Juni 2026</p>
+                </div>
+                <div class="space-y-0.5">
+                    <p>Perihal : Lamaran Pekerjaan</p>
+                    <p class="font-bold">Yth.</p>
+                    <p id="lblInstansi" class="font-bold">Unit Pengumpul Zakat Bakti Bersama</p>
+                    <p id="lblAlamatInstansi" class="max-w-md"></p>
+                    <p>di-Tempat</p>
+                </div>
+                <p>Dengan Hormat,</p>
+                <p>Berdasarkan informasi yang saya dapat di Laman Daring, bahwa disebutkan sedang memerlukan “Tim Kerja
+                    Pengumpulan &amp; Penyaluran”. Maka dengan ini saya berminat untuk dapat mengisi lowongan pekerjaan
+                    tersebut. Berikut ini data diri saya :</p>
+
+                <table class="w-full my-3 border-none text-xs ml-4">
+                    <tr class="align-top">
+                        <td class="w-32 py-0.5">Nama</td>
+                        <td class="w-3 py-0.5">:</td>
+                        <td id="lblNama" class="py-0.5 font-bold uppercase">M. Aini</td>
+                    </tr>
+                    <tr class="align-top">
+                        <td class="py-0.5">Tempat/Tanggal Lahir</td>
+                        <td class="py-0.5">:</td>
+                        <td id="lblTtl" class="py-0.5"></td>
+                    </tr>
+                    <tr class="align-top">
+                        <td class="py-0.5">Jenis Kelamin</td>
+                        <td class="py-0.5">:</td>
+                        <td id="lblJk" class="py-0.5"></td>
+                    </tr>
+                    <tr class="align-top">
+                        <td class="py-0.5">Pendidikan Terakhir</td>
+                        <td class="py-0.5">:</td>
+                        <td id="lblPendidikan" class="py-0.5"></td>
+                    </tr>
+                    <tr class="align-top">
+                        <td class="py-0.5">Alamat Rumah</td>
+                        <td class="py-0.5">:</td>
+                        <td id="lblAlamat" class="py-0.5"></td>
+                    </tr>
+                    <tr class="align-top">
+                        <td class="py-0.5">Nomor Telepon/WA</td>
+                        <td class="py-0.5">:</td>
+                        <td id="lblHp" class="py-0.5"></td>
+                    </tr>
+                </table>
+
+                <p>Sebagai bahan pertimbangan Bapak/ibu, saya melampirkan :</p>
+                <ol id="lblListLampiran" class="list-decimal pl-5 space-y-0.5"></ol>
+                <p>Demikian surat lamaran pekerjaan ini saya sampaikan, saya sangat berharap agar dapat bergabung di
+                    lembaga anda. Atas perhatian dan kesempatannya yang diberikan Bapak/Ibu, saya ucapkan terima kasih.
+                </p>
+
+                <div class="pt-6 flex flex-col items-end text-center pr-12">
+                    <p>Hormat Saya,</p>
+                    <div
+                        class="h-14 w-24 my-1 flex items-center justify-center border border-dashed border-zinc-300 text-[10px] text-zinc-400 font-sans rounded">
+                        Space TTD</div>
+                    <p id="lblNamaTtd" class="font-bold border-b border-black uppercase px-1">M. AINI</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let counterPendidikan = 0;
+        let counterKerja = 0;
+        let counterSertifikasi = 0;
+        let counterSkill = 0;
+
+        function prosesFoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.getElementById('cvFoto');
+                    img.src = e.target.result; img.classList.remove('hidden');
+                    document.getElementById('fotoPlaceholder').classList.add('hidden');
+                    renderLive();
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function validateWords(textarea) {
+            let words = textarea.value.trim().split(/\s+/);
+            if (words.length > 50) {
+                textarea.value = words.slice(0, 50).join(" ");
+            }
+        }
+
+        function addPendidikanForm(instansi = '', lokasi = '', masa = '', jurusan = '') {
+            counterPendidikan++;
+            const id = counterPendidikan;
+            const html = `
+                <div id="formEduRow-${id}" class="p-2.5 bg-white/5 rounded-xl border border-white/10 space-y-2 relative">
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" placeholder="Nama Instansi" value="${instansi}" oninput="renderLive()" id="eduInstansi-${id}" class="w-full px-2 py-1 bg-slate-800 rounded border border-white/10 text-white text-[11px]">
+                        <input type="text" placeholder="Lokasi Singkat" value="${lokasi}" oninput="renderLive()" id="eduLokasi-${id}" class="w-full px-2 py-1 bg-slate-800 rounded border border-white/10 text-white text-[11px]">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" placeholder="Masa Pendidikan" value="${masa}" oninput="renderLive()" id="eduMasa-${id}" class="w-full px-2 py-1 bg-slate-800 rounded border border-white/10 text-white text-[11px]">
+                        <input type="text" placeholder="Jurusan" value="${jurusan}" oninput="renderLive()" id="eduJurusan-${id}" class="w-full px-2 py-1 bg-slate-800 rounded border border-white/10 text-white text-[11px]">
+                    </div>
+                    <button type="button" onclick="removeEduRow(${id})" class="absolute top-0 right-1 text-red-400 hover:text-red-500 font-bold text-[14px]">×</button>
+                </div>`;
+            document.getElementById('containerInputPendidikan').insertAdjacentHTML('beforeend', html);
+            renderLive();
+        }
+        function removeEduRow(id) { document.getElementById(`formEduRow-${id}`).remove(); renderLive(); }
+
+        function addKerjaForm(instansi = '', lokasi = '', masa = '', jabatan = '', ket = '') {
+            counterKerja++;
+            const id = counterKerja;
+            const html = `
+                <div id="formKerjaRow-${id}" class="p-2.5 bg-white/5 rounded-xl border border-white/10 space-y-2 relative">
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" placeholder="Instansi Bekerja" value="${instansi}" oninput="renderLive()" id="kerjaInstansi-${id}" class="w-full px-2 py-1 bg-slate-800 rounded border border-white/10 text-white text-[11px]">
+                        <input type="text" placeholder="Lokasi Singkat" value="${lokasi}" oninput="renderLive()" id="kerjaLokasi-${id}" class="w-full px-2 py-1 bg-slate-800 rounded border border-white/10 text-white text-[11px]">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" placeholder="Masa Bekerja" value="${masa}" oninput="renderLive()" id="kerjaMasa-${id}" class="w-full px-2 py-1 bg-slate-800 rounded border border-white/10 text-white text-[11px]">
+                        <input type="text" placeholder="Jabatan" value="${jabatan}" oninput="renderLive()" id="kerjaJabatan-${id}" class="w-full px-2 py-1 bg-slate-800 rounded border border-white/10 text-white text-[11px]">
+                    </div>
+                    <textarea placeholder="Penjelasan Tugas Kerja" oninput="renderLive()" id="kerjaKet-${id}" rows="2" class="w-full px-2 py-1 bg-slate-800 rounded border border-white/10 text-white text-[11px]">${ket}</textarea>
+                    <button type="button" onclick="removeKerjaRow(${id})" class="absolute top-0 right-1 text-red-400 hover:text-red-500 font-bold text-[14px]">×</button>
+                </div>`;
+            document.getElementById('containerInputKerja').insertAdjacentHTML('beforeend', html);
+            renderLive();
+        }
+        function removeKerjaRow(id) { document.getElementById(`formKerjaRow-${id}`).remove(); renderLive(); }
+
+        function addSertifikasiForm(nama = '') {
+            counterSertifikasi++;
+            const sId = counterSertifikasi;
+            const html = `
+                <div id="formSertRow-${sId}" class="p-2.5 bg-white/5 rounded-xl border border-white/10 space-y-2 relative">
+                    <div class="flex gap-2">
+                        <input type="text" placeholder="Nama Sertifikasi" value="${nama}" oninput="renderLive()" id="sertNama-${sId}" class="flex-1 px-2 py-1 bg-slate-800 rounded border border-white/10 text-white text-[11px]">
+                        <button type="button" onclick="addSertSubColumn(${sId}, '')" class="bg-amber-500/20 text-amber-300 font-bold px-2 py-1 rounded border border-amber-500/30 text-[10px]">+ Sub</button>
+                    </div>
+                    <div id="containerSubSert-${sId}" class="space-y-1.5 pl-3 border-l border-white/10"></div>
+                    <button type="button" onclick="removeSertRow(${sId})" class="absolute top-0 right-1 text-red-400 font-bold text-[14px]">×</button>
+                </div>`;
+            document.getElementById('containerInputSertifikasi').insertAdjacentHTML('beforeend', html);
+            renderLive();
+        }
+        function removeSertRow(id) { document.getElementById(`formSertRow-${id}`).remove(); renderLive(); }
+
+        function addSertSubColumn(sId, val = '') {
+            const subHtml = `
+                <div class="flex gap-1 items-center">
+                    <input type="text" placeholder="Detail No. Sertifikat / Lembaga" value="${val}" oninput="renderLive()" class="sub-sert-input-${sId} w-full px-2 py-0.5 bg-slate-900 rounded border border-white/5 text-white text-[11px]">
+                    <button type="button" onclick="this.parentElement.remove(); renderLive();" class="text-red-400 font-bold px-1">×</button>
+                </div>`;
+            document.getElementById(`containerSubSert-${sId}`).insertAdjacentHTML('beforeend', subHtml);
+            renderLive();
+        }
+
+        function addSkillForm(val = '') {
+            counterSkill++;
+            const id = counterSkill;
+            const html = `
+                <div id="formSkillRow-${id}" class="flex gap-2 items-center relative">
+                    <input type="text" placeholder="Nama Keahlian" value="${val}" oninput="renderLive()" id="skillVal-${id}" class="skill-input-item w-full px-2 py-1 bg-slate-800 rounded border border-white/10 text-white text-[11px]">
+                    <button type="button" onclick="document.getElementById('formSkillRow-${id}').remove(); renderLive();" class="text-red-400 font-bold text-base px-1">×</button>
+                </div>`;
+            document.getElementById('containerInputSkill').insertAdjacentHTML('beforeend', html);
+            renderLive();
+        }
+
+        function switchForm(type) {
+            const bCv = document.getElementById('formBlokCv'), bLamaran = document.getElementById('formBlokLamaran');
+            const vCv = document.getElementById('previewCvArea'), vLamaran = document.getElementById('previewLamaranArea');
+            if (type === 'cv') {
+                bCv.classList.remove('hidden'); bLamaran.classList.add('hidden');
+                vCv.classList.remove('hidden'); vLamaran.classList.add('hidden');
+            } else {
+                bCv.classList.add('hidden'); bLamaran.classList.remove('hidden');
+                vCv.classList.add('hidden'); vLamaran.classList.remove('hidden');
+            }
+            renderLive();
+        }
+
+        function renderLive() {
+            const nama = document.getElementById('inputNama').value || 'NAMA PELANGGAN';
+            document.getElementById('cvNama').innerText = nama;
+
+            document.getElementById('resHp').innerText = document.getElementById('inputHpCv').value;
+
+            const email = document.getElementById('inputEmailCv').value;
+            document.getElementById('resEmail').innerText = email;
+            document.getElementById('resEmail').href = "mailto:" + email;
+
+            const linkedin = document.getElementById('inputLinkedinCv').value;
+            document.getElementById('resLinkedin').innerText = linkedin;
+
+            const instagram = document.getElementById('inputInstagramCv').value;
+            document.getElementById('resInstagram').innerText = instagram;
+
+            document.getElementById('resAlamat').innerText = document.getElementById('inputAlamatCv').value;
+            document.getElementById('cvProfil').innerText = document.getElementById('inputProfilCv').value;
+
+            const resPendidikan = document.getElementById('resPendidikanList');
+            resPendidikan.innerHTML = '';
+            document.getElementById('containerInputPendidikan').querySelectorAll('[id^="formEduRow-"]').forEach(row => {
+                const id = row.id.split('-')[1];
+                const instansi = document.getElementById(`eduInstansi-${id}`).value;
+                const lokasi = document.getElementById(`eduLokasi-${id}`).value;
+                const masa = document.getElementById(`eduMasa-${id}`).value;
+                const jurusan = document.getElementById(`eduJurusan-${id}`).value;
+                if (instansi || masa) {
+                    resPendidikan.innerHTML += `
+                        <div class="mb-2">
+                            <div class="flex justify-between items-baseline font-bold">
+                                <div>"${instansi} – ${lokasi}"</div>
+                                <div class="text-right">${masa}</div>
+                            </div>
+                            <div class="pl-2">${jurusan}</div>
+                        </div>`;
+                }
+            });
+
+            const resKerja = document.getElementById('resKerjaList');
+            resKerja.innerHTML = '';
+            document.getElementById('containerInputKerja').querySelectorAll('[id^="formKerjaRow-"]').forEach(row => {
+                const id = row.id.split('-')[1];
+                const instansi = document.getElementById(`kerjaInstansi-${id}`).value;
+                const lokasi = document.getElementById(`kerjaLokasi-${id}`).value;
+                const masa = document.getElementById(`kerjaMasa-${id}`).value;
+                const jabatan = document.getElementById(`kerjaJabatan-${id}`).value;
+                const ket = document.getElementById(`kerjaKet-${id}`).value;
+
+                if (instansi || masa) {
+                    resKerja.innerHTML += `
+                        <div class="mb-3">
+                            <div class="flex justify-between items-baseline font-bold">
+                                <div>"${instansi} – ${lokasi}"</div>
+                                <div class="text-right">${masa}</div>
+                            </div>
+                            <div class="pl-2 font-bold">${jabatan}</div>
+                            ${getLinesHtml(ket)}
+                        </div>`;
+                }
+            });
+
+            function getLinesHtml(textValue) {
+                if (!textValue) return '';
+                let htmlLines = '';
+                textValue.split('\n').forEach(line => {
+                    if (line.trim()) htmlLines += `<div class="pl-4 text-justify">• ${line}</div>`;
+                });
+                return htmlLines;
+            }
+
+            const resSert = document.getElementById('resSertifikasiList');
+            resSert.innerHTML = '';
+            document.getElementById('containerInputSertifikasi').querySelectorAll('[id^="formSertRow-"]').forEach(row => {
+                const sId = row.id.split('-')[1];
+                const namaSert = document.getElementById(`sertNama-${sId}`).value;
+
+                let subHtml = '';
+                row.querySelectorAll(`.sub-sert-input-${sId}`).forEach(input => {
+                    if (input.value.trim()) subHtml += `<div class="pl-4">${input.value}</div>`;
+                });
+
+                if (namaSert) {
+                    resSert.innerHTML += `
+                        <div class="mb-2">
+                            <div class="font-bold">${namaSert}</div>
+                            ${subHtml}
+                        </div>`;
+                }
+            });
+
+            const resSkill = document.getElementById('resSkillList');
+            resSkill.innerHTML = '';
+            document.querySelectorAll('.skill-input-item').forEach(input => {
+                if (input.value.trim()) {
+                    resSkill.innerHTML += `<li>${input.value}</li>`;
+                }
+            });
+
+            document.getElementById('lblNama').innerText = nama;
+            document.getElementById('lblNamaTtd').innerText = nama;
+            document.getElementById('lblTempat').innerText = document.getElementById('inputTempatLamaran').value;
+            document.getElementById('lblInstansi').innerText = document.getElementById('inputInstansiLamaran').value;
+            document.getElementById('lblAlamatInstansi').innerText = document.getElementById('inputAlamatInstansiLamaran').value;
+            const rSplit = document.getElementById('inputInfoPosisiLamaran').value.split(' / ');
+            document.getElementById('lblSumber').innerText = rSplit[0] || 'Laman Daring';
+            document.getElementById('lblPosisi').innerText = rSplit[1] || 'Tim Kerja';
+            document.getElementById('lblTtl').innerText = document.getElementById('inputTtlLamaran').value;
+            document.getElementById('lblJk').innerText = document.getElementById('inputJkLamaran').value;
+            document.getElementById('lblPendidikan').innerText = document.getElementById('inputPendidikanLamaran').value;
+            document.getElementById('lblHp').innerText = document.getElementById('inputHpLamaran').value;
+            document.getElementById('lblAlamat').innerText = document.getElementById('inputAlamatLamaran').value;
+            const listContainer = document.getElementById('lblListLampiran'); listContainer.innerHTML = '';
+            document.getElementById('inputLampiranLamaran').value.split('\n').forEach(line => {
+                if (line.trim() !== '') { const li = document.createElement('li'); li.innerText = line; listContainer.appendChild(li); }
+            });
+        }
+
+        function generatePdfEngine() {
+            const tipe = document.querySelector('input[name="tipeDokumen"]:checked').value;
+            const namaFile = document.getElementById('inputNama').value || 'Dokumen_HomePrint';
+            const element = document.getElementById('canvasCetak');
+
+            // Konfigurasi Engine html2pdf mutlak aman dari bug blank hitam/putih kosong
+            const opsi = {
+                margin: 0, // 0 karena padding kontainer sudah mengunci 1,27 cm (Standar Narrow Word)
+                filename: `${tipe.toUpperCase()}_${namaFile.replace(/\s+/g, '_')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    letterRendering: true
+                },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opsi).from(element).save();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            
+            renderLive();
+        });
+    </script>
+</body>
+
+</html>
