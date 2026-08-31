@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="ic-transparent.png" type="image/png">
-    <title>Feedback</title>
+    <title>Kritik & Saran - HomePrint</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @keyframes fadeIn {
@@ -12,60 +13,163 @@
                 opacity: 0;
                 transform: translateY(-6px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
+
         .animate-fadeIn {
             animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
+
+        .modal-overlay {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+        }
     </style>
 </head>
+
+<!-- Ditambahkan pb-28 agar bagian bawah halaman tidak tertutup tombol fixed -->
+
 <body
-    class="bg-slate-900 font-sans min-h-screen flex flex-col justify-center items-center p-4 relative overflow-hidden">
-    <div class="absolute w-72 h-72 rounded-full bg-cyan-500/10 blur-[80px] -top-12 -left-12 pointer-events-none"></div>
-    <div class="absolute w-80 h-80 rounded-full bg-pink-500/10 blur-[100px] bottom-10 right-0 pointer-events-none">
+    class="bg-slate-900 font-sans min-h-screen flex flex-col items-center p-4 sm:p-6 pb-28 sm:pb-32 relative overflow-x-hidden">
+
+    <!-- Background Ornaments -->
+    <div class="absolute w-80 h-80 rounded-full bg-cyan-500/10 blur-[100px] top-10 left-10 pointer-events-none"></div>
+    <div class="absolute w-80 h-80 rounded-full bg-pink-500/10 blur-[100px] bottom-10 right-10 pointer-events-none">
     </div>
+
+    <!-- MAIN CONTAINER (DAFTAR FEEDBACK) -->
     <div
-        class="max-w-md w-full bg-white/[0.06] backdrop-blur-xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 sm:p-8 relative border border-white/10 animate-fadeIn z-10 text-white">
-        <div class="mb-6 flex items-center border-b border-white/10 pb-4">
+        class="max-w-2xl w-full bg-white/[0.06] backdrop-blur-xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-5 sm:p-8 border border-white/10 relative z-10 text-white mt-6 mb-4 flex flex-col min-h-[70vh]">
+
+        <!-- Header -->
+        <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/10 pb-4 gap-4">
+            <div class="flex-1">
+                <h2 class="text-2xl font-black tracking-tight text-white flex items-center gap-2">
+                    Daftar
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-400">
+                        Kritik & Saran
+                    </span>
+                </h2>
+                <p class="text-xs text-slate-400 mt-1">
+                    Masukan dari pelanggan untuk layanan HomePrint.
+                </p>
+            </div>
             <a href="index.html"
-                class="text-cyan-400 hover:text-white font-bold text-sm flex items-center gap-1.5 transition duration-200 group">
+                class="text-xs font-bold text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-2 rounded-xl transition text-center sm:self-center">
                 Kembali
             </a>
-            <h2 class="text-xl font-black text-white mx-auto pr-14 tracking-tight">Kritik & Saran</h2>
         </div>
-        <div id="notification"
-            class="hidden mb-5 p-3.5 text-xs sm:text-sm rounded-xl border font-semibold tracking-wide shadow-sm"></div>
-        <form id="feedbackForm" class="space-y-5">
-            <div>
-                <label
-                    class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
-                    Nama Lengkap
-                </label>
-                <input type="text" id="nama" required
-                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all text-sm font-medium text-white placeholder-slate-600"
-                    placeholder="Masukkan nama lengkap Anda">
+
+        <!-- Loading State -->
+        <div id="loadingState" class="py-12 text-center text-slate-400 font-medium">
+            <svg class="animate-spin h-6 w-6 text-cyan-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+            </svg>
+            Memuat Kritik & Saran...
+        </div>
+
+        <!-- List Data -->
+        <div id="feedbackListContainer" class="space-y-3.5 hidden flex-1"></div>
+
+        <!-- Pagination -->
+        <div id="paginationContainer" class="mt-auto pt-6 border-t border-white/10 hidden">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <span id="pageInfo" class="text-xs font-bold text-slate-400 tracking-wide uppercase">
+                    Halaman 1 dari 1
+                </span>
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <button id="btnPrev" disabled
+                        class="flex-1 sm:flex-none text-xs font-bold px-4 py-2.5 bg-white/5 border border-white/10 disabled:opacity-30 disabled:cursor-not-allowed rounded-xl hover:bg-white/10 transition text-slate-300">
+                        Previous
+                    </button>
+                    <button id="btnNext" disabled
+                        class="flex-1 sm:flex-none text-xs font-bold px-4 py-2.5 bg-white/5 border border-white/10 disabled:opacity-30 disabled:cursor-not-allowed rounded-xl hover:bg-white/10 transition text-slate-300">
+                        Next
+                    </button>
+                </div>
             </div>
-            <div>
-                <label
-                    class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
-                    Pesan & Masukan
-                </label>
-                <textarea id="pesan" required rows="4"
-                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all text-sm font-medium text-white placeholder-slate-600 resize-none"
-                    placeholder="Tulis kritik atau saran Anda di sini..."></textarea>
-            </div>
-            <button type="submit" id="btnKirim"
-                class="w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-black py-3.5 px-4 rounded-xl mt-6 shadow-[0_12px_30px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.97] transition-all duration-200 text-sm tracking-wide border border-white/10 flex items-center justify-center">
-                Kirim
-            </button>
-        </form>
+        </div>
     </div>
+
+    <!-- AREA FIXED BOTTOM: TOMBOL TAMBAH FEEDBACK MELAYANG -->
+    <div
+        class="fixed bottom-0 left-0 w-full pt-12 pb-4 px-4 sm:pb-6 bg-gradient-to-t from-slate-900 via-slate-900/90 to-transparent z-40 flex justify-center pointer-events-none">
+        <div class="w-full max-w-2xl pointer-events-auto">
+            <button type="button" id="btnOpenModal"
+                class="w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-black py-4 px-4 rounded-2xl shadow-[0_12px_30px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.98] transition-all duration-200 text-sm tracking-wide border border-white/10 flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                    stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Tambah Feedback
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL POPUP FORM FEEDBACK -->
+    <div id="addFeedbackModal"
+        class="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="max-w-md w-full bg-slate-900/90 backdrop-blur-2xl rounded-[32px] shadow-2xl p-6 sm:p-8 relative border border-white/10 transform scale-95 transition-transform duration-300"
+            id="modalContent">
+
+            <button id="btnCloseModal"
+                class="absolute top-5 right-5 text-slate-400 hover:text-white transition-colors p-1 bg-white/5 rounded-full hover:bg-white/10">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                    stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div class="mb-6 border-b border-white/10 pb-4 pr-6">
+                <h2 class="text-xl font-black text-white tracking-tight">Kirim Kritik & Saran</h2>
+                <p class="text-xs text-slate-400 mt-1">Masukan Anda membantu kami menjadi lebih baik.</p>
+            </div>
+
+            <div id="notification"
+                class="hidden mb-5 p-3.5 text-xs sm:text-sm rounded-xl border font-semibold tracking-wide shadow-sm">
+            </div>
+
+            <form id="feedbackForm" class="space-y-5">
+                <div>
+                    <label
+                        class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                        Nama Lengkap
+                    </label>
+                    <input type="text" id="nama" required
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all text-sm font-medium text-white placeholder-slate-600"
+                        placeholder="Masukkan nama lengkap Anda">
+                </div>
+                <div>
+                    <label
+                        class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                        Pesan & Masukan
+                    </label>
+                    <textarea id="pesan" required rows="4"
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all text-sm font-medium text-white placeholder-slate-600 resize-none"
+                        placeholder="Tulis kritik atau saran Anda di sini..."></textarea>
+                </div>
+                <button type="submit" id="btnKirim"
+                    class="w-full bg-cyan-500 hover:bg-cyan-400 text-white font-black py-3.5 px-4 rounded-xl mt-6 text-center transform active:scale-[0.97] transition-all duration-200 text-sm tracking-wide shadow-lg flex items-center justify-center">
+                    Kirim Sekarang
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
         import { getDatabase, ref, get, set, child } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
+
         const firebaseConfig = {
             apiKey: "AIzaSyBO_jWfltM8J9obdA5Vio50kPtOqkDuDlw",
             authDomain: "home-print-8437d.firebaseapp.com",
@@ -78,22 +182,164 @@
         };
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
+
+        // Redirect prevention logic
         const navigationEntry = performance.getEntriesByType("navigation")[0];
         if (navigationEntry && navigationEntry.type === "reload") {
             window.location.href = "index.html";
         }
+
+        // State Pagination
+        let allFeedbackArray = [];
+        let currentPage = 1;
+        const itemsPerPage = 7;
+
+        // FUNGSI PRIVASI NAMA OTOMATIS (Masking by default)
+        function maskName(str) {
+            if (!str) return 'Anonim';
+            return str.split(' ').map(word => {
+                if (word.length <= 1) return word;
+                return word[0] + '*'.repeat(word.length - 1);
+            }).join(' ');
+        }
+
+        // LOAD DATA
+        window.loadAllData = async function () {
+            const listContainer = document.getElementById('feedbackListContainer');
+            const pagContainer = document.getElementById('paginationContainer');
+            const loadingState = document.getElementById('loadingState');
+
+            try {
+                const snapshot = await get(ref(db, 'feedback'));
+                allFeedbackArray = [];
+
+                if (snapshot.exists()) {
+                    const dataRaw = snapshot.val();
+                    Object.keys(dataRaw).forEach(key => {
+                        allFeedbackArray.push({
+                            id: key,
+                            ...dataRaw[key]
+                        });
+                    });
+                    // Urutkan dari yang terbaru (ID tertinggi)
+                    allFeedbackArray.sort((a, b) => {
+                        const numA = parseInt(a.id.replace('feedback', '')) || 0;
+                        const numB = parseInt(b.id.replace('feedback', '')) || 0;
+                        return numB - numA;
+                    });
+                }
+
+                loadingState.classList.add('hidden');
+
+                if (allFeedbackArray.length === 0) {
+                    listContainer.innerHTML = `<div class="py-10 text-center text-slate-500 font-medium text-sm">Belum ada kritik atau saran yang masuk dari pelanggan.</div>`;
+                    listContainer.classList.remove('hidden');
+                    pagContainer.classList.remove('hidden');
+                    document.getElementById('pageInfo').innerText = "Halaman 1 dari 1";
+                    document.getElementById('btnPrev').disabled = true;
+                    document.getElementById('btnNext').disabled = true;
+                    return;
+                }
+
+                listContainer.classList.remove('hidden');
+                pagContainer.classList.remove('hidden');
+                renderPage(currentPage);
+            } catch (error) {
+                console.error("Fetch Error: ", error);
+                loadingState.innerHTML = `<div class="text-red-400 font-semibold text-sm">Gagal memuat data: ${error.message}</div>`;
+            }
+        }
+
+        function renderPage(page) {
+            const listContainer = document.getElementById('feedbackListContainer');
+            listContainer.innerHTML = '';
+
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, allFeedbackArray.length);
+            const totalPages = Math.ceil(allFeedbackArray.length / itemsPerPage);
+            const pageItems = allFeedbackArray.slice(startIndex, endIndex);
+
+            pageItems.forEach(item => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = `p-4 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-between gap-4`;
+
+                const contentWrapper = document.createElement('div');
+                contentWrapper.className = "flex-1 min-w-0";
+
+                const mainTextDiv = document.createElement('div');
+                mainTextDiv.className = "text-sm font-bold text-slate-200 tracking-wide truncate flex items-center gap-2";
+
+                // Gunakan fungsi Sensor Nama
+                const namaAsli = item.nama || 'Anonim';
+                mainTextDiv.innerHTML = `${maskName(namaAsli)}`;
+
+                const messageDiv = document.createElement('div');
+                messageDiv.className = "text-xs text-slate-400 mt-1.5 break-words leading-relaxed pl-1";
+                messageDiv.textContent = `"${item.pesan || ''}"`;
+
+                contentWrapper.appendChild(mainTextDiv);
+                contentWrapper.appendChild(messageDiv);
+                rowDiv.appendChild(contentWrapper);
+
+                listContainer.appendChild(rowDiv);
+            });
+
+            document.getElementById('pageInfo').innerText = `Halaman ${page} dari ${totalPages}`;
+            document.getElementById('btnPrev').disabled = (page === 1);
+            document.getElementById('btnNext').disabled = (page === totalPages || totalPages === 0);
+        }
+
+        // Paginasi Event Listeners
+        document.getElementById('btnPrev').addEventListener('click', () => {
+            if (currentPage > 1) { currentPage--; renderPage(currentPage); }
+        });
+        document.getElementById('btnNext').addEventListener('click', () => {
+            const totalPages = Math.ceil(allFeedbackArray.length / itemsPerPage);
+            if (currentPage < totalPages) { currentPage++; renderPage(currentPage); }
+        });
+
+        // ==========================================
+        // LOGIC MODAL POPUP & FORM SUBMIT
+        // ==========================================
+        const modal = document.getElementById('addFeedbackModal');
+        const modalContent = document.getElementById('modalContent');
+        const btnOpenModal = document.getElementById('btnOpenModal');
+        const btnCloseModal = document.getElementById('btnCloseModal');
+
+        function openModal() {
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+
+        btnOpenModal.addEventListener('click', openModal);
+        btnCloseModal.addEventListener('click', closeModal);
+
         document.getElementById('feedbackForm').addEventListener('submit', async function (e) {
             e.preventDefault();
             const namaInput = document.getElementById('nama').value.trim();
             const pesanInput = document.getElementById('pesan').value.trim();
             const notifDiv = document.getElementById('notification');
             const btnKirim = document.getElementById('btnKirim');
+
             notifDiv.className = "hidden";
             btnKirim.disabled = true;
             btnKirim.innerText = 'Mengirim masukan...';
+
             try {
                 const snapshot = await get(child(ref(db), 'feedback'));
                 let nextIndex = 1;
+
                 if (snapshot.exists()) {
                     const dataFeedback = snapshot.val();
                     const keys = Object.keys(dataFeedback);
@@ -106,25 +352,39 @@
                         }
                     });
                 }
+
                 const targetNodeName = 'feedback' + nextIndex;
                 await set(ref(db, 'feedback/' + targetNodeName), {
                     nama: namaInput,
                     pesan: pesanInput
                 });
-                notifDiv.innerText = `Terima kasih telah memberikan masukan!`;
+
+                notifDiv.innerText = `Terima kasih! Masukan Anda berhasil dikirim.`;
                 notifDiv.className = "mb-5 p-3.5 text-xs sm:text-sm rounded-xl border bg-emerald-500/10 text-emerald-400 border-emerald-500/20 font-semibold tracking-wide shadow-sm block animate-fadeIn";
                 document.getElementById('feedbackForm').reset();
+
+                // Tutup popup & Refresh Data setelah berhasil tanpa harus reload page
                 setTimeout(() => {
-                    window.location.href = "index.html";
+                    closeModal();
+                    notifDiv.className = "hidden";
+                    btnKirim.disabled = false;
+                    btnKirim.innerText = 'Kirim Sekarang';
+                    currentPage = 1; // Kembali ke halaman pertama untuk melihat hasil baru
+                    window.loadAllData();
                 }, 1800);
+
             } catch (error) {
                 console.error("Firebase Submit Error: ", error);
                 notifDiv.innerText = 'Gagal mengirim masukan: ' + error.message;
                 notifDiv.className = "mb-5 p-3.5 text-xs sm:text-sm rounded-xl border bg-red-500/10 text-red-400 border-red-500/20 font-semibold tracking-wide shadow-sm block animate-fadeIn";
                 btnKirim.disabled = false;
-                btnKirim.innerText = 'Kirim';
+                btnKirim.innerText = 'Kirim Sekarang';
             }
         });
+
+        // Jalankan Data Load Saat Pertama Kali
+        window.addEventListener('DOMContentLoaded', loadAllData);
     </script>
 </body>
+
 </html>
