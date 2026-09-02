@@ -31,8 +31,6 @@
     </style>
 </head>
 
-<!-- Ditambahkan pb-28 agar bagian bawah halaman tidak tertutup tombol fixed -->
-
 <body
     class="bg-slate-900 font-sans min-h-screen flex flex-col items-center p-4 sm:p-6 pb-28 sm:pb-32 relative overflow-x-hidden">
 
@@ -56,7 +54,7 @@
                     </span>
                 </h2>
                 <p class="text-xs text-slate-400 mt-1">
-                    Masukan dari pelanggan untuk layanan HomePrint.
+                    Kritik & Saran untuk layanan HomePrint.
                 </p>
             </div>
             <a href="index.html"
@@ -120,7 +118,6 @@
         class="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
         <div class="max-w-md w-full bg-slate-900/90 backdrop-blur-2xl rounded-[32px] shadow-2xl p-6 sm:p-8 relative border border-white/10 transform scale-95 transition-transform duration-300"
             id="modalContent">
-
             <button id="btnCloseModal"
                 class="absolute top-5 right-5 text-slate-400 hover:text-white transition-colors p-1 bg-white/5 rounded-full hover:bg-white/10">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
@@ -128,16 +125,13 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-
             <div class="mb-6 border-b border-white/10 pb-4 pr-6">
                 <h2 class="text-xl font-black text-white tracking-tight">Kirim Kritik & Saran</h2>
                 <p class="text-xs text-slate-400 mt-1">Masukan Anda membantu kami menjadi lebih baik.</p>
             </div>
-
             <div id="notification"
                 class="hidden mb-5 p-3.5 text-xs sm:text-sm rounded-xl border font-semibold tracking-wide shadow-sm">
             </div>
-
             <form id="feedbackForm" class="space-y-5">
                 <div>
                     <label
@@ -189,18 +183,59 @@
             window.location.href = "index.html";
         }
 
-        // State Pagination
         let allFeedbackArray = [];
         let currentPage = 1;
         const itemsPerPage = 7;
 
-        // FUNGSI PRIVASI NAMA OTOMATIS (Masking by default)
+        // FUNGSI PRIVASI NAMA OTOMATIS
         function maskName(str) {
             if (!str) return 'Anonim';
             return str.split(' ').map(word => {
                 if (word.length <= 1) return word;
                 return word[0] + '*'.repeat(word.length - 1);
             }).join(' ');
+        }
+
+        // FUNGSI KONVERSI WAKTU RELATIF (Sesuai Logika 30 detik s/d lintas bulan)
+        function hitungWaktuMundur(timestampMilis) {
+            if (!timestampMilis) return ''; // Data lama yang belum punya field timestamp tidak menampilkan waktu
+
+            const sekarang = Date.now();
+            const selisihDetik = Math.floor((sekarang - timestampMilis) / 1000);
+
+            if (selisihDetik < 30) {
+                return "Baru saja";
+            } else if (selisihDetik < 60) {
+                return `${selisihDetik} detik yang lalu`;
+            }
+
+            const selisihMenit = Math.floor(selisihDetik / 60);
+            if (selisihMenit < 60) {
+                return `${selisihMenit} menit yang lalu`;
+            }
+
+            const selisihJam = Math.floor(selisihMenit / 60);
+            if (selisihJam < 24) {
+                return `${selisihJam} jam yang lalu`;
+            }
+
+            const selisihHari = Math.floor(selisihJam / 24);
+            if (selisihHari < 7) {
+                return `${selisihHari} hari yang lalu`;
+            }
+
+            // Asumsi 1 bulan = 30 hari untuk batas minggu
+            if (selisihHari < 30) {
+                const selisihMinggu = Math.floor(selisihHari / 7);
+                return `${selisihMinggu} minggu yang lalu`;
+            }
+
+            // Jika lintas bulan (lebih dari 30 hari), tampilkan format D - M - YYYY
+            const dateObj = new Date(timestampMilis);
+            const hari = dateObj.getDate();
+            const bulan = dateObj.getMonth() + 1;
+            const tahun = dateObj.getFullYear();
+            return `${hari} - ${bulan} - ${tahun}`;
         }
 
         // LOAD DATA
@@ -221,8 +256,13 @@
                             ...dataRaw[key]
                         });
                     });
-                    // Urutkan dari yang terbaru (ID tertinggi)
+
+                    // Urutkan dari yang terbaru berdasarkan timestamp, jika tidak ada (data lama) pakai ID
                     allFeedbackArray.sort((a, b) => {
+                        const timeA = a.timestamp || 0;
+                        const timeB = b.timestamp || 0;
+                        if (timeA !== timeB) return timeB - timeA;
+
                         const numA = parseInt(a.id.replace('feedback', '')) || 0;
                         const numB = parseInt(b.id.replace('feedback', '')) || 0;
                         return numB - numA;
@@ -232,7 +272,7 @@
                 loadingState.classList.add('hidden');
 
                 if (allFeedbackArray.length === 0) {
-                    listContainer.innerHTML = `<div class="py-10 text-center text-slate-500 font-medium text-sm">Belum ada kritik atau saran yang masuk dari pelanggan.</div>`;
+                    listContainer.innerHTML = `<div class="py-10 text-center text-slate-500 font-medium text-sm">Belum ada kritik atau saran yang masuk.</div>`;
                     listContainer.classList.remove('hidden');
                     pagContainer.classList.remove('hidden');
                     document.getElementById('pageInfo').innerText = "Halaman 1 dari 1";
@@ -261,26 +301,34 @@
 
             pageItems.forEach(item => {
                 const rowDiv = document.createElement('div');
-                rowDiv.className = `p-4 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-between gap-4`;
+                rowDiv.className = `p-4 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col gap-1.5`;
 
-                const contentWrapper = document.createElement('div');
-                contentWrapper.className = "flex-1 min-w-0";
+                // Wrapper Baris Pertama (Nama - Badge - Waktu di Kanan)
+                const headerWrapper = document.createElement('div');
+                headerWrapper.className = "flex items-center justify-between w-full";
 
-                const mainTextDiv = document.createElement('div');
-                mainTextDiv.className = "text-sm font-bold text-slate-200 tracking-wide truncate flex items-center gap-2";
-
-                // Gunakan fungsi Sensor Nama
+                // Kiri: Nama dan Badge
+                const nameDiv = document.createElement('div');
+                nameDiv.className = "text-sm font-bold text-slate-200 tracking-wide truncate flex items-center gap-2";
                 const namaAsli = item.nama || 'Anonim';
-                mainTextDiv.innerHTML = `${maskName(namaAsli)}`;
+                nameDiv.innerHTML = `${maskName(namaAsli)}`;
 
+                // Kanan: Waktu
+                const timeStr = hitungWaktuMundur(item.timestamp);
+                const timeDiv = document.createElement('div');
+                timeDiv.className = "text-[10px] text-slate-500 font-medium whitespace-nowrap pl-2";
+                timeDiv.innerText = timeStr;
+
+                headerWrapper.appendChild(nameDiv);
+                if (timeStr) headerWrapper.appendChild(timeDiv); // Hanya tampilkan jika ada data waktunya
+
+                // Isi Pesan Feedback
                 const messageDiv = document.createElement('div');
-                messageDiv.className = "text-xs text-slate-400 mt-1.5 break-words leading-relaxed pl-1";
+                messageDiv.className = "text-xs text-slate-400 break-words leading-relaxed pl-1";
                 messageDiv.textContent = `"${item.pesan || ''}"`;
 
-                contentWrapper.appendChild(mainTextDiv);
-                contentWrapper.appendChild(messageDiv);
-                rowDiv.appendChild(contentWrapper);
-
+                rowDiv.appendChild(headerWrapper);
+                rowDiv.appendChild(messageDiv);
                 listContainer.appendChild(rowDiv);
             });
 
@@ -354,22 +402,25 @@
                 }
 
                 const targetNodeName = 'feedback' + nextIndex;
+
+                // Menambahkan field timestamp saat men-submit (waktu komputer realtime dalam format milidetik)
                 await set(ref(db, 'feedback/' + targetNodeName), {
                     nama: namaInput,
-                    pesan: pesanInput
+                    pesan: pesanInput,
+                    timestamp: Date.now()
                 });
 
                 notifDiv.innerText = `Terima kasih! Masukan Anda berhasil dikirim.`;
                 notifDiv.className = "mb-5 p-3.5 text-xs sm:text-sm rounded-xl border bg-emerald-500/10 text-emerald-400 border-emerald-500/20 font-semibold tracking-wide shadow-sm block animate-fadeIn";
                 document.getElementById('feedbackForm').reset();
 
-                // Tutup popup & Refresh Data setelah berhasil tanpa harus reload page
+                // Tutup popup & Refresh Data
                 setTimeout(() => {
                     closeModal();
                     notifDiv.className = "hidden";
                     btnKirim.disabled = false;
                     btnKirim.innerText = 'Kirim Sekarang';
-                    currentPage = 1; // Kembali ke halaman pertama untuk melihat hasil baru
+                    currentPage = 1;
                     window.loadAllData();
                 }, 1800);
 
@@ -382,7 +433,11 @@
             }
         });
 
-        // Jalankan Data Load Saat Pertama Kali
+        // Refresh Data Setiap Menit untuk update Waktu "Baru Saja -> Menit yang lalu" otomatis
+        setInterval(() => {
+            if (allFeedbackArray.length > 0) renderPage(currentPage);
+        }, 60000);
+
         window.addEventListener('DOMContentLoaded', loadAllData);
     </script>
 </body>
