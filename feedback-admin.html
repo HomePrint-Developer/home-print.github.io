@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,20 +13,24 @@
                 opacity: 0;
                 transform: translateY(-6px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
+
         .animate-fadeIn {
             animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
     </style>
 </head>
+
 <body class="bg-slate-900 font-sans min-h-screen flex flex-col items-center p-4 sm:p-6 relative overflow-x-hidden">
     <div class="absolute w-80 h-80 rounded-full bg-indigo-500/10 blur-[100px] top-10 left-10 pointer-events-none"></div>
     <div class="absolute w-80 h-80 rounded-full bg-pink-500/10 blur-[100px] bottom-10 right-10 pointer-events-none">
     </div>
+
     <div
         class="max-w-2xl w-full bg-white/[0.06] backdrop-blur-xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-5 sm:p-8 border border-white/10 relative z-10 text-white my-6">
         <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/10 pb-4 gap-4">
@@ -50,7 +55,7 @@
                     </button>
                 </div>
                 <p class="text-xs text-slate-400 mt-1">
-                    Pantau dan kelola kritik serta saran dari pelanggan.
+                    Pantau dan kelola kritik serta saran.
                 </p>
             </div>
             <a href="index-admin.html"
@@ -58,9 +63,11 @@
                 Kembali
             </a>
         </div>
+
         <div id="adminNotif"
             class="hidden mb-4 p-3 text-sm rounded-xl border font-semibold tracking-wide shadow-sm animate-fadeIn">
         </div>
+
         <div id="loadingState" class="py-12 text-center text-slate-400 font-medium">
             <svg class="animate-spin h-6 w-6 text-cyan-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24">
@@ -71,7 +78,9 @@
             </svg>
             Memuat data masukan...
         </div>
+
         <div id="feedbackListContainer" class="space-y-3.5 hidden"></div>
+
         <div id="paginationContainer"
             class="mt-8 pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 hidden">
             <span id="pageInfo" class="text-xs font-bold text-slate-400 tracking-wide uppercase">
@@ -89,6 +98,7 @@
             </div>
         </div>
     </div>
+
     <script type="module">
         if (sessionStorage.getItem('isLoggedIn') !== 'true') {
             alert('Akses ditolak! Silakan login terlebih dahulu.');
@@ -96,6 +106,7 @@
         }
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
         import { getDatabase, ref, get, remove } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
+
         const firebaseConfig = {
             apiKey: "AIzaSyBO_jWfltM8J9obdA5Vio50kPtOqkDuDlw",
             authDomain: "home-print-8437d.firebaseapp.com",
@@ -112,11 +123,13 @@
         if (navigationEntry && navigationEntry.type === "reload") {
             window.location.href = "index-admin.html";
         }
+
         let allFeedbackArray = [];
         let activeFeedbackKey = null;
         let currentPage = 1;
         const itemsPerPage = 10;
         let isMasked = false;
+
         function maskName(str) {
             if (!str) return 'Anonim';
             return str.split(' ').map(word => {
@@ -124,14 +137,48 @@
                 return word[0] + '*'.repeat(word.length - 1);
             }).join(' ');
         }
+
+        // FUNGSI KONVERSI WAKTU RELATIF
+        function hitungWaktuMundur(timestampMilis) {
+            if (!timestampMilis) return '';
+
+            const sekarang = Date.now();
+            const selisihDetik = Math.floor((sekarang - timestampMilis) / 1000);
+
+            if (selisihDetik < 30) return "Baru saja";
+            if (selisihDetik < 60) return `${selisihDetik} detik yang lalu`;
+
+            const selisihMenit = Math.floor(selisihDetik / 60);
+            if (selisihMenit < 60) return `${selisihMenit} menit yang lalu`;
+
+            const selisihJam = Math.floor(selisihMenit / 60);
+            if (selisihJam < 24) return `${selisihJam} jam yang lalu`;
+
+            const selisihHari = Math.floor(selisihJam / 24);
+            if (selisihHari < 7) return `${selisihHari} hari yang lalu`;
+
+            if (selisihHari < 30) {
+                const selisihMinggu = Math.floor(selisihHari / 7);
+                return `${selisihMinggu} minggu yang lalu`;
+            }
+
+            const dateObj = new Date(timestampMilis);
+            const hari = dateObj.getDate();
+            const bulan = dateObj.getMonth() + 1;
+            const tahun = dateObj.getFullYear();
+            return `${hari} - ${bulan} - ${tahun}`;
+        }
+
         async function loadAllData() {
             const listContainer = document.getElementById('feedbackListContainer');
             const pagContainer = document.getElementById('paginationContainer');
             const loadingState = document.getElementById('loadingState');
+
             try {
                 const snapshot = await get(ref(db, 'feedback'));
                 allFeedbackArray = [];
                 activeFeedbackKey = null;
+
                 if (snapshot.exists()) {
                     const dataRaw = snapshot.val();
                     Object.keys(dataRaw).forEach(key => {
@@ -140,19 +187,28 @@
                             ...dataRaw[key]
                         });
                     });
+
+                    // Sorting Prioritas: Timestamp (Terbaru di atas), jika tidak ada fallback ke ID
                     allFeedbackArray.sort((a, b) => {
+                        const timeA = a.timestamp || 0;
+                        const timeB = b.timestamp || 0;
+                        if (timeA !== timeB) return timeB - timeA;
+
                         const numA = parseInt(a.id.replace('feedback', '')) || 0;
                         const numB = parseInt(b.id.replace('feedback', '')) || 0;
                         return numB - numA;
                     });
                 }
+
                 loadingState.classList.add('hidden');
+
                 if (allFeedbackArray.length === 0) {
-                    listContainer.innerHTML = `<div class="py-10 text-center text-slate-500 font-medium text-sm">Belum ada kritik atau saran yang masuk dari pelanggan.</div>`;
+                    listContainer.innerHTML = `<div class="py-10 text-center text-slate-500 font-medium text-sm">Belum ada kritik atau saran yang masuk.</div>`;
                     listContainer.classList.remove('hidden');
                     pagContainer.classList.add('hidden');
                     return;
                 }
+
                 listContainer.classList.remove('hidden');
                 pagContainer.classList.remove('hidden');
                 renderPage(currentPage);
@@ -161,13 +217,16 @@
                 loadingState.innerHTML = `<div class="text-red-400 font-semibold text-sm">Gagal memuat data: ${error.message}</div>`;
             }
         }
+
         function renderPage(page) {
             const listContainer = document.getElementById('feedbackListContainer');
             listContainer.innerHTML = '';
+
             const startIndex = (page - 1) * itemsPerPage;
             const endIndex = Math.min(startIndex + itemsPerPage, allFeedbackArray.length);
             const totalPages = Math.ceil(allFeedbackArray.length / itemsPerPage);
             const pageItems = allFeedbackArray.slice(startIndex, endIndex);
+
             pageItems.forEach(item => {
                 const isSelected = (activeFeedbackKey === item.id);
                 const rowDiv = document.createElement('div');
@@ -175,22 +234,42 @@
                     ? 'bg-indigo-500/10 border-indigo-500/40 shadow-[0_4px_20px_rgba(99,102,241,0.15)]'
                     : 'bg-white/[0.03] border-white/5 hover:border-white/20 hover:bg-white/[0.05]'
                     }`;
+
                 rowDiv.addEventListener('click', () => {
                     activeFeedbackKey = (activeFeedbackKey === item.id) ? null : item.id;
                     renderPage(currentPage);
                 });
+
                 const contentWrapper = document.createElement('div');
-                contentWrapper.className = "flex-1 min-w-0";
-                const mainTextDiv = document.createElement('div');
-                mainTextDiv.className = "text-sm font-bold text-slate-200 tracking-wide truncate";
+                contentWrapper.className = "flex-1 min-w-0 flex flex-col gap-1.5";
+
+                // Header (Nama di kiri, Waktu di kanan)
+                const headerWrapper = document.createElement('div');
+                headerWrapper.className = "flex items-center justify-between w-full";
+
+                const nameDiv = document.createElement('div');
+                nameDiv.className = "text-sm font-bold text-slate-200 tracking-wide truncate";
                 const namaAsli = item.nama || 'Anonim';
-                mainTextDiv.textContent = isMasked ? maskName(namaAsli) : namaAsli;
+                nameDiv.textContent = isMasked ? maskName(namaAsli) : namaAsli;
+
+                const timeStr = hitungWaktuMundur(item.timestamp);
+                const timeDiv = document.createElement('div');
+                timeDiv.className = "text-[10px] text-slate-500 font-medium whitespace-nowrap pl-2";
+                timeDiv.innerText = timeStr;
+
+                headerWrapper.appendChild(nameDiv);
+                if (timeStr) headerWrapper.appendChild(timeDiv);
+
+                // Pesan
                 const messageDiv = document.createElement('div');
-                messageDiv.className = "text-xs text-slate-400 italic mt-1.5 break-words leading-relaxed pl-1";
+                messageDiv.className = "text-xs text-slate-400 italic break-words leading-relaxed pl-1";
                 messageDiv.textContent = `"${item.pesan || ''}"`;
-                contentWrapper.appendChild(mainTextDiv);
+
+                contentWrapper.appendChild(headerWrapper);
                 contentWrapper.appendChild(messageDiv);
                 rowDiv.appendChild(contentWrapper);
+
+                // Tombol Hapus
                 if (isSelected) {
                     const deleteBtn = document.createElement('button');
                     deleteBtn.className = "text-xs font-black bg-gradient-to-r from-red-500 to-pink-600 hover:brightness-110 text-white px-3.5 py-2 rounded-xl border border-red-400/20 shadow-md shadow-red-500/10 transition transform active:scale-95 shrink-0 animate-fadeIn";
@@ -205,24 +284,29 @@
                 }
                 listContainer.appendChild(rowDiv);
             });
+
             document.getElementById('pageInfo').innerText = `Halaman ${page} dari ${totalPages}`;
             document.getElementById('btnPrev').disabled = (page === 1);
             document.getElementById('btnNext').disabled = (page === totalPages || totalPages === 0);
         }
+
         async function deleteFeedback(nodeKey) {
             const notif = document.getElementById('adminNotif');
             try {
                 await remove(ref(db, `feedback/${nodeKey}`));
                 notif.innerText = `Data berhasil dihapus dari sistem!`;
                 notif.className = "mb-4 p-3 text-xs sm:text-sm rounded-xl border bg-emerald-500/10 text-emerald-400 border-emerald-500/20 font-semibold tracking-wide shadow-sm block animate-fadeIn";
+
                 allFeedbackArray = allFeedbackArray.filter(i => i.id !== nodeKey);
                 const totalPagesAfter = Math.ceil(allFeedbackArray.length / itemsPerPage);
                 if (currentPage > totalPagesAfter && currentPage > 1) {
                     currentPage = totalPagesAfter;
                 }
+
                 activeFeedbackKey = null;
+
                 if (allFeedbackArray.length === 0) {
-                    document.getElementById('feedbackListContainer').innerHTML = `<div class="py-10 text-center text-slate-500 font-medium text-sm">Belum ada kritik atau saran yang masuk dari pelanggan.</div>`;
+                    document.getElementById('feedbackListContainer').innerHTML = `<div class="py-10 text-center text-slate-500 font-medium text-sm">Belum ada kritik atau saran yang masuk.</div>`;
                     document.getElementById('paginationContainer').classList.add('hidden');
                 } else {
                     renderPage(currentPage);
@@ -234,6 +318,7 @@
                 notif.className = "mb-4 p-3 text-xs sm:text-sm rounded-xl border bg-red-500/10 text-red-400 border-red-500/20 font-semibold tracking-wide shadow-sm block animate-fadeIn";
             }
         }
+
         document.getElementById('btnToggleMask').addEventListener('click', () => {
             isMasked = !isMasked;
             const eyeIconElement = document.getElementById('eyeIcon');
@@ -251,6 +336,7 @@
             }
             renderPage(currentPage);
         });
+
         document.getElementById('btnPrev').addEventListener('click', () => {
             if (currentPage > 1) {
                 currentPage--;
@@ -258,6 +344,7 @@
                 renderPage(currentPage);
             }
         });
+
         document.getElementById('btnNext').addEventListener('click', () => {
             const totalPages = Math.ceil(allFeedbackArray.length / itemsPerPage);
             if (currentPage < totalPages) {
@@ -266,7 +353,14 @@
                 renderPage(currentPage);
             }
         });
+
+        // Refresh Data Setiap Menit untuk update Waktu "Baru Saja -> Menit yang lalu" otomatis
+        setInterval(() => {
+            if (allFeedbackArray.length > 0) renderPage(currentPage);
+        }, 60000);
+
         window.addEventListener('DOMContentLoaded', loadAllData);
     </script>
 </body>
+
 </html>
