@@ -9,15 +9,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-6px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .animate-fadeIn {
@@ -27,30 +20,29 @@
 </head>
 
 <body class="bg-slate-900 font-sans min-h-screen flex flex-col items-center p-4 sm:p-6 relative overflow-x-hidden">
-    <div class="absolute w-80 h-80 rounded-full bg-indigo-500/10 blur-[100px] top-10 left-10 pointer-events-none"></div>
-    <div class="absolute w-80 h-80 rounded-full bg-pink-500/10 blur-[100px] bottom-10 right-10 pointer-events-none">
-    </div>
+    
+    <!-- Wadah Pop-up Notifikasi In-App (Penyelamat untuk HP) -->
+    <div id="toastContainer" class="fixed top-5 right-5 z-[100] flex flex-col gap-3 pointer-events-none w-72 sm:w-80"></div>
 
-    <div
-        class="max-w-2xl w-full bg-white/[0.06] backdrop-blur-xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-5 sm:p-8 border border-white/10 relative z-10 text-white my-6">
+    <div class="absolute w-80 h-80 rounded-full bg-indigo-500/10 blur-[100px] top-10 left-10 pointer-events-none"></div>
+    <div class="absolute w-80 h-80 rounded-full bg-pink-500/10 blur-[100px] bottom-10 right-10 pointer-events-none"></div>
+
+    <div class="max-w-2xl w-full bg-white/[0.06] backdrop-blur-xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-5 sm:p-8 border border-white/10 relative z-10 text-white my-6">
         <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/10 pb-4 gap-4">
             <div class="flex-1">
                 <div class="flex items-center justify-between w-full">
                     <h2 class="text-2xl font-black tracking-tight text-white flex items-center gap-2">
                         Manajemen
-                        <span
-                            class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-400">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-400">
                             Feedback
                         </span>
                     </h2>
                     <div class="flex items-center gap-3">
-                        <!-- Indikator Realtime -->
                         <span class="flex h-3 w-3 relative" title="Koneksi Realtime Aktif">
-                            <span
-                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                             <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
                         </span>
-
+                        
                         <button id="btnToggleMask" title="Sembunyikan/Tampilkan Nama"
                             class="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-slate-400 hover:text-cyan-400 transition-all active:scale-95 duration-200">
                             <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -73,35 +65,27 @@
             </a>
         </div>
 
-        <div id="adminNotif"
-            class="hidden mb-4 p-3 text-sm rounded-xl border font-semibold tracking-wide shadow-sm animate-fadeIn">
-        </div>
+        <div id="adminNotif" class="hidden mb-4 p-3 text-sm rounded-xl border font-semibold tracking-wide shadow-sm animate-fadeIn"></div>
 
         <div id="loadingState" class="py-12 text-center text-slate-400 font-medium">
-            <svg class="animate-spin h-6 w-6 text-cyan-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" fill="none"
-                viewBox="0 0 24 24">
+            <svg class="animate-spin h-6 w-6 text-cyan-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                </path>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
             Memuat data masukan...
         </div>
 
         <div id="feedbackListContainer" class="space-y-3.5 hidden"></div>
 
-        <div id="paginationContainer"
-            class="mt-8 pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 hidden">
+        <div id="paginationContainer" class="mt-8 pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 hidden">
             <span id="pageInfo" class="text-xs font-bold text-slate-400 tracking-wide uppercase">
                 Halaman 1 dari 1
             </span>
             <div class="flex items-center gap-3 w-full sm:w-auto">
-                <button id="btnPrev" disabled
-                    class="flex-1 sm:flex-none text-xs font-bold px-4 py-2.5 bg-white/5 border border-white/10 disabled:opacity-30 disabled:hover:bg-white/5 disabled:cursor-not-allowed rounded-xl hover:bg-white/10 transition text-slate-300">
+                <button id="btnPrev" disabled class="flex-1 sm:flex-none text-xs font-bold px-4 py-2.5 bg-white/5 border border-white/10 disabled:opacity-30 disabled:hover:bg-white/5 disabled:cursor-not-allowed rounded-xl hover:bg-white/10 transition text-slate-300">
                     Previous
                 </button>
-                <button id="btnNext" disabled
-                    class="flex-1 sm:flex-none text-xs font-bold px-4 py-2.5 bg-white/5 border border-white/10 disabled:opacity-30 disabled:hover:bg-white/5 disabled:cursor-not-allowed rounded-xl hover:bg-white/10 transition text-slate-300">
+                <button id="btnNext" disabled class="flex-1 sm:flex-none text-xs font-bold px-4 py-2.5 bg-white/5 border border-white/10 disabled:opacity-30 disabled:hover:bg-white/5 disabled:cursor-not-allowed rounded-xl hover:bg-white/10 transition text-slate-300">
                     Next
                 </button>
             </div>
@@ -113,8 +97,7 @@
             alert('Akses ditolak! Silakan login terlebih dahulu.');
             window.location.href = "login.html";
         }
-
-        // Mengubah "get" menjadi "onValue" untuk fitur Realtime Listener
+        
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
         import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
 
@@ -128,7 +111,7 @@
             appId: "1:418956397903:web:cb17eaeab729790f23093a",
             measurementId: "G-ZHRM0PKS2D"
         };
-
+        
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const navigationEntry = performance.getEntriesByType("navigation")[0];
@@ -141,28 +124,75 @@
         let currentPage = 1;
         const itemsPerPage = 10;
         let isMasked = false;
-
-        // State notifikasi
+        
         let isInitialLoad = true;
         let knownFeedbackIds = new Set();
 
-        // --- SISTEM NOTIFIKASI BROWSER ---
+        // --- SISTEM NOTIFIKASI GANDA ---
         function requestNotificationPermission() {
             if ("Notification" in window && Notification.permission !== "denied" && Notification.permission !== "granted") {
                 Notification.requestPermission();
             }
         }
-
+        
         function sendBrowserNotification(nama, pesan) {
+            const namaTampil = isMasked ? maskName(nama) : nama;
+
+            // 1. Coba Notifikasi Sistem (Terkadang diblokir di HP Android)
             if ("Notification" in window && Notification.permission === "granted") {
-                const namaTampil = isMasked ? maskName(nama) : nama;
-                const options = {
-                    body: `"${pesan}"`,
-                    icon: 'ic-transparent.png',
-                    requireInteraction: false
-                };
-                new Notification(`Masukan Baru dari ${namaTampil}`, options);
+                try {
+                    new Notification(`Masukan Baru: ${namaTampil}`, {
+                        body: `"${pesan}"`,
+                        icon: 'ic-transparent.png', 
+                    });
+                } catch (error) {
+                    console.log("Notifikasi sistem gagal, fallback ke In-App Toast.");
+                }
             }
+
+            // 2. Selalu Tampilkan In-App Toast (100% Works di Layar HP/PC)
+            showToastNotification(namaTampil, pesan);
+        }
+
+        // Fungsi memunculkan Notifikasi Melayang di Web (Penyelamat untuk HP)
+        function showToastNotification(nama, pesan) {
+            const toastContainer = document.getElementById('toastContainer');
+            if (!toastContainer) return;
+
+            const toast = document.createElement('div');
+            toast.className = "bg-slate-800/95 backdrop-blur-md border border-cyan-500/30 shadow-[0_10px_40px_-10px_rgba(6,182,212,0.3)] rounded-2xl p-4 flex items-start gap-3 transform transition-all duration-500 translate-x-full opacity-0 pointer-events-auto";
+            
+            toast.innerHTML = `
+                <div class="bg-cyan-500/20 text-cyan-400 rounded-full p-2 shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                    </svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h4 class="text-sm font-bold text-white truncate">${nama}</h4>
+                    <p class="text-xs text-slate-300 mt-1 line-clamp-2 italic">"${pesan}"</p>
+                </div>
+                <button class="text-slate-500 hover:text-white shrink-0 p-1 bg-white/5 rounded-full" onclick="this.parentElement.remove()">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            `;
+
+            toastContainer.appendChild(toast);
+
+            // Trigger animasi masuk
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    toast.classList.remove('translate-x-full', 'opacity-0');
+                });
+            });
+
+            // Hilang otomatis setelah 7 detik
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.classList.add('translate-x-full', 'opacity-0');
+                    setTimeout(() => toast.remove(), 500);
+                }
+            }, 7000);
         }
 
         function maskName(str) {
@@ -173,38 +203,27 @@
             }).join(' ');
         }
 
-        // --- SISTEM KONVERSI WAKTU MUNDUR ---
         function hitungWaktuMundur(timestampMilis) {
             if (!timestampMilis) return '';
-
             const sekarang = Date.now();
             const selisihDetik = Math.floor((sekarang - timestampMilis) / 1000);
 
             if (selisihDetik < 30) return "Baru saja";
             if (selisihDetik < 60) return `${selisihDetik} detik yang lalu`;
-
             const selisihMenit = Math.floor(selisihDetik / 60);
             if (selisihMenit < 60) return `${selisihMenit} menit yang lalu`;
-
             const selisihJam = Math.floor(selisihMenit / 60);
             if (selisihJam < 24) return `${selisihJam} jam yang lalu`;
-
             const selisihHari = Math.floor(selisihJam / 24);
             if (selisihHari < 7) return `${selisihHari} hari yang lalu`;
-
             if (selisihHari < 30) {
                 const selisihMinggu = Math.floor(selisihHari / 7);
                 return `${selisihMinggu} minggu yang lalu`;
             }
-
             const dateObj = new Date(timestampMilis);
-            const hari = dateObj.getDate();
-            const bulan = dateObj.getMonth() + 1;
-            const tahun = dateObj.getFullYear();
-            return `${hari} - ${bulan} - ${tahun}`;
+            return `${dateObj.getDate()} - ${dateObj.getMonth() + 1} - ${dateObj.getFullYear()}`;
         }
 
-        // --- PENGAMBILAN DATA REALTIME ---
         function startRealtimeListener() {
             const listContainer = document.getElementById('feedbackListContainer');
             const pagContainer = document.getElementById('paginationContainer');
@@ -220,7 +239,6 @@
                         const item = { id: key, ...dataRaw[key] };
                         allFeedbackArray.push(item);
 
-                        // Trigger notifikasi jika ada data yang belum direkam memori (bukan saat awal muat)
                         if (!isInitialLoad && !knownFeedbackIds.has(key)) {
                             sendBrowserNotification(item.nama, item.pesan);
                             adaDataBaruMasuk = true;
@@ -228,12 +246,10 @@
                         knownFeedbackIds.add(key);
                     });
 
-                    // Sorting Prioritas: Timestamp -> ID fallback
                     allFeedbackArray.sort((a, b) => {
                         const timeA = a.timestamp || 0;
                         const timeB = b.timestamp || 0;
                         if (timeA !== timeB) return timeB - timeA;
-
                         const numA = parseInt(a.id.replace('feedback', '')) || 0;
                         const numB = parseInt(b.id.replace('feedback', '')) || 0;
                         return numB - numA;
@@ -251,8 +267,8 @@
                 } else {
                     listContainer.classList.remove('hidden');
                     pagContainer.classList.remove('hidden');
-
-                    if (adaDataBaruMasuk) currentPage = 1; // Paksa kembali ke halaman 1
+                    
+                    if (adaDataBaruMasuk) currentPage = 1; 
                     renderPage(currentPage);
                 }
 
@@ -288,7 +304,6 @@
                 const contentWrapper = document.createElement('div');
                 contentWrapper.className = "flex-1 min-w-0 flex flex-col gap-1.5";
 
-                // Pembungkus Nama dan Waktu
                 const headerWrapper = document.createElement('div');
                 headerWrapper.className = "flex items-center justify-between w-full";
 
@@ -305,7 +320,6 @@
                 headerWrapper.appendChild(nameDiv);
                 if (timeStr) headerWrapper.appendChild(timeDiv);
 
-                // Pembungkus Pesan
                 const messageDiv = document.createElement('div');
                 messageDiv.className = "text-xs text-slate-400 italic break-words leading-relaxed pl-1";
                 messageDiv.textContent = `"${item.pesan || ''}"`;
@@ -338,8 +352,8 @@
             const notif = document.getElementById('adminNotif');
             try {
                 await remove(ref(db, `feedback/${nodeKey}`));
-                knownFeedbackIds.delete(nodeKey); // Hapus dari tracker memori
-
+                knownFeedbackIds.delete(nodeKey); 
+                
                 notif.innerText = `Data berhasil dihapus dari sistem!`;
                 notif.className = "mb-4 p-3 text-xs sm:text-sm rounded-xl border bg-emerald-500/10 text-emerald-400 border-emerald-500/20 font-semibold tracking-wide shadow-sm block animate-fadeIn";
 
@@ -387,18 +401,15 @@
             }
         });
 
-        // Trigger request notifikasi ketika admin berinteraksi pertama kali (klik di mana saja)
         document.body.addEventListener('click', requestNotificationPermission, { once: true });
 
-        // Refresh Data Setiap Menit untuk update Waktu "Baru Saja -> Menit yang lalu" otomatis
         setInterval(() => {
             if (allFeedbackArray.length > 0) renderPage(currentPage);
         }, 60000);
 
-        // Jalankan saat load selesai
         window.addEventListener('DOMContentLoaded', () => {
-            requestNotificationPermission(); // Minta izin notif jika belum
-            startRealtimeListener(); // Jalankan listener Firebase
+            requestNotificationPermission(); 
+            startRealtimeListener(); 
         });
     </script>
 </body>
