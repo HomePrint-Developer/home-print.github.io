@@ -23,6 +23,11 @@
         .animate-float {
             animation: subtleFloat 5s ease-in-out infinite;
         }
+
+        .modal-active {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+        }
     </style>
 </head>
 
@@ -33,6 +38,7 @@
     </div>
     <div class="absolute w-60 h-60 rounded-full bg-yellow-500/10 blur-[90px] top-1/3 right-1/4 pointer-events-none">
     </div>
+
     <div class="absolute top-4 left-4 z-20">
         <a href="feedback.html"
             class="text-xs font-extrabold text-white bg-gradient-to-r from-cyan-500 to-indigo-500 hover:brightness-110 transition-all duration-300 px-4 py-2.5 rounded-2xl tracking-wide shadow-md shadow-cyan-500/10 border border-cyan-400/20 block">
@@ -40,11 +46,12 @@
         </a>
     </div>
     <div class="absolute top-4 right-4 z-20">
-        <a href="login.html"
+        <button id="btnOpenLoginModal" type="button"
             class="text-xs font-bold text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-300 bg-white/5 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/10 tracking-wide shadow-sm block">
             Admin Area
-        </a>
+        </button>
     </div>
+
     <div
         class="max-w-md w-full bg-white/[0.06] backdrop-blur-xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 sm:p-8 text-center mb-24 border border-white/10 relative z-10">
         <h1 class="text-3xl font-black tracking-tight text-white mb-2">
@@ -65,16 +72,121 @@
             Tekan tombol di bawah untuk mulai pemesanan.
         </p>
     </div>
+
     <div
-        class="fixed bottom-0 left-0 right-0 flex justify-center bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent p-4 pb-6 sm:pb-8 z-50 backdrop-blur-sm">
-        <a href="option-jasa.html"
+        class="fixed bottom-0 left-0 right-0 flex justify-center bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent p-4 pb-6 sm:pb-8 z-20 backdrop-blur-sm">
+        <button id="btnOpenServiceModal" type="button"
             class="w-full max-w-md bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-extrabold py-4 px-6 rounded-2xl shadow-[0_12px_30px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.97] transition-all duration-200 text-base tracking-wider border border-white/10 block">
             Pilih Pesanan
-        </a>
+        </button>
     </div>
+
+    <div id="serviceModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <div id="serviceBackdrop"
+            class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity duration-300 opacity-0"></div>
+        <div id="serviceContent"
+            class="max-w-md w-full bg-white/[0.06] backdrop-blur-2xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] p-6 sm:p-8 border border-white/10 relative z-10 transform scale-95 opacity-0 transition-all duration-300">
+            <div class="text-center mb-6 border-b border-white/10 pb-4">
+                <button type="button" id="btnCloseServiceModal"
+                    class="absolute top-6 left-6 text-slate-400 hover:text-cyan-400 font-bold text-sm flex items-center transition duration-200 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                        stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <h2 class="text-2xl font-black tracking-tight text-white mt-2 sm:mt-0">
+                    Pilih <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-400">Layanan</span>
+                </h2>
+                <p class="text-xs text-slate-400 mt-1">Silakan pilih jenis layanan yang Anda perlukan</p>
+            </div>
+            <form id="serviceForm" class="space-y-4">
+                <div class="space-y-3">
+                    <label
+                        class="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:border-cyan-500/40 hover:bg-white/[0.08] cursor-pointer transition duration-200 group group-has-[:checked]:border-cyan-500">
+                        <div class="flex items-center gap-3">
+                            <div class="flex flex-col">
+                                <span
+                                    class="text-sm font-bold text-slate-200 group-hover:text-white transition">Percetakan</span>
+                                <span class="text-xs text-slate-400">Print, fotocopy, dan cetak foto</span>
+                            </div>
+                        </div>
+                        <input type="radio" name="layanan" value="pesan.html" checked
+                            class="w-4 h-4 text-cyan-500 bg-slate-800 border-white/10 focus:ring-cyan-500 focus:ring-offset-slate-900 accent-cyan-400">
+                    </label>
+                    <label
+                        class="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:border-pink-500/40 hover:bg-white/[0.08] cursor-pointer transition duration-200 group group-has-[:checked]:border-pink-500">
+                        <div class="flex items-center gap-3">
+                            <div class="flex flex-col">
+                                <span class="text-sm font-bold text-slate-200 group-hover:text-white transition">Jasa
+                                    Lainnya</span>
+                                <span class="text-xs text-slate-400">Cv, lamaran kerja, jasa ketik, dll</span>
+                            </div>
+                        </div>
+                        <input type="radio" name="layanan" value="jasa.html"
+                            class="w-4 h-4 text-pink-500 bg-slate-800 border-white/10 focus:ring-pink-500 focus:ring-offset-slate-900 accent-pink-400">
+                    </label>
+                </div>
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-black py-3.5 px-4 rounded-xl mt-4 shadow-[0_12px_30px_rgba(6,182,212,0.3)] border border-white/10 transition transform active:scale-95 text-sm tracking-wider uppercase">
+                    Pilih & Lanjutkan
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="loginModal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4">
+        <div id="loginBackdrop"
+            class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity duration-300 opacity-0"></div>
+        <div id="loginContent"
+            class="max-w-md w-full bg-white/[0.06] backdrop-blur-2xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] p-6 sm:p-8 border border-white/10 relative z-10 transform scale-95 opacity-0 transition-all duration-300">
+            <div class="text-center mb-6 border-b border-white/10 pb-4">
+                <button type="button" id="btnCloseLoginModal"
+                    class="absolute top-6 left-6 text-slate-400 hover:text-cyan-400 font-bold text-sm flex items-center transition duration-200 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                        stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <h2 class="text-2xl font-black tracking-tight text-white mt-2 sm:mt-0">
+                    Login <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-400">Admin</span>
+                </h2>
+                <p class="text-xs text-slate-400 mt-1">Silakan masuk untuk mengelola sistem</p>
+            </div>
+
+            <div id="errorNotification"
+                class="hidden mb-5 p-3.5 text-xs sm:text-sm rounded-xl border bg-red-500/10 text-red-400 border-red-500/20 font-semibold tracking-wide shadow-sm">
+            </div>
+
+            <form id="loginForm" class="space-y-5">
+                <div>
+                    <label
+                        class="flex items-center gap-1.5 text-xs font-bold  tracking-wider text-slate-300 mb-1.5">Username</label>
+                    <input type="text" id="username" required
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all text-sm font-medium text-white placeholder-slate-600"
+                        placeholder="Masukkan username">
+                </div>
+                <div>
+                    <label
+                        class="flex items-center gap-1.5 text-xs font-bold  tracking-wider text-slate-300 mb-1.5">Password</label>
+                    <input type="password" id="password" required
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all text-sm font-medium text-white placeholder-slate-600"
+                        placeholder="Masukkan password">
+                </div>
+                <button type="submit" id="btnLogin"
+                    class="w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-extrabold py-3.5 px-4 rounded-xl mt-6 shadow-[0_12px_30px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.97] transition-all duration-200 text-sm tracking-wide border border-white/10">
+                    Masuk
+                </button>
+            </form>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-analytics.js";
+        import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
+
         const firebaseConfig = {
             apiKey: "AIzaSyBO_jWfltM8J9obdA5Vio50kPtOqkDuDlw",
             authDomain: "home-print-8437d.firebaseapp.com",
@@ -87,6 +199,99 @@
         };
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
+        const db = getDatabase(app);
+
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const usernameInput = document.getElementById('username').value.trim();
+            const passwordInput = document.getElementById('password').value;
+            const errorDiv = document.getElementById('errorNotification');
+            const btnLogin = document.getElementById('btnLogin');
+
+            btnLogin.disabled = true;
+            btnLogin.innerText = 'Memeriksa...';
+            errorDiv.classList.add('hidden'); 
+
+            try {
+                const snapshot = await get(child(ref(db), 'users'));
+                if (snapshot.exists() && snapshot.val().username === usernameInput && snapshot.val().password === passwordInput) {
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    window.location.href = "index-admin.html";
+                } else {
+                    errorDiv.innerText = 'Username atau Password salah!';
+                    errorDiv.classList.remove('hidden');
+                    btnLogin.disabled = false;
+                    btnLogin.innerText = 'Masuk';
+                }
+            } catch (error) {
+                errorDiv.innerText = 'Kesalahan koneksi database.';
+                errorDiv.classList.remove('hidden');
+                btnLogin.disabled = false;
+                btnLogin.innerText = 'Masuk';
+            }
+        });
+    </script>
+
+    <script>
+        const serviceModal = document.getElementById('serviceModal');
+        const serviceBackdrop = document.getElementById('serviceBackdrop');
+        const serviceContent = document.getElementById('serviceContent');
+        const btnOpenServiceModal = document.getElementById('btnOpenServiceModal');
+        const btnCloseServiceModal = document.getElementById('btnCloseServiceModal');
+
+        btnOpenServiceModal.addEventListener('click', () => {
+            serviceModal.classList.remove('hidden');
+            serviceModal.classList.add('flex');
+            setTimeout(() => {
+                serviceBackdrop.classList.remove('opacity-0');
+                serviceContent.classList.add('modal-active');
+            }, 10);
+        });
+
+        function closeServiceModal() {
+            serviceBackdrop.classList.add('opacity-0');
+            serviceContent.classList.remove('modal-active');
+            setTimeout(() => {
+                serviceModal.classList.add('hidden');
+                serviceModal.classList.remove('flex');
+            }, 300);
+        }
+
+        btnCloseServiceModal.addEventListener('click', closeServiceModal);
+        serviceBackdrop.addEventListener('click', closeServiceModal);
+
+        document.getElementById('serviceForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const halamanTujuan = document.querySelector('input[name="layanan"]:checked').value;
+            window.location.href = halamanTujuan;
+        });
+
+        const loginModal = document.getElementById('loginModal');
+        const loginBackdrop = document.getElementById('loginBackdrop');
+        const loginContent = document.getElementById('loginContent');
+        const btnOpenLoginModal = document.getElementById('btnOpenLoginModal');
+        const btnCloseLoginModal = document.getElementById('btnCloseLoginModal');
+
+        btnOpenLoginModal.addEventListener('click', () => {
+            loginModal.classList.remove('hidden');
+            loginModal.classList.add('flex');
+            setTimeout(() => {
+                loginBackdrop.classList.remove('opacity-0');
+                loginContent.classList.add('modal-active');
+            }, 10);
+        });
+
+        function closeLoginModal() {
+            loginBackdrop.classList.add('opacity-0');
+            loginContent.classList.remove('modal-active');
+            setTimeout(() => {
+                loginModal.classList.add('hidden');
+                loginModal.classList.remove('flex');
+            }, 300);
+        }
+
+        btnCloseLoginModal.addEventListener('click', closeLoginModal);
+        loginBackdrop.addEventListener('click', closeLoginModal);
     </script>
 </body>
 

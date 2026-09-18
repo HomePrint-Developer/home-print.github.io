@@ -9,54 +9,49 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-6px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .animate-fadeIn {
             animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
+
+        .modal-active {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+        }
     </style>
 </head>
 
 <body class="bg-slate-900 font-sans min-h-screen flex flex-col items-center p-4 sm:p-6 relative overflow-x-hidden">
-    
-    <!-- Wadah Pop-up Notifikasi In-App (Penyelamat untuk HP) -->
-    <div id="toastContainer" class="fixed top-5 right-5 z-[100] flex flex-col gap-3 pointer-events-none w-72 sm:w-80"></div>
 
     <div class="absolute w-80 h-80 rounded-full bg-indigo-500/10 blur-[100px] top-10 left-10 pointer-events-none"></div>
-    <div class="absolute w-80 h-80 rounded-full bg-pink-500/10 blur-[100px] bottom-10 right-10 pointer-events-none"></div>
+    <div class="absolute w-80 h-80 rounded-full bg-pink-500/10 blur-[100px] bottom-10 right-10 pointer-events-none">
+    </div>
 
-    <div class="max-w-2xl w-full bg-white/[0.06] backdrop-blur-xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-5 sm:p-8 border border-white/10 relative z-10 text-white my-6">
+    <div
+        class="max-w-2xl w-full bg-white/[0.06] backdrop-blur-xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-5 sm:p-8 border border-white/10 relative z-10 text-white my-6">
         <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/10 pb-4 gap-4">
             <div class="flex-1">
                 <div class="flex items-center justify-between w-full">
                     <h2 class="text-2xl font-black tracking-tight text-white flex items-center gap-2">
                         Manajemen
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-400">
+                        <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-400">
                             Feedback
                         </span>
                     </h2>
-                    <div class="flex items-center gap-3">
-                        <span class="flex h-3 w-3 relative" title="Koneksi Realtime Aktif">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-                        </span>
-                        
-                        <button id="btnToggleMask" title="Sembunyikan/Tampilkan Nama"
-                            class="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-slate-400 hover:text-cyan-400 transition-all active:scale-95 duration-200">
-                            <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                            </svg>
-                        </button>
-                    </div>
                 </div>
                 <p class="text-xs text-slate-400 mt-1">
-                    Pantau dan kelola kritik serta saran (Otomatis realtime).
+                    Pantau dan kelola kritik serta saran.
                 </p>
             </div>
             <a href="index-admin.html"
@@ -65,41 +60,92 @@
             </a>
         </div>
 
-        <div id="adminNotif" class="hidden mb-4 p-3 text-sm rounded-xl border font-semibold tracking-wide shadow-sm animate-fadeIn"></div>
+        <div id="adminNotif"
+            class="hidden mb-4 p-3 text-sm rounded-xl border font-semibold tracking-wide shadow-sm animate-fadeIn">
+        </div>
 
         <div id="loadingState" class="py-12 text-center text-slate-400 font-medium">
-            <svg class="animate-spin h-6 w-6 text-cyan-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <svg class="animate-spin h-6 w-6 text-cyan-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <path class="opacity-75" fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
             </svg>
             Memuat data masukan...
         </div>
 
         <div id="feedbackListContainer" class="space-y-3.5 hidden"></div>
 
-        <div id="paginationContainer" class="mt-8 pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 hidden">
+        <div id="paginationContainer"
+            class="mt-8 pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 hidden">
             <span id="pageInfo" class="text-xs font-bold text-slate-400 tracking-wide uppercase">
                 Halaman 1 dari 1
             </span>
             <div class="flex items-center gap-3 w-full sm:w-auto">
-                <button id="btnPrev" disabled class="flex-1 sm:flex-none text-xs font-bold px-4 py-2.5 bg-white/5 border border-white/10 disabled:opacity-30 disabled:hover:bg-white/5 disabled:cursor-not-allowed rounded-xl hover:bg-white/10 transition text-slate-300">
+                <button id="btnPrev" disabled
+                    class="flex-1 sm:flex-none text-xs font-bold px-4 py-2.5 bg-white/5 border border-white/10 disabled:opacity-30 disabled:hover:bg-white/5 disabled:cursor-not-allowed rounded-xl hover:bg-white/10 transition text-slate-300">
                     Previous
                 </button>
-                <button id="btnNext" disabled class="flex-1 sm:flex-none text-xs font-bold px-4 py-2.5 bg-white/5 border border-white/10 disabled:opacity-30 disabled:hover:bg-white/5 disabled:cursor-not-allowed rounded-xl hover:bg-white/10 transition text-slate-300">
+                <button id="btnNext" disabled
+                    class="flex-1 sm:flex-none text-xs font-bold px-4 py-2.5 bg-white/5 border border-white/10 disabled:opacity-30 disabled:hover:bg-white/5 disabled:cursor-not-allowed rounded-xl hover:bg-white/10 transition text-slate-300">
                     Next
                 </button>
             </div>
         </div>
     </div>
 
+    <!-- MODAL EDIT FEEDBACK -->
+    <div id="editModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <div id="editBackdrop"
+            class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity duration-300 opacity-0"></div>
+        <div id="editContent"
+            class="max-w-md w-full bg-slate-900/90 backdrop-blur-2xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] p-6 sm:p-8 relative border border-white/10 transform scale-95 opacity-0 transition-all duration-300">
+            <button id="btnCloseEditModal"
+                class="absolute top-5 right-5 text-slate-400 hover:text-white transition-colors p-1 bg-white/5 rounded-full hover:bg-white/10">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                    stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <div class="mb-6 border-b border-white/10 pb-4 pr-6">
+                <h2 class="text-xl font-black text-white tracking-tight">Edit Feedback</h2>
+                <p class="text-xs text-slate-400 mt-1">Perbarui masukan dari pelanggan ini.</p>
+            </div>
+
+            <form id="editForm" class="space-y-5">
+                <div>
+                    <label
+                        class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                        Nama Lengkap
+                    </label>
+                    <input type="text" id="editNama" required
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all text-sm font-medium text-white placeholder-slate-600">
+                </div>
+                <div>
+                    <label
+                        class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                        Pesan & Masukan
+                    </label>
+                    <textarea id="editPesan" required rows="4"
+                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all text-sm font-medium text-white placeholder-slate-600 resize-none"></textarea>
+                </div>
+                <button type="submit" id="btnSimpanEdit"
+                    class="w-full bg-cyan-500 hover:bg-cyan-400 text-white font-black py-3.5 px-4 rounded-xl mt-6 text-center transform active:scale-[0.97] transition-all duration-200 text-sm tracking-wide shadow-lg flex items-center justify-center">
+                    Simpan Perubahan
+                </button>
+            </form>
+        </div>
+    </div>
+
     <script type="module">
         if (sessionStorage.getItem('isLoggedIn') !== 'true') {
             alert('Akses ditolak! Silakan login terlebih dahulu.');
-            window.location.href = "login.html";
+            window.location.href = "index.html";
         }
-        
+
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
+        import { getDatabase, ref, onValue, remove, update } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBO_jWfltM8J9obdA5Vio50kPtOqkDuDlw",
@@ -111,7 +157,7 @@
             appId: "1:418956397903:web:cb17eaeab729790f23093a",
             measurementId: "G-ZHRM0PKS2D"
         };
-        
+
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const navigationEntry = performance.getEntriesByType("navigation")[0];
@@ -124,76 +170,8 @@
         let currentPage = 1;
         const itemsPerPage = 10;
         let isMasked = false;
-        
-        let isInitialLoad = true;
-        let knownFeedbackIds = new Set();
 
-        // --- SISTEM NOTIFIKASI GANDA ---
-        function requestNotificationPermission() {
-            if ("Notification" in window && Notification.permission !== "denied" && Notification.permission !== "granted") {
-                Notification.requestPermission();
-            }
-        }
-        
-        function sendBrowserNotification(nama, pesan) {
-            const namaTampil = isMasked ? maskName(nama) : nama;
-
-            // 1. Coba Notifikasi Sistem (Terkadang diblokir di HP Android)
-            if ("Notification" in window && Notification.permission === "granted") {
-                try {
-                    new Notification(`Masukan Baru: ${namaTampil}`, {
-                        body: `"${pesan}"`,
-                        icon: 'ic-transparent.png', 
-                    });
-                } catch (error) {
-                    console.log("Notifikasi sistem gagal, fallback ke In-App Toast.");
-                }
-            }
-
-            // 2. Selalu Tampilkan In-App Toast (100% Works di Layar HP/PC)
-            showToastNotification(namaTampil, pesan);
-        }
-
-        // Fungsi memunculkan Notifikasi Melayang di Web (Penyelamat untuk HP)
-        function showToastNotification(nama, pesan) {
-            const toastContainer = document.getElementById('toastContainer');
-            if (!toastContainer) return;
-
-            const toast = document.createElement('div');
-            toast.className = "bg-slate-800/95 backdrop-blur-md border border-cyan-500/30 shadow-[0_10px_40px_-10px_rgba(6,182,212,0.3)] rounded-2xl p-4 flex items-start gap-3 transform transition-all duration-500 translate-x-full opacity-0 pointer-events-auto";
-            
-            toast.innerHTML = `
-                <div class="bg-cyan-500/20 text-cyan-400 rounded-full p-2 shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-                    </svg>
-                </div>
-                <div class="flex-1 min-w-0">
-                    <h4 class="text-sm font-bold text-white truncate">${nama}</h4>
-                    <p class="text-xs text-slate-300 mt-1 line-clamp-2 italic">"${pesan}"</p>
-                </div>
-                <button class="text-slate-500 hover:text-white shrink-0 p-1 bg-white/5 rounded-full" onclick="this.parentElement.remove()">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            `;
-
-            toastContainer.appendChild(toast);
-
-            // Trigger animasi masuk
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    toast.classList.remove('translate-x-full', 'opacity-0');
-                });
-            });
-
-            // Hilang otomatis setelah 7 detik
-            setTimeout(() => {
-                if (toast.parentElement) {
-                    toast.classList.add('translate-x-full', 'opacity-0');
-                    setTimeout(() => toast.remove(), 500);
-                }
-            }, 7000);
-        }
+        let editingFeedbackId = null;
 
         function maskName(str) {
             if (!str) return 'Anonim';
@@ -231,19 +209,12 @@
 
             onValue(ref(db, 'feedback'), (snapshot) => {
                 allFeedbackArray = [];
-                let adaDataBaruMasuk = false;
 
                 if (snapshot.exists()) {
                     const dataRaw = snapshot.val();
                     Object.keys(dataRaw).forEach(key => {
                         const item = { id: key, ...dataRaw[key] };
                         allFeedbackArray.push(item);
-
-                        if (!isInitialLoad && !knownFeedbackIds.has(key)) {
-                            sendBrowserNotification(item.nama, item.pesan);
-                            adaDataBaruMasuk = true;
-                        }
-                        knownFeedbackIds.add(key);
                     });
 
                     allFeedbackArray.sort((a, b) => {
@@ -254,8 +225,6 @@
                         const numB = parseInt(b.id.replace('feedback', '')) || 0;
                         return numB - numA;
                     });
-                } else {
-                    knownFeedbackIds.clear();
                 }
 
                 loadingState.classList.add('hidden');
@@ -267,12 +236,8 @@
                 } else {
                     listContainer.classList.remove('hidden');
                     pagContainer.classList.remove('hidden');
-                    
-                    if (adaDataBaruMasuk) currentPage = 1; 
                     renderPage(currentPage);
                 }
-
-                isInitialLoad = false;
             }, (error) => {
                 console.error("Fetch Error: ", error);
                 loadingState.innerHTML = `<div class="text-red-400 font-semibold text-sm">Gagal memuat data: ${error.message}</div>`;
@@ -291,7 +256,9 @@
             pageItems.forEach(item => {
                 const isSelected = (activeFeedbackKey === item.id);
                 const rowDiv = document.createElement('div');
-                rowDiv.className = `p-4 rounded-2xl border transition-all duration-200 cursor-pointer flex items-center justify-between gap-4 ${isSelected
+
+                // MENGUBAH LAYOUT MENJADI VERTIKAL (flex-col) 
+                rowDiv.className = `p-4 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col gap-3 ${isSelected
                     ? 'bg-indigo-500/10 border-indigo-500/40 shadow-[0_4px_20px_rgba(99,102,241,0.15)]'
                     : 'bg-white/[0.03] border-white/5 hover:border-white/20 hover:bg-white/[0.05]'
                     }`;
@@ -302,7 +269,7 @@
                 });
 
                 const contentWrapper = document.createElement('div');
-                contentWrapper.className = "flex-1 min-w-0 flex flex-col gap-1.5";
+                contentWrapper.className = "w-full flex flex-col gap-1.5";
 
                 const headerWrapper = document.createElement('div');
                 headerWrapper.className = "flex items-center justify-between w-full";
@@ -329,8 +296,22 @@
                 rowDiv.appendChild(contentWrapper);
 
                 if (isSelected) {
+                    const actionContainer = document.createElement('div');
+                    // MENGGESER TOMBOL KE BAWAH DENGAN BORDER ATAS
+                    actionContainer.className = "flex gap-2 w-full pt-3 mt-1 border-t border-indigo-500/20 animate-fadeIn justify-end";
+
+                    // Tombol Edit
+                    const editBtn = document.createElement('button');
+                    editBtn.className = "text-xs font-black bg-gradient-to-r from-blue-500 to-cyan-600 hover:brightness-110 text-white px-5 py-2.5 rounded-xl border border-blue-400/20 shadow-md shadow-blue-500/10 transition transform active:scale-95";
+                    editBtn.innerText = "Edit";
+                    editBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        openEditModal(item.id, item.nama, item.pesan);
+                    });
+
+                    // Tombol Hapus
                     const deleteBtn = document.createElement('button');
-                    deleteBtn.className = "text-xs font-black bg-gradient-to-r from-red-500 to-pink-600 hover:brightness-110 text-white px-3.5 py-2 rounded-xl border border-red-400/20 shadow-md shadow-red-500/10 transition transform active:scale-95 shrink-0 animate-fadeIn";
+                    deleteBtn.className = "text-xs font-black bg-gradient-to-r from-red-500 to-pink-600 hover:brightness-110 text-white px-5 py-2.5 rounded-xl border border-red-400/20 shadow-md shadow-red-500/10 transition transform active:scale-95";
                     deleteBtn.innerText = "Hapus";
                     deleteBtn.addEventListener('click', async (e) => {
                         e.stopPropagation();
@@ -338,7 +319,10 @@
                             await deleteFeedback(item.id);
                         }
                     });
-                    rowDiv.appendChild(deleteBtn);
+
+                    actionContainer.appendChild(editBtn);
+                    actionContainer.appendChild(deleteBtn);
+                    rowDiv.appendChild(actionContainer);
                 }
                 listContainer.appendChild(rowDiv);
             });
@@ -352,8 +336,6 @@
             const notif = document.getElementById('adminNotif');
             try {
                 await remove(ref(db, `feedback/${nodeKey}`));
-                knownFeedbackIds.delete(nodeKey); 
-                
                 notif.innerText = `Data berhasil dihapus dari sistem!`;
                 notif.className = "mb-4 p-3 text-xs sm:text-sm rounded-xl border bg-emerald-500/10 text-emerald-400 border-emerald-500/20 font-semibold tracking-wide shadow-sm block animate-fadeIn";
 
@@ -366,22 +348,67 @@
             }
         }
 
-        document.getElementById('btnToggleMask').addEventListener('click', () => {
-            isMasked = !isMasked;
-            const eyeIconElement = document.getElementById('eyeIcon');
-            if (isMasked) {
-                eyeIconElement.innerHTML = `
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
-                `;
-                document.getElementById('btnToggleMask').classList.add('text-cyan-400');
-            } else {
-                eyeIconElement.innerHTML = `
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                `;
-                document.getElementById('btnToggleMask').classList.remove('text-cyan-400');
+        // --- SISTEM MODAL EDIT ---
+        const editModal = document.getElementById('editModal');
+        const editBackdrop = document.getElementById('editBackdrop');
+        const editContent = document.getElementById('editContent');
+        const btnCloseEditModal = document.getElementById('btnCloseEditModal');
+        const editForm = document.getElementById('editForm');
+
+        function openEditModal(id, nama, pesan) {
+            editingFeedbackId = id;
+            document.getElementById('editNama').value = nama || '';
+            document.getElementById('editPesan').value = pesan || '';
+
+            editModal.classList.remove('hidden');
+            editModal.classList.add('flex');
+            setTimeout(() => {
+                editBackdrop.classList.remove('opacity-0');
+                editContent.classList.add('modal-active');
+            }, 10);
+        }
+
+        function closeEditModal() {
+            editBackdrop.classList.add('opacity-0');
+            editContent.classList.remove('modal-active');
+            setTimeout(() => {
+                editModal.classList.add('hidden');
+                editModal.classList.remove('flex');
+                editingFeedbackId = null;
+            }, 300);
+        }
+
+        btnCloseEditModal.addEventListener('click', closeEditModal);
+        editBackdrop.addEventListener('click', closeEditModal);
+
+        editForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btnSimpan = document.getElementById('btnSimpanEdit');
+            const notif = document.getElementById('adminNotif');
+
+            btnSimpan.disabled = true;
+            btnSimpan.innerText = 'Menyimpan...';
+
+            const newNama = document.getElementById('editNama').value.trim();
+            const newPesan = document.getElementById('editPesan').value.trim();
+
+            try {
+                await update(ref(db, `feedback/${editingFeedbackId}`), {
+                    nama: newNama,
+                    pesan: newPesan
+                });
+
+                closeEditModal();
+                notif.innerText = `Data berhasil diperbarui!`;
+                notif.className = "mb-4 p-3 text-xs sm:text-sm rounded-xl border bg-emerald-500/10 text-emerald-400 border-emerald-500/20 font-semibold tracking-wide shadow-sm block animate-fadeIn";
+                setTimeout(() => { notif.classList.add('hidden'); }, 3000);
+            } catch (error) {
+                console.error("Update Error: ", error);
+                alert("Gagal memperbarui data: " + error.message);
+            } finally {
+                btnSimpan.disabled = false;
+                btnSimpan.innerText = 'Simpan Perubahan';
             }
-            renderPage(currentPage);
         });
 
         document.getElementById('btnPrev').addEventListener('click', () => {
@@ -401,15 +428,12 @@
             }
         });
 
-        document.body.addEventListener('click', requestNotificationPermission, { once: true });
-
         setInterval(() => {
             if (allFeedbackArray.length > 0) renderPage(currentPage);
         }, 60000);
 
         window.addEventListener('DOMContentLoaded', () => {
-            requestNotificationPermission(); 
-            startRealtimeListener(); 
+            startRealtimeListener();
         });
     </script>
 </body>

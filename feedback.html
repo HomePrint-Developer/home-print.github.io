@@ -24,9 +24,10 @@
             animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
-        .modal-overlay {
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(8px);
+        /* Class untuk transisi pop-up agar smooth */
+        .modal-active {
+            opacity: 1 !important;
+            transform: scale(1) !important;
         }
     </style>
 </head>
@@ -104,20 +105,21 @@
         <div class="w-full max-w-2xl pointer-events-auto">
             <button type="button" id="btnOpenModal"
                 class="w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-black py-4 px-4 rounded-2xl shadow-[0_12px_30px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.98] transition-all duration-200 text-sm tracking-wide border border-white/10 flex items-center justify-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                    stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
                 Tambah Feedback
             </button>
         </div>
     </div>
 
     <!-- MODAL POPUP FORM FEEDBACK -->
-    <div id="addFeedbackModal"
-        class="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
-        <div class="max-w-md w-full bg-slate-900/90 backdrop-blur-2xl rounded-[32px] shadow-2xl p-6 sm:p-8 relative border border-white/10 transform scale-95 transition-transform duration-300"
-            id="modalContent">
+    <div id="addFeedbackModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+
+        <!-- Background Blur (Overlay) -->
+        <div id="modalBackdrop"
+            class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity duration-300 opacity-0"></div>
+
+        <!-- Konten Pop-up -->
+        <div id="modalContent"
+            class="max-w-md w-full bg-slate-900/90 backdrop-blur-2xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] p-6 sm:p-8 relative border border-white/10 transform scale-95 opacity-0 transition-all duration-300">
             <button id="btnCloseModal"
                 class="absolute top-5 right-5 text-slate-400 hover:text-white transition-colors p-1 bg-white/5 rounded-full hover:bg-white/10">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
@@ -153,7 +155,7 @@
                 </div>
                 <button type="submit" id="btnKirim"
                     class="w-full bg-cyan-500 hover:bg-cyan-400 text-white font-black py-3.5 px-4 rounded-xl mt-6 text-center transform active:scale-[0.97] transition-all duration-200 text-sm tracking-wide shadow-lg flex items-center justify-center">
-                    Kirim Sekarang
+                    Kirim
                 </button>
             </form>
         </div>
@@ -196,9 +198,9 @@
             }).join(' ');
         }
 
-        // FUNGSI KONVERSI WAKTU RELATIF (Sesuai Logika 30 detik s/d lintas bulan)
+        // FUNGSI KONVERSI WAKTU RELATIF
         function hitungWaktuMundur(timestampMilis) {
-            if (!timestampMilis) return ''; // Data lama yang belum punya field timestamp tidak menampilkan waktu
+            if (!timestampMilis) return '';
 
             const sekarang = Date.now();
             const selisihDetik = Math.floor((sekarang - timestampMilis) / 1000);
@@ -224,13 +226,11 @@
                 return `${selisihHari} hari yang lalu`;
             }
 
-            // Asumsi 1 bulan = 30 hari untuk batas minggu
             if (selisihHari < 30) {
                 const selisihMinggu = Math.floor(selisihHari / 7);
                 return `${selisihMinggu} minggu yang lalu`;
             }
 
-            // Jika lintas bulan (lebih dari 30 hari), tampilkan format D - M - YYYY
             const dateObj = new Date(timestampMilis);
             const hari = dateObj.getDate();
             const bulan = dateObj.getMonth() + 1;
@@ -257,7 +257,6 @@
                         });
                     });
 
-                    // Urutkan dari yang terbaru berdasarkan timestamp, jika tidak ada (data lama) pakai ID
                     allFeedbackArray.sort((a, b) => {
                         const timeA = a.timestamp || 0;
                         const timeB = b.timestamp || 0;
@@ -303,26 +302,22 @@
                 const rowDiv = document.createElement('div');
                 rowDiv.className = `p-4 rounded-2xl bg-white/[0.03] border border-white/5 flex flex-col gap-1.5`;
 
-                // Wrapper Baris Pertama (Nama - Badge - Waktu di Kanan)
                 const headerWrapper = document.createElement('div');
                 headerWrapper.className = "flex items-center justify-between w-full";
 
-                // Kiri: Nama dan Badge
                 const nameDiv = document.createElement('div');
                 nameDiv.className = "text-sm font-bold text-slate-200 tracking-wide truncate flex items-center gap-2";
                 const namaAsli = item.nama || 'Anonim';
                 nameDiv.innerHTML = `${maskName(namaAsli)}`;
 
-                // Kanan: Waktu
                 const timeStr = hitungWaktuMundur(item.timestamp);
                 const timeDiv = document.createElement('div');
                 timeDiv.className = "text-[10px] text-slate-500 font-medium whitespace-nowrap pl-2";
                 timeDiv.innerText = timeStr;
 
                 headerWrapper.appendChild(nameDiv);
-                if (timeStr) headerWrapper.appendChild(timeDiv); // Hanya tampilkan jika ada data waktunya
+                if (timeStr) headerWrapper.appendChild(timeDiv);
 
-                // Isi Pesan Feedback
                 const messageDiv = document.createElement('div');
                 messageDiv.className = "text-xs text-slate-400 break-words leading-relaxed pl-1";
                 messageDiv.textContent = `"${item.pesan || ''}"`;
@@ -337,7 +332,6 @@
             document.getElementById('btnNext').disabled = (page === totalPages || totalPages === 0);
         }
 
-        // Paginasi Event Listeners
         document.getElementById('btnPrev').addEventListener('click', () => {
             if (currentPage > 1) { currentPage--; renderPage(currentPage); }
         });
@@ -347,31 +341,39 @@
         });
 
         // ==========================================
-        // LOGIC MODAL POPUP & FORM SUBMIT
+        // LOGIC MODAL POPUP (BLUR & TRANSACTIONS)
         // ==========================================
         const modal = document.getElementById('addFeedbackModal');
+        const modalBackdrop = document.getElementById('modalBackdrop');
         const modalContent = document.getElementById('modalContent');
         const btnOpenModal = document.getElementById('btnOpenModal');
         const btnCloseModal = document.getElementById('btnCloseModal');
 
         function openModal() {
             modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
             setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modalContent.classList.remove('scale-95');
-                modalContent.classList.add('scale-100');
+                modalBackdrop.classList.remove('opacity-0');
+                modalContent.classList.add('modal-active');
             }, 10);
         }
 
         function closeModal() {
-            modal.classList.add('opacity-0');
-            modalContent.classList.remove('scale-100');
-            modalContent.classList.add('scale-95');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+            modalBackdrop.classList.add('opacity-0');
+            modalContent.classList.remove('modal-active');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
         }
 
         btnOpenModal.addEventListener('click', openModal);
         btnCloseModal.addEventListener('click', closeModal);
+
+        // Menutup modal dengan mengklik area blur di luar form
+        modalBackdrop.addEventListener('click', closeModal);
 
         document.getElementById('feedbackForm').addEventListener('submit', async function (e) {
             e.preventDefault();
@@ -403,7 +405,6 @@
 
                 const targetNodeName = 'feedback' + nextIndex;
 
-                // Menambahkan field timestamp saat men-submit (waktu komputer realtime dalam format milidetik)
                 await set(ref(db, 'feedback/' + targetNodeName), {
                     nama: namaInput,
                     pesan: pesanInput,
@@ -414,7 +415,6 @@
                 notifDiv.className = "mb-5 p-3.5 text-xs sm:text-sm rounded-xl border bg-emerald-500/10 text-emerald-400 border-emerald-500/20 font-semibold tracking-wide shadow-sm block animate-fadeIn";
                 document.getElementById('feedbackForm').reset();
 
-                // Tutup popup & Refresh Data
                 setTimeout(() => {
                     closeModal();
                     notifDiv.className = "hidden";
@@ -433,7 +433,6 @@
             }
         });
 
-        // Refresh Data Setiap Menit untuk update Waktu "Baru Saja -> Menit yang lalu" otomatis
         setInterval(() => {
             if (allFeedbackArray.length > 0) renderPage(currentPage);
         }, 60000);
