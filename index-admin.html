@@ -7,6 +7,12 @@
     <link rel="icon" href="ic-transparent.png" type="image/png">
     <title>Dashboard Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Konfigurasi Tailwind untuk mendeteksi class 'dark' secara manual
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <style>
         @keyframes fadeIn {
             from {
@@ -23,92 +29,133 @@
         .animate-fadeIn {
             animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
+
+        /* Transisi smooth untuk perpindahan tema */
+        body * {
+            transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 400ms;
+        }
+
+        /* Hilangkan transisi untuk modal agar responsif instan saat pop-up */
+        #modalBackdrop * {
+            transition-property: none;
+        }
     </style>
 </head>
 
-<body class="bg-slate-900 font-sans min-h-screen p-4 pb-32 relative overflow-x-hidden">
-    <div class="absolute w-72 h-72 rounded-full bg-cyan-500/10 blur-[80px] -top-12 -left-12 pointer-events-none"></div>
-    <div class="absolute w-80 h-80 rounded-full bg-pink-500/10 blur-[100px] bottom-10 right-0 pointer-events-none">
+<body
+    class="bg-slate-50 dark:bg-slate-900 font-sans min-h-screen p-4 pb-32 relative overflow-x-hidden transition-colors duration-500">
+
+    <!-- Script Pengecekan Tema Langsung Agar Tidak Kedip -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
+    <!-- Background Ornaments -->
+    <div
+        class="absolute w-72 h-72 rounded-full bg-cyan-400/30 dark:bg-cyan-500/10 blur-[80px] -top-12 -left-12 pointer-events-none">
+    </div>
+    <div
+        class="absolute w-80 h-80 rounded-full bg-pink-400/25 dark:bg-pink-500/10 blur-[100px] bottom-10 right-0 pointer-events-none">
     </div>
 
     <div class="absolute top-4 left-4 z-20">
         <a href="feedback-admin.html"
-            class="text-xs font-extrabold text-white bg-gradient-to-r from-cyan-500 to-indigo-500 hover:brightness-110 transition-all duration-300 px-4 py-2.5 rounded-2xl tracking-wide shadow-md shadow-cyan-500/10 border border-cyan-400/20 block">
+            class="text-xs font-extrabold text-white bg-gradient-to-r from-cyan-500 to-indigo-500 hover:brightness-110 px-4 py-2.5 rounded-2xl tracking-wide shadow-md shadow-cyan-500/20 dark:shadow-cyan-500/10 border border-cyan-400/30 dark:border-cyan-400/20 block transform active:scale-95">
             Kritik & Saran
         </a>
     </div>
     <div class="absolute top-4 right-4 z-20">
         <button onclick="logout()"
-            class="text-xs font-bold text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-300 bg-white/5 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/10 tracking-wide shadow-sm">
+            class="text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 bg-white/60 dark:bg-white/5 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-slate-300/60 dark:border-white/10 tracking-wide shadow-sm transform active:scale-95">
             Logout
         </button>
     </div>
 
+    <!-- MAIN CONTAINER -->
     <div
-        class="max-w-4xl mx-auto bg-white/[0.06] backdrop-blur-xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-4 sm:p-8 mt-16 border border-white/10 relative z-10">
+        class="max-w-4xl mx-auto bg-white/70 dark:bg-white/[0.06] backdrop-blur-xl rounded-[32px] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-4 sm:p-8 mt-16 border border-white dark:border-white/10 relative z-10 text-slate-900 dark:text-white">
+
         <div class="mb-6 sm:mb-8 px-1">
-            <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white">
+            <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">
                 Manajemen <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-400">HomePrint</span>
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-pink-500 to-yellow-500 dark:from-cyan-400 dark:via-pink-400 dark:to-yellow-400">HomePrint</span>
             </h2>
-            <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
                 Pantau dan kelola stok barang, kertas foto, serta kritik dan saran.
             </p>
         </div>
-        <div class="flex gap-2 p-1.5 bg-white/5 rounded-2xl mb-6 sm:mb-8 border border-white/10">
+
+        <!-- TABS -->
+        <div
+            class="flex gap-2 p-1.5 bg-white/60 dark:bg-white/5 rounded-2xl mb-6 sm:mb-8 border border-slate-200 dark:border-white/10 shadow-inner dark:shadow-none">
             <button id="tabStokBtn" onclick="switchTab('stok')"
-                class="flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 bg-white/10 text-white shadow-lg tracking-wide flex items-center justify-center gap-1.5">
+                class="flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 bg-cyan-500 dark:bg-white/10 text-white shadow-md dark:shadow-lg tracking-wide flex items-center justify-center gap-1.5">
                 Barang & ATK
             </button>
             <button id="tabKertasBtn" onclick="switchTab('kertas')"
-                class="flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 text-slate-400 hover:text-white tracking-wide flex items-center justify-center gap-1.5">
+                class="flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-transparent tracking-wide flex items-center justify-center gap-1.5">
                 Kertas Foto
             </button>
         </div>
+
+        <!-- PANEL STOK -->
         <div id="panelStok" class="space-y-2 animate-fadeIn">
-            <div class="overflow-x-auto rounded-2xl border border-white/10 bg-white/5 w-full">
+            <div
+                class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-white/10 bg-white/80 dark:bg-white/5 w-full shadow-sm dark:shadow-none">
                 <table class="w-full text-left border-collapse table-fixed min-w-[320px]">
                     <thead>
-                        <tr class="border-b border-white/10">
+                        <tr class="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-transparent">
                             <th
-                                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 w-12 text-center">
+                                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 w-12 text-center">
                                 No</th>
                             <th
-                                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 w-2/5">
+                                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 w-2/5">
                                 Nama Barang</th>
                             <th
-                                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 text-center w-20 sm:w-28">
+                                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 text-center w-20 sm:w-28">
                                 Stok</th>
                             <th
-                                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 w-24 sm:w-36">
+                                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 w-24 sm:w-36">
                                 Harga</th>
                         </tr>
                     </thead>
-                    <tbody id="stokTableBody" class="text-slate-200">
+                    <tbody id="stokTableBody" class="text-slate-700 dark:text-slate-200">
                         <tr>
-                            <td colspan="4" class="p-12 text-center text-slate-500 font-medium text-sm">Memuat data
-                                barang...</td>
+                            <td colspan="4"
+                                class="p-12 text-center text-slate-500 dark:text-slate-500 font-medium text-sm">Memuat
+                                data barang...</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+
+        <!-- PANEL KERTAS FOTO -->
         <div id="panelKertas" class="space-y-2 hidden animate-fadeIn">
-            <div class="overflow-x-auto rounded-2xl border border-white/10 bg-white/5 w-full">
+            <div
+                class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-white/10 bg-white/80 dark:bg-white/5 w-full shadow-sm dark:shadow-none">
                 <table class="w-full text-left border-collapse table-fixed min-w-[320px]">
                     <thead>
-                        <tr class="border-b border-white/10">
+                        <tr class="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-transparent">
                             <th
-                                class="p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 w-16 text-center">
+                                class="p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 w-16 text-center">
                                 No</th>
-                            <th class="p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400">
+                            <th
+                                class="p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
                                 Nama Kertas Foto</th>
                         </tr>
                     </thead>
-                    <tbody id="kertasTableBody" class="text-slate-200">
+                    <tbody id="kertasTableBody" class="text-slate-700 dark:text-slate-200">
                         <tr>
-                            <td colspan="2" class="p-12 text-center text-slate-500 font-medium text-sm">Memuat data
-                                kertas foto...</td>
+                            <td colspan="2"
+                                class="p-12 text-center text-slate-500 dark:text-slate-500 font-medium text-sm">Memuat
+                                data kertas foto...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -116,16 +163,17 @@
         </div>
     </div>
 
+    <!-- ACTION BUTTONS FIXED BOTTOM -->
     <div
-        class="fixed bottom-0 left-0 right-0 flex justify-center bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent p-4 pb-6 sm:pb-8 z-50 backdrop-blur-sm">
-        <div class="w-full max-w-md flex gap-3 items-center">
+        class="fixed bottom-0 left-0 right-0 flex justify-center bg-gradient-to-t from-slate-50 dark:from-slate-900 via-slate-50/90 dark:via-slate-900/80 to-transparent p-4 pb-6 sm:pb-8 z-40 backdrop-blur-sm pointer-events-none">
+        <div class="w-full max-w-md flex gap-3 items-center pointer-events-auto">
             <button id="mainActionButton" onclick="tambahDataAction()"
-                class="flex-1 bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-extrabold py-3.5 sm:py-4 px-4 rounded-2xl shadow-[0_12px_30px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.97] transition-all duration-200 text-sm sm:text-base tracking-wider border border-white/10 truncate">
+                class="flex-1 bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-extrabold py-3.5 sm:py-4 px-4 rounded-2xl shadow-[0_10px_25px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.97] transition-all duration-200 text-sm sm:text-base tracking-wider border border-white/20 dark:border-white/10 truncate">
                 Tambah Stok Barang
             </button>
 
             <a href="generate-file.html" title="Buka Mesin Pembuat CV & Surat Lamaran"
-                class="p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 text-slate-300 hover:text-cyan-400 shadow-md backdrop-blur-md transition-all duration-200 transform active:scale-95 shrink-0 flex items-center justify-center">
+                class="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/10 text-slate-700 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-cyan-400 shadow-md backdrop-blur-md transition-all duration-200 transform active:scale-95 shrink-0 flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                     stroke="currentColor" class="w-5 h-5 sm:w-6 sm:h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -136,13 +184,92 @@
         </div>
     </div>
 
+    <!-- ================== MODAL / POP-UP OVERLAY ================== -->
+    <div id="modalBackdrop"
+        class="fixed inset-0 bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
+
+        <!-- MODAL TAMBAH STOK -->
+        <div id="modalStokBox"
+            class="hidden w-full max-w-md bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl p-6 border border-slate-200 dark:border-white/10 animate-fadeIn relative">
+            <button onclick="closeModal()"
+                class="absolute top-5 right-5 text-slate-400 hover:text-red-500 font-black text-xl leading-none">&times;</button>
+            <h2
+                class="text-xl font-black text-slate-900 dark:text-white mb-5 tracking-tight border-b border-slate-200 dark:border-white/10 pb-3">
+                Tambah Stok</h2>
+
+            <div id="notifStok" class="hidden mb-4 p-3 text-xs rounded-xl border font-semibold tracking-wide shadow-sm">
+            </div>
+
+            <form id="formAddStok" class="space-y-4">
+                <div>
+                    <label
+                        class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Nama
+                        Barang</label>
+                    <input type="text" id="inputNamaStok" required placeholder="Contoh: Kertas HVS A4"
+                        class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 text-sm font-medium text-slate-900 dark:text-white">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label
+                            class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Stok
+                            (Sisa)</label>
+                        <input type="number" id="inputSisaStok" required min="0" placeholder="Contoh: 500"
+                            class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 text-sm font-medium text-slate-900 dark:text-white">
+                    </div>
+                    <div>
+                        <label
+                            class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Harga
+                            Satuan</label>
+                        <input type="number" id="inputHargaStok" required min="0" placeholder="Contoh: 300"
+                            class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 text-sm font-medium text-slate-900 dark:text-white">
+                    </div>
+                </div>
+                <button type="submit" id="btnSimpanStok"
+                    class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-extrabold py-3.5 rounded-xl mt-2 shadow-md transition-all active:scale-95 text-sm tracking-wide">
+                    Simpan Data Stok
+                </button>
+            </form>
+        </div>
+
+        <!-- MODAL TAMBAH KERTAS FOTO -->
+        <div id="modalKertasBox"
+            class="hidden w-full max-w-sm bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl p-6 border border-slate-200 dark:border-white/10 animate-fadeIn relative">
+            <button onclick="closeModal()"
+                class="absolute top-5 right-5 text-slate-400 hover:text-red-500 font-black text-xl leading-none">&times;</button>
+            <h2
+                class="text-xl font-black text-slate-900 dark:text-white mb-5 tracking-tight border-b border-slate-200 dark:border-white/10 pb-3">
+                Tambah Kertas Foto</h2>
+
+            <div id="notifKertas"
+                class="hidden mb-4 p-3 text-xs rounded-xl border font-semibold tracking-wide shadow-sm"></div>
+
+            <form id="formAddKertas" class="space-y-4">
+                <div>
+                    <label
+                        class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Nama
+                        Varian Kertas</label>
+                    <input type="text" id="inputNamaKertas" required placeholder="Contoh: Silky Paper 230gsm"
+                        class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 text-sm font-medium text-slate-900 dark:text-white">
+                </div>
+                <button type="submit" id="btnSimpanKertas"
+                    class="w-full bg-pink-500 hover:bg-pink-600 text-white font-extrabold py-3.5 rounded-xl mt-2 shadow-md transition-all active:scale-95 text-sm tracking-wide">
+                    Simpan Kertas Foto
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- ============================================================ -->
+
+    <!-- Firebase Script -->
     <script type="module">
         if (sessionStorage.getItem('isLoggedIn') !== 'true') {
             alert('Akses ditolak! Silakan login terlebih dahulu.');
             window.location.href = "index.html";
         }
+
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-        import { getDatabase, ref, onValue, remove, update, set } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
+        import { getDatabase, ref, onValue, remove, update, set, get, child } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
+
         const firebaseConfig = {
             apiKey: "AIzaSyBO_jWfltM8J9obdA5Vio50kPtOqkDuDlw",
             authDomain: "home-print-8437d.firebaseapp.com",
@@ -155,8 +282,11 @@
         };
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
+
         let activeTab = 'stok';
         let listKertasExisting = [];
+
+        // Tab Switching Logic
         window.switchTab = (tabName) => {
             activeTab = tabName;
             const tabStok = document.getElementById('tabStokBtn');
@@ -164,26 +294,103 @@
             const panelStok = document.getElementById('panelStok');
             const panelKertas = document.getElementById('panelKertas');
             const actionBtn = document.getElementById('mainActionButton');
+
             if (tabName === 'stok') {
-                tabStok.className = "flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 bg-white/10 text-white shadow-lg";
-                tabKertas.className = "flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 text-slate-400 hover:text-white";
+                tabStok.className = "flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 bg-cyan-500 dark:bg-white/10 text-white shadow-md dark:shadow-lg tracking-wide flex items-center justify-center gap-1.5";
+                tabKertas.className = "flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-transparent tracking-wide flex items-center justify-center gap-1.5";
                 panelStok.classList.remove('hidden');
                 panelKertas.classList.add('hidden');
                 actionBtn.innerText = "Tambah Stok Barang";
             } else {
-                tabKertas.className = "flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 bg-white/10 text-white shadow-lg";
-                tabStok.className = "flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 text-slate-400 hover:text-white";
+                tabKertas.className = "flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 bg-cyan-500 dark:bg-white/10 text-white shadow-md dark:shadow-lg tracking-wide flex items-center justify-center gap-1.5";
+                tabStok.className = "flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-transparent tracking-wide flex items-center justify-center gap-1.5";
                 panelKertas.classList.remove('hidden');
                 panelStok.classList.add('hidden');
                 actionBtn.innerText = "Tambah Varian Kertas Foto";
             }
         };
+
+        // Modal Logic
         window.tambahDataAction = () => {
+            const backdrop = document.getElementById('modalBackdrop');
+            backdrop.classList.remove('hidden');
+
             if (activeTab === 'stok') {
-                window.location.href = "add_stok.html";
+                document.getElementById('modalStokBox').classList.remove('hidden');
+                document.getElementById('modalKertasBox').classList.add('hidden');
             } else {
-                const namaKertasBaru = prompt("Masukkan Nama Kertas Foto Baru:");
-                if (!namaKertasBaru || namaKertasBaru.trim() === "") return;
+                document.getElementById('modalKertasBox').classList.remove('hidden');
+                document.getElementById('modalStokBox').classList.add('hidden');
+            }
+        };
+
+        window.closeModal = () => {
+            document.getElementById('modalBackdrop').classList.add('hidden');
+            document.getElementById('formAddStok').reset();
+            document.getElementById('formAddKertas').reset();
+
+            document.getElementById('notifStok').classList.add('hidden');
+            document.getElementById('notifKertas').classList.add('hidden');
+        };
+
+        // Form Submit: Tambah Stok
+        document.getElementById('formAddStok').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const namaInput = document.getElementById('inputNamaStok').value.trim();
+            const stokInput = document.getElementById('inputSisaStok').value;
+            const hargaInput = document.getElementById('inputHargaStok').value;
+            const notif = document.getElementById('notifStok');
+            const btn = document.getElementById('btnSimpanStok');
+
+            notif.classList.add("hidden");
+            btn.disabled = true;
+            btn.innerText = 'Menyimpan...';
+
+            try {
+                const snapshot = await get(child(ref(db), 'stok'));
+                let nextIndex = 1;
+                if (snapshot.exists()) {
+                    const keys = Object.keys(snapshot.val());
+                    keys.forEach(key => {
+                        if (key.startsWith('barang')) {
+                            const num = parseInt(key.replace('barang', ''));
+                            if (!isNaN(num) && num >= nextIndex) nextIndex = num + 1;
+                        }
+                    });
+                }
+                await set(ref(db, 'stok/barang' + nextIndex), {
+                    nama_stok: namaInput,
+                    sisa_stok: parseInt(stokInput),
+                    harga: parseInt(hargaInput)
+                });
+
+                notif.innerText = `Stok berhasil ditambahkan!`;
+                notif.className = "mb-4 p-3 text-xs rounded-xl border bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 font-semibold tracking-wide block";
+                document.getElementById('formAddStok').reset();
+                setTimeout(() => closeModal(), 1500);
+            } catch (error) {
+                notif.innerText = 'Gagal menyimpan: ' + error.message;
+                notif.className = "mb-4 p-3 text-xs rounded-xl border bg-red-50 text-red-600 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 font-semibold tracking-wide block";
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Simpan Data Stok';
+            }
+        });
+
+        // Form Submit: Tambah Kertas Foto
+        document.getElementById('formAddKertas').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const namaKertasBaru = document.getElementById('inputNamaKertas').value.trim();
+            const notif = document.getElementById('notifKertas');
+            const btn = document.getElementById('btnSimpanKertas');
+
+            if (!namaKertasBaru) return;
+
+            notif.classList.add("hidden");
+            btn.disabled = true;
+            btn.innerText = 'Menyimpan...';
+
+            try {
                 let maxIndex = 0;
                 listKertasExisting.forEach(key => {
                     const match = key.match(/\d+/);
@@ -194,13 +401,25 @@
                 });
                 const nextIndex = maxIndex + 1;
                 const nodeName = `paper${nextIndex}`;
-                set(ref(db, `foto_paper/${nodeName}`), {
-                    nama_paper: namaKertasBaru.trim()
-                })
-                    .then(() => alert(`Varian kertas "${namaKertasBaru}" sukses dimasukkan sebagai ${nodeName}!`))
-                    .catch(err => alert("Gagal menyimpan data: " + err.message));
+
+                await set(ref(db, `foto_paper/${nodeName}`), {
+                    nama_paper: namaKertasBaru
+                });
+
+                notif.innerText = `Varian berhasil ditambahkan!`;
+                notif.className = "mb-4 p-3 text-xs rounded-xl border bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 font-semibold tracking-wide block";
+                document.getElementById('formAddKertas').reset();
+                setTimeout(() => closeModal(), 1500);
+            } catch (error) {
+                notif.innerText = 'Gagal menyimpan: ' + error.message;
+                notif.className = "mb-4 p-3 text-xs rounded-xl border bg-red-50 text-red-600 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 font-semibold tracking-wide block";
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Simpan Kertas Foto';
             }
-        };
+        });
+
+        // Read & Load Data Stok
         const stokRef = ref(db, 'stok');
         onValue(stokRef, (snapshot) => {
             const tbody = document.getElementById('stokTableBody');
@@ -211,17 +430,17 @@
                 for (let id in data) {
                     const item = data[id];
                     const row = `
-                        <tr onclick="toggleActionRow('stok-${id}')" class="border-b border-white/5 hover:bg-white/5 transition cursor-pointer">
-                            <td class="p-3 sm:p-4 text-xs font-semibold text-slate-400 text-center">${index++}</td>
-                            <td class="p-3 sm:p-4 text-xs sm:text-sm font-bold text-white break-words">${item.nama_stok}</td>
-                            <td class="p-3 sm:p-4 text-xs sm:text-sm text-center"><span class="bg-cyan-500/10 text-cyan-400 px-2 sm:px-3 py-1 rounded-lg border border-cyan-500/20">${item.sisa_stok}</span></td>
-                            <td class="p-3 sm:p-4 text-xs sm:text-sm text-slate-300 font-bold truncate">Rp ${parseInt(item.harga).toLocaleString('id-ID')}</td>
+                        <tr onclick="toggleActionRow('stok-${id}')" class="border-b border-slate-200 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/5 transition cursor-pointer">
+                            <td class="p-3 sm:p-4 text-xs font-semibold text-slate-500 dark:text-slate-400 text-center">${index++}</td>
+                            <td class="p-3 sm:p-4 text-xs sm:text-sm font-bold text-slate-800 dark:text-white break-words">${item.nama_stok}</td>
+                            <td class="p-3 sm:p-4 text-xs sm:text-sm text-center"><span class="bg-cyan-50 dark:bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 px-2 sm:px-3 py-1 rounded-lg border border-cyan-200 dark:border-cyan-500/20">${item.sisa_stok}</span></td>
+                            <td class="p-3 sm:p-4 text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-bold truncate">Rp ${parseInt(item.harga).toLocaleString('id-ID')}</td>
                         </tr>
-                        <tr id="action-stok-${id}" class="hidden bg-white/5 border-b border-white/5 animate-fadeIn">
+                        <tr id="action-stok-${id}" class="hidden bg-slate-100 dark:bg-white/5 border-b border-slate-300 dark:border-white/5 animate-fadeIn">
                             <td colspan="4" class="p-3 text-right">
                                 <div class="flex justify-end gap-2 sm:gap-3 px-1">
-                                    <button onclick="event.stopPropagation(); updateStok('${id}', '${item.nama_stok}', ${item.sisa_stok}, ${item.harga})" class="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-3 py-1.5 rounded-lg text-xs font-bold">Ubah</button>
-                                    <button onclick="event.stopPropagation(); deleteStok('${id}')" class="bg-red-500/10 text-red-400 border border-red-500/20 px-3 py-1.5 rounded-lg text-xs font-bold">Hapus</button>
+                                    <button onclick="event.stopPropagation(); updateStok('${id}', '${item.nama_stok}', ${item.sisa_stok}, ${item.harga})" class="bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-300 dark:border-amber-500/20 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-amber-100 dark:hover:bg-amber-500/20 transition">Ubah</button>
+                                    <button onclick="event.stopPropagation(); deleteStok('${id}')" class="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-500/20 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-red-100 dark:hover:bg-red-500/20 transition">Hapus</button>
                                 </div>
                             </td>
                         </tr>
@@ -229,9 +448,11 @@
                     tbody.innerHTML += row;
                 }
             } else {
-                tbody.innerHTML = '<tr><td colspan="4" class="p-10 text-center text-slate-400 font-medium">Belum ada data stok barang.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" class="p-10 text-center text-slate-500 dark:text-slate-400 font-medium">Belum ada data stok barang.</td></tr>';
             }
         });
+
+        // Read & Load Data Kertas Foto
         const kertasRef = ref(db, 'foto_paper');
         onValue(kertasRef, (snapshot) => {
             const tbody = document.getElementById('kertasTableBody');
@@ -244,22 +465,24 @@
                 for (let paperId in data) {
                     const item = data[paperId];
                     const row = `
-                        <tr onclick="toggleActionRow('kertas-${paperId}')" class="border-b border-white/5 hover:bg-white/5 transition cursor-pointer">
-                            <td class="p-4 text-xs font-semibold text-slate-400 text-center w-16">${index++}</td>
-                            <td class="p-4 text-sm font-bold text-white flex justify-between">${item.nama_paper}</td>
+                        <tr onclick="toggleActionRow('kertas-${paperId}')" class="border-b border-slate-200 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/5 transition cursor-pointer">
+                            <td class="p-4 text-xs font-semibold text-slate-500 dark:text-slate-400 text-center w-16">${index++}</td>
+                            <td class="p-4 text-sm font-bold text-slate-800 dark:text-white flex justify-between">${item.nama_paper}</td>
                         </tr>
-                        <tr id="action-kertas-${paperId}" class="hidden bg-white/5 border-b border-white/5 animate-fadeIn">
+                        <tr id="action-kertas-${paperId}" class="hidden bg-slate-100 dark:bg-white/5 border-b border-slate-300 dark:border-white/5 animate-fadeIn">
                             <td colspan="2" class="p-3 text-right">
-                                <button onclick="event.stopPropagation(); updateKertas('${paperId}', '${item.nama_paper}')" class="bg-amber-500/10 text-amber-400 border border-amber-200/50 px-3 py-1.5 rounded-lg text-xs font-bold mx-2">Ubah</button>
-                                <button onclick="event.stopPropagation(); deleteKertas('${paperId}')" class="bg-red-500/10 text-red-400 border border-red-200/50 px-3 py-1.5 rounded-lg text-xs font-bold">Hapus</button>
+                                <button onclick="event.stopPropagation(); updateKertas('${paperId}', '${item.nama_paper}')" class="bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-300 dark:border-amber-200/50 px-3 py-1.5 rounded-lg text-xs font-bold mx-2 hover:bg-amber-100 dark:hover:bg-amber-500/20 transition">Ubah</button>
+                                <button onclick="event.stopPropagation(); deleteKertas('${paperId}')" class="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-200/50 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-red-100 dark:hover:bg-red-500/20 transition">Hapus</button>
                             </td>
                         </tr>`;
                     tbody.innerHTML += row;
                 }
             } else {
-                tbody.innerHTML = '<tr><td colspan="2" class="p-10 text-center text-slate-400 font-medium">Belum ada varian kertas foto.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="2" class="p-10 text-center text-slate-500 dark:text-slate-400 font-medium">Belum ada varian kertas foto.</td></tr>';
             }
         });
+
+        // Toggle Actions
         window.toggleActionRow = (customId) => {
             const targetRow = document.getElementById(`action-${customId}`);
             document.querySelectorAll('[id^="action-"]').forEach(row => {
@@ -267,11 +490,14 @@
             });
             targetRow.classList.toggle('hidden');
         };
+
+        // Edit/Hapus Stok
         window.deleteStok = (id) => {
             if (confirm("Apakah Anda yakin ingin menghapus barang ini dari database?")) {
                 remove(ref(db, 'stok/' + id)).then(() => alert("Barang sukses terhapus!"));
             }
         };
+
         window.updateStok = (id, currentNama, currentStok, currentHarga) => {
             const newNama = prompt("Edit Nama Barang:", currentNama); if (newNama === null) return;
             const newStok = prompt("Edit Sisa Stok:", currentStok); if (newStok === null) return;
@@ -280,11 +506,14 @@
             updates['stok/' + id] = { nama_stok: newNama.trim(), sisa_stok: parseInt(newStok), harga: parseInt(newHarga) };
             update(ref(db), updates).then(() => alert("Data barang diperbarui!"));
         };
+
+        // Edit/Hapus Kertas
         window.deleteKertas = (paperId) => {
             if (confirm(`Apakah Anda yakin ingin menghapus varian kertas ${paperId}?`)) {
                 remove(ref(db, 'foto_paper/' + paperId)).then(() => alert("Kertas foto berhasil dihapus!"));
             }
         };
+
         window.updateKertas = (paperId, currentNamaPaper) => {
             const newNamaPaper = prompt("Edit Nama Jenis Kertas Foto:", currentNamaPaper);
             if (!newNamaPaper || newNamaPaper.trim() === "") return;
@@ -292,6 +521,8 @@
             updates[`foto_paper/${paperId}`] = { nama_paper: newNamaPaper.trim() };
             update(ref(db), updates).then(() => alert("Varian kertas foto diperbarui!"));
         };
+
+        // Logout
         window.logout = () => {
             if (confirm("Apakah Anda yakin ingin keluar dari halaman dasbor?")) {
                 sessionStorage.removeItem('isLoggedIn');

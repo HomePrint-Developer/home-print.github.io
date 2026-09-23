@@ -7,6 +7,12 @@
     <link rel="icon" href="ic-transparent.png" type="image/png">
     <title>Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Konfigurasi Tailwind untuk mendeteksi class 'dark' secara manual
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <style>
         @keyframes subtleFloat {
 
@@ -28,160 +34,249 @@
             opacity: 1 !important;
             transform: scale(1) !important;
         }
+
+        /* Transisi smooth untuk perpindahan tema di seluruh elemen */
+        body * {
+            transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 400ms;
+        }
     </style>
 </head>
 
 <body
-    class="bg-slate-900 font-sans min-h-screen flex flex-col justify-center items-center p-4 relative overflow-hidden">
-    <div class="absolute w-72 h-72 rounded-full bg-cyan-500/20 blur-[80px] -top-12 -left-12 pointer-events-none"></div>
-    <div class="absolute w-80 h-80 rounded-full bg-pink-500/15 blur-[100px] bottom-10 right-0 pointer-events-none">
+    class="bg-slate-50 dark:bg-slate-900 font-sans min-h-screen flex flex-col justify-center items-center p-4 relative overflow-hidden transition-colors duration-500">
+
+    <!-- Ornamen Background -->
+    <div
+        class="absolute w-72 h-72 rounded-full bg-cyan-400/30 dark:bg-cyan-500/20 blur-[80px] -top-12 -left-12 pointer-events-none">
     </div>
-    <div class="absolute w-60 h-60 rounded-full bg-yellow-500/10 blur-[90px] top-1/3 right-1/4 pointer-events-none">
+    <div
+        class="absolute w-80 h-80 rounded-full bg-pink-400/25 dark:bg-pink-500/15 blur-[100px] bottom-10 right-0 pointer-events-none">
+    </div>
+    <div
+        class="absolute w-60 h-60 rounded-full bg-yellow-400/20 dark:bg-yellow-500/10 blur-[90px] top-1/3 right-1/4 pointer-events-none">
     </div>
 
+    <!-- Tombol Header -->
     <div class="absolute top-4 left-4 z-20">
         <a href="feedback.html"
-            class="text-xs font-extrabold text-white bg-gradient-to-r from-cyan-500 to-indigo-500 hover:brightness-110 transition-all duration-300 px-4 py-2.5 rounded-2xl tracking-wide shadow-md shadow-cyan-500/10 border border-cyan-400/20 block">
+            class="text-xs font-extrabold text-white bg-gradient-to-r from-cyan-500 to-indigo-500 hover:brightness-110 px-4 py-2.5 rounded-2xl tracking-wide shadow-md shadow-cyan-500/20 dark:shadow-cyan-500/10 border border-cyan-400/30 dark:border-cyan-400/20 block transform active:scale-95">
             Kritik & Saran
         </a>
     </div>
     <div class="absolute top-4 right-4 z-20">
         <button id="btnOpenLoginModal" type="button"
-            class="text-xs font-bold text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-300 bg-white/5 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/10 tracking-wide shadow-sm block">
+            class="text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-white/60 dark:bg-white/5 hover:bg-white/90 dark:hover:bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-slate-300/60 dark:border-white/10 tracking-wide shadow-sm block transform active:scale-95">
             Admin Area
         </button>
     </div>
 
+    <!-- Konten Utama (Tengah) -->
     <div
-        class="max-w-md w-full bg-white/[0.06] backdrop-blur-xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 sm:p-8 text-center mb-24 border border-white/10 relative z-10">
-        <h1 class="text-3xl font-black tracking-tight text-white mb-2">
+        class="max-w-md w-full bg-white/70 dark:bg-white/[0.06] backdrop-blur-xl rounded-[32px] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 sm:p-8 text-center mb-24 border border-white dark:border-white/10 relative z-10">
+        <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white mb-2">
             Home <span
-                class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-400">Print</span>
+                class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-pink-500 to-yellow-500 dark:from-cyan-400 dark:via-pink-400 dark:to-yellow-400">Print</span>
         </h1>
-        <p class="text-slate-300 text-sm font-medium px-4 leading-relaxed">
+        <p class="text-slate-600 dark:text-slate-300 text-sm font-medium px-4 leading-relaxed">
             Cetak dokumen & foto Anda dengan kualitas tajam, cepat, dan siap antar langsung ke depan pintu rumah.
         </p>
-        <div class="my-8 relative group">
-            <div
-                class="absolute inset-0 bg-gradient-to-tr from-cyan-500 via-pink-500 to-yellow-500 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 w-44 h-44 mx-auto">
+
+        <!-- AREA LOGO DENGAN TOOLTIP BUBBLE -->
+        <div class="my-8 relative group inline-block">
+
+            <!-- Notifikasi Bubble Tooltip -->
+            <div id="tooltipBubble"
+                class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-[240px] bg-slate-800 text-white text-[10px] font-medium p-3 rounded-xl shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 z-50 text-center leading-relaxed">
+                Anda dapat mengganti tema hanya dengan klik logo ini, klik lagi jika ingin kembali ke tema sebelumnya.
+                <!-- Segitiga penunjuk ke bawah -->
+                <div class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-800 rotate-45"></div>
             </div>
-            <img src="ic.png" alt="Home Print Logo"
-                class="relative rounded-3xl mx-auto w-44 object-contain animate-float drop-shadow-[0_10px_15px_rgba(0,0,0,0.3)]">
+
+            <div
+                class="absolute inset-0 bg-gradient-to-tr from-cyan-400 via-pink-400 to-yellow-400 dark:from-cyan-500 dark:via-pink-500 dark:to-yellow-500 rounded-full blur-2xl opacity-30 dark:opacity-20 group-hover:opacity-50 dark:group-hover:opacity-40 w-44 h-44 mx-auto pointer-events-none">
+            </div>
+
+            <!-- Gambar diberi ID dan class cursor-pointer untuk trigger fungsi Tema -->
+            <img src="ic.png" alt="Home Print Logo" id="themeToggleBtn" title="Klik untuk ubah tema"
+                class="relative rounded-3xl mx-auto w-44 object-contain animate-float drop-shadow-[0_10px_15px_rgba(0,0,0,0.15)] dark:drop-shadow-[0_10px_15px_rgba(0,0,0,0.3)] cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-300 z-10">
         </div>
-        <p class="text-xs text-slate-400 font-medium tracking-wide">
+
+        <p class="text-xs text-slate-500 dark:text-slate-400 font-medium tracking-wide">
             Tekan tombol di bawah untuk mulai pemesanan.
         </p>
     </div>
 
+    <!-- Tombol Pilih Pesanan (Fixed Bawah) -->
     <div
-        class="fixed bottom-0 left-0 right-0 flex justify-center bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent p-4 pb-6 sm:pb-8 z-20 backdrop-blur-sm">
+        class="fixed bottom-0 left-0 right-0 flex justify-center bg-gradient-to-t from-slate-50 dark:from-slate-900 via-slate-50/90 dark:via-slate-900/80 to-transparent p-4 pb-6 sm:pb-8 z-20 backdrop-blur-sm">
         <button id="btnOpenServiceModal" type="button"
-            class="w-full max-w-md bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-extrabold py-4 px-6 rounded-2xl shadow-[0_12px_30px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.97] transition-all duration-200 text-base tracking-wider border border-white/10 block">
+            class="w-full max-w-md bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-extrabold py-4 px-6 rounded-2xl shadow-[0_12px_30px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.97] transition-all duration-200 text-base tracking-wider border border-white/20 dark:border-white/10 block">
             Pilih Pesanan
         </button>
     </div>
 
+    <!-- MODAL LAYANAN -->
     <div id="serviceModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
         <div id="serviceBackdrop"
-            class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity duration-300 opacity-0"></div>
+            class="absolute inset-0 bg-slate-900/30 dark:bg-slate-900/60 backdrop-blur-md opacity-0"></div>
         <div id="serviceContent"
-            class="max-w-md w-full bg-white/[0.06] backdrop-blur-2xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] p-6 sm:p-8 border border-white/10 relative z-10 transform scale-95 opacity-0 transition-all duration-300">
-            <div class="text-center mb-6 border-b border-white/10 pb-4">
+            class="max-w-md w-full bg-white/90 dark:bg-white/[0.06] backdrop-blur-2xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] p-6 sm:p-8 border border-white dark:border-white/10 relative z-10 transform scale-95 opacity-0">
+            <div class="text-center mb-6 border-b border-slate-200 dark:border-white/10 pb-4">
                 <button type="button" id="btnCloseServiceModal"
-                    class="absolute top-6 left-6 text-slate-400 hover:text-cyan-400 font-bold text-sm flex items-center transition duration-200 group">
+                    class="absolute top-6 left-6 text-slate-400 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-400 font-bold text-sm flex items-center group bg-white/50 dark:bg-white/5 p-1.5 rounded-full">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
                         stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
-                <h2 class="text-2xl font-black tracking-tight text-white mt-2 sm:mt-0">
+                <h2 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white mt-2 sm:mt-0">
                     Pilih <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-400">Layanan</span>
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-pink-500 dark:from-cyan-400 dark:to-pink-400">Layanan</span>
                 </h2>
-                <p class="text-xs text-slate-400 mt-1">Silakan pilih jenis layanan yang Anda perlukan</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Silakan pilih jenis layanan yang Anda
+                    perlukan</p>
             </div>
             <form id="serviceForm" class="space-y-4">
                 <div class="space-y-3">
                     <label
-                        class="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:border-cyan-500/40 hover:bg-white/[0.08] cursor-pointer transition duration-200 group group-has-[:checked]:border-cyan-500">
+                        class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-cyan-400 dark:hover:border-cyan-500/40 shadow-sm hover:shadow-md hover:bg-slate-50 dark:hover:bg-white/[0.08] cursor-pointer group group-has-[:checked]:border-cyan-500 dark:group-has-[:checked]:border-cyan-500 group-has-[:checked]:bg-cyan-50/50 dark:group-has-[:checked]:bg-transparent">
                         <div class="flex items-center gap-3">
                             <div class="flex flex-col">
                                 <span
-                                    class="text-sm font-bold text-slate-200 group-hover:text-white transition">Percetakan</span>
-                                <span class="text-xs text-slate-400">Print, fotocopy, dan cetak foto</span>
+                                    class="text-sm font-bold text-slate-800 dark:text-slate-200 group-hover:text-cyan-600 dark:group-hover:text-white">Percetakan</span>
+                                <span class="text-xs text-slate-500 dark:text-slate-400">Print, fotocopy, dan cetak
+                                    foto</span>
                             </div>
                         </div>
                         <input type="radio" name="layanan" value="pesan.html" checked
-                            class="w-4 h-4 text-cyan-500 bg-slate-800 border-white/10 focus:ring-cyan-500 focus:ring-offset-slate-900 accent-cyan-400">
+                            class="w-4 h-4 text-cyan-500 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-white/10 focus:ring-cyan-500 focus:ring-offset-white dark:focus:ring-offset-slate-900 accent-cyan-500 dark:accent-cyan-400">
                     </label>
                     <label
-                        class="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:border-pink-500/40 hover:bg-white/[0.08] cursor-pointer transition duration-200 group group-has-[:checked]:border-pink-500">
+                        class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-pink-400 dark:hover:border-pink-500/40 shadow-sm hover:shadow-md hover:bg-slate-50 dark:hover:bg-white/[0.08] cursor-pointer group group-has-[:checked]:border-pink-500 dark:group-has-[:checked]:border-pink-500 group-has-[:checked]:bg-pink-50/50 dark:group-has-[:checked]:bg-transparent">
                         <div class="flex items-center gap-3">
                             <div class="flex flex-col">
-                                <span class="text-sm font-bold text-slate-200 group-hover:text-white transition">Jasa
+                                <span
+                                    class="text-sm font-bold text-slate-800 dark:text-slate-200 group-hover:text-pink-600 dark:group-hover:text-white">Jasa
                                     Lainnya</span>
-                                <span class="text-xs text-slate-400">Cv, lamaran kerja, jasa ketik, dll</span>
+                                <span class="text-xs text-slate-500 dark:text-slate-400">Cv, lamaran kerja, jasa ketik,
+                                    dll</span>
                             </div>
                         </div>
                         <input type="radio" name="layanan" value="jasa.html"
-                            class="w-4 h-4 text-pink-500 bg-slate-800 border-white/10 focus:ring-pink-500 focus:ring-offset-slate-900 accent-pink-400">
+                            class="w-4 h-4 text-pink-500 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-white/10 focus:ring-pink-500 focus:ring-offset-white dark:focus:ring-offset-slate-900 accent-pink-500 dark:accent-pink-400">
                     </label>
                 </div>
                 <button type="submit"
-                    class="w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-black py-3.5 px-4 rounded-xl mt-4 shadow-[0_12px_30px_rgba(6,182,212,0.3)] border border-white/10 transition transform active:scale-95 text-sm tracking-wider uppercase">
+                    class="w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-black py-3.5 px-4 rounded-xl mt-4 shadow-[0_10px_25px_rgba(6,182,212,0.3)] border border-white/20 dark:border-white/10 transform active:scale-95 text-sm tracking-wider uppercase">
                     Pilih & Lanjutkan
                 </button>
             </form>
         </div>
     </div>
 
+    <!-- MODAL LOGIN -->
     <div id="loginModal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4">
         <div id="loginBackdrop"
-            class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity duration-300 opacity-0"></div>
+            class="absolute inset-0 bg-slate-900/30 dark:bg-slate-900/60 backdrop-blur-md opacity-0"></div>
         <div id="loginContent"
-            class="max-w-md w-full bg-white/[0.06] backdrop-blur-2xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] p-6 sm:p-8 border border-white/10 relative z-10 transform scale-95 opacity-0 transition-all duration-300">
-            <div class="text-center mb-6 border-b border-white/10 pb-4">
+            class="max-w-md w-full bg-white/90 dark:bg-white/[0.06] backdrop-blur-2xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] p-6 sm:p-8 border border-white dark:border-white/10 relative z-10 transform scale-95 opacity-0">
+            <div class="text-center mb-6 border-b border-slate-200 dark:border-white/10 pb-4">
                 <button type="button" id="btnCloseLoginModal"
-                    class="absolute top-6 left-6 text-slate-400 hover:text-cyan-400 font-bold text-sm flex items-center transition duration-200 group">
+                    class="absolute top-6 left-6 text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-400 font-bold text-sm flex items-center group bg-white/50 dark:bg-white/5 p-1.5 rounded-full">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
                         stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
-                <h2 class="text-2xl font-black tracking-tight text-white mt-2 sm:mt-0">
+                <h2 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white mt-2 sm:mt-0">
                     Login <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-400">Admin</span>
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-pink-500 dark:from-cyan-400 dark:to-pink-400">Admin</span>
                 </h2>
-                <p class="text-xs text-slate-400 mt-1">Silakan masuk untuk mengelola sistem</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Silakan masuk untuk mengelola sistem</p>
             </div>
 
             <div id="errorNotification"
-                class="hidden mb-5 p-3.5 text-xs sm:text-sm rounded-xl border bg-red-500/10 text-red-400 border-red-500/20 font-semibold tracking-wide shadow-sm">
+                class="hidden mb-5 p-3.5 text-xs sm:text-sm rounded-xl border bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/20 font-semibold tracking-wide shadow-sm">
             </div>
 
             <form id="loginForm" class="space-y-5">
                 <div>
                     <label
-                        class="flex items-center gap-1.5 text-xs font-bold  tracking-wider text-slate-300 mb-1.5">Username</label>
+                        class="flex items-center gap-1.5 text-xs font-bold tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Username</label>
                     <input type="text" id="username" required
-                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all text-sm font-medium text-white placeholder-slate-600"
+                        class="w-full px-4 py-3 bg-white/60 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 text-sm font-medium text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 shadow-inner"
                         placeholder="Masukkan username">
                 </div>
                 <div>
                     <label
-                        class="flex items-center gap-1.5 text-xs font-bold  tracking-wider text-slate-300 mb-1.5">Password</label>
+                        class="flex items-center gap-1.5 text-xs font-bold tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Password</label>
                     <input type="password" id="password" required
-                        class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all text-sm font-medium text-white placeholder-slate-600"
+                        class="w-full px-4 py-3 bg-white/60 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 text-sm font-medium text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 shadow-inner"
                         placeholder="Masukkan password">
                 </div>
                 <button type="submit" id="btnLogin"
-                    class="w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-extrabold py-3.5 px-4 rounded-xl mt-6 shadow-[0_12px_30px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.97] transition-all duration-200 text-sm tracking-wide border border-white/10">
+                    class="w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-extrabold py-3.5 px-4 rounded-xl mt-6 shadow-[0_10px_25px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.97] text-sm tracking-wide border border-white/20 dark:border-white/10">
                     Masuk
                 </button>
             </form>
         </div>
     </div>
 
+    <!-- LOGIC TEMA DARK/LIGHT & BUBBLE TOOLTIP -->
+    <script>
+        const html = document.documentElement;
+        const themeBtn = document.getElementById('themeToggleBtn');
+        const tooltipBubble = document.getElementById('tooltipBubble');
+        let bubbleTimeout;
+
+        // Pengecekan saat halaman dimuat
+        if (localStorage.getItem('theme') === 'dark') {
+            html.classList.add('dark');
+        } else {
+            // Default adalah Light, hilangkan jika ada
+            html.classList.remove('dark');
+        }
+
+        // Fungsi ketika Logo (ic.png) ditekan
+        themeBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Cegah merambat ke document
+            html.classList.toggle('dark');
+
+            // Simpan ke local storage
+            if (html.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+
+            // Sembunyikan bubble jika sedang tampil
+            tooltipBubble.classList.remove('opacity-100');
+            tooltipBubble.classList.add('opacity-0');
+        });
+
+        // Event listener klik diluar logo (Memicu Tooltip Bubble)
+        document.addEventListener('click', (e) => {
+            // Memastikan klik tidak terjadi pada gambar logo
+            if (!themeBtn.contains(e.target)) {
+                // Tampilkan Bubble
+                tooltipBubble.classList.remove('opacity-0');
+                tooltipBubble.classList.add('opacity-100');
+
+                // Reset timer (agar tidak bentrok jika user klik berkali-kali)
+                clearTimeout(bubbleTimeout);
+
+                // Hilangkan setelah 4 detik (4000ms)
+                bubbleTimeout = setTimeout(() => {
+                    tooltipBubble.classList.remove('opacity-100');
+                    tooltipBubble.classList.add('opacity-0');
+                }, 4000);
+            }
+        });
+    </script>
+
+    <!-- FIREBASE & MODAL LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-analytics.js";
@@ -210,7 +305,7 @@
 
             btnLogin.disabled = true;
             btnLogin.innerText = 'Memeriksa...';
-            errorDiv.classList.add('hidden'); 
+            errorDiv.classList.add('hidden');
 
             try {
                 const snapshot = await get(child(ref(db), 'users'));
@@ -233,13 +328,15 @@
     </script>
 
     <script>
+        // --- LOGIC MODAL LAYANAN ---
         const serviceModal = document.getElementById('serviceModal');
         const serviceBackdrop = document.getElementById('serviceBackdrop');
         const serviceContent = document.getElementById('serviceContent');
         const btnOpenServiceModal = document.getElementById('btnOpenServiceModal');
         const btnCloseServiceModal = document.getElementById('btnCloseServiceModal');
 
-        btnOpenServiceModal.addEventListener('click', () => {
+        btnOpenServiceModal.addEventListener('click', (e) => {
+            e.stopPropagation(); // Hindari memicu klik document
             serviceModal.classList.remove('hidden');
             serviceModal.classList.add('flex');
             setTimeout(() => {
@@ -266,13 +363,15 @@
             window.location.href = halamanTujuan;
         });
 
+        // --- LOGIC MODAL LOGIN ---
         const loginModal = document.getElementById('loginModal');
         const loginBackdrop = document.getElementById('loginBackdrop');
         const loginContent = document.getElementById('loginContent');
         const btnOpenLoginModal = document.getElementById('btnOpenLoginModal');
         const btnCloseLoginModal = document.getElementById('btnCloseLoginModal');
 
-        btnOpenLoginModal.addEventListener('click', () => {
+        btnOpenLoginModal.addEventListener('click', (e) => {
+            e.stopPropagation(); // Hindari memicu klik document
             loginModal.classList.remove('hidden');
             loginModal.classList.add('flex');
             setTimeout(() => {
