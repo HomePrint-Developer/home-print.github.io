@@ -7,59 +7,117 @@
     <link rel="icon" href="ic-transparent.png" type="image/png">
     <title>Buat Nota Kosong</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Konfigurasi Tailwind untuk mendeteksi class 'dark' secara manual
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <style>
-        .glass-dark {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        /* Transisi smooth untuk perpindahan tema di seluruh elemen */
+        body * {
+            transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 400ms;
+        }
+
+        @keyframes subtleFloat {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .animate-float {
+            animation: subtleFloat 5s ease-in-out infinite;
         }
     </style>
 </head>
 
-<body class="bg-slate-950 text-white min-h-screen flex items-center justify-center p-4">
+<body
+    class="bg-slate-50 dark:bg-slate-900 font-sans min-h-screen flex items-center justify-center p-4 relative overflow-hidden transition-colors duration-500">
 
-    <div class="w-full max-w-md glass-dark rounded-[32px] p-6 shadow-2xl">
-        <div class="mb-5 border-b border-white/10 pb-4 flex items-center gap-3">
-            <div>
-                <h2 class="text-xl font-black text-cyan-400 tracking-tight">Buat Nota Kosong</h2>
-                <p class="text-[11px] text-slate-400">Cetak Massal Template dengan nota Resmi</p>
+    <!-- Script Pengecekan Tema Awal (Mengikuti Tema Aktif) -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
+    <!-- Ornamen Background ala Home Print -->
+    <div
+        class="absolute w-72 h-72 rounded-full bg-cyan-400/30 dark:bg-cyan-500/10 blur-[80px] -top-12 -left-12 pointer-events-none animate-float">
+    </div>
+    <div class="absolute w-80 h-80 rounded-full bg-pink-400/25 dark:bg-pink-500/10 blur-[100px] bottom-10 right-0 pointer-events-none animate-float"
+        style="animation-delay: 2s;"></div>
+
+    <!-- MAIN KONTEN -->
+    <div
+        class="w-full max-w-md bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-[32px] p-6 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] dark:shadow-2xl relative z-10">
+
+        <!-- Header dengan Tombol Kembali -->
+        <div class="mb-5 border-b border-slate-200 dark:border-white/10 pb-4 flex items-center">
+            <a href="index-admin.html"
+                class="text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 font-bold text-sm flex items-center gap-1.5 transition duration-200 mr-auto group">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                    stroke="currentColor" class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+                Kembali
+            </a>
+            <div class="text-right">
+                <h2 class="text-xl font-black text-cyan-600 dark:text-cyan-400 tracking-tight">Buat Nota Kosong</h2>
+                <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Cetak Massal Template Resmi</p>
             </div>
         </div>
 
         <form id="bulkForm" class="space-y-4 text-xs font-semibold" onsubmit="event.preventDefault();">
 
-            <div id="fallbackFileWrapper" class="hidden bg-amber-500/10 border border-amber-500/20 rounded-xl p-3">
-                <label class="block text-amber-400 mb-1 uppercase tracking-wider">CORS Mode Browser Terdeteksi</label>
+            <!-- Fallback Input File (Hanya Muncul jika CORS Error) -->
+            <div id="fallbackFileWrapper"
+                class="hidden bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 rounded-xl p-3">
+                <label class="block text-amber-700 dark:text-amber-400 mb-1 uppercase tracking-wider">CORS Mode Browser
+                    Terdeteksi</label>
                 <input type="file" id="inTemplateFile" accept=".pdf"
-                    class="w-full text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:bg-amber-500/20 file:text-amber-400 file:font-bold hover:file:bg-amber-500/30 cursor-pointer text-[11px]">
-                <p class="text-[9px] text-amber-300/70 mt-1">Karena dibuka via file:///, silakan pilih file
+                    class="w-full text-amber-600 dark:text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:bg-amber-100 dark:file:bg-amber-500/20 file:text-amber-700 dark:file:text-amber-400 file:font-bold hover:file:bg-amber-200 dark:hover:file:bg-amber-500/30 cursor-pointer text-[11px]">
+                <p class="text-[9px] text-amber-600/80 dark:text-amber-300/70 mt-1">Karena dibuka via file:///, silakan
+                    pilih file
                     'nota-homeprint.pdf' secara manual sekali saja.</p>
             </div>
 
             <div>
-                <label class="block text-slate-400 mb-1.5 uppercase tracking-wider">Jumlah Nota Kosong yang
-                    Dicetak*</label>
+                <label class="block text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Jumlah Nota
+                    Kosong yang Dicetak*</label>
                 <input type="number" id="inJumlahCetak" value="1" min="1" max="50"
-                    class="w-full px-4 py-3 bg-slate-900 border border-white/10 rounded-xl text-white outline-none focus:ring-2 focus:ring-cyan-500 text-sm">
-                <p class="text-[10px] text-slate-400 mt-1">Sistem akan menghasilkan rentang nomor nota otomatis di dalam
-                    1 file PDF.</p>
+                    class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-white/10 rounded-xl text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-cyan-500 text-sm shadow-inner dark:shadow-none">
+                <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 font-medium">Sistem akan menghasilkan
+                    rentang nomor nota otomatis di dalam 1 file PDF.</p>
             </div>
 
-            <div class="bg-slate-900/50 border border-white/5 rounded-xl p-3 space-y-2 font-mono text-[11px]">
+            <div
+                class="bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 rounded-xl p-3 space-y-2 font-mono text-[11px]">
                 <div class="flex justify-between">
-                    <span class="text-slate-400">Next Kode:</span>
-                    <span id="lblNextNota" class="text-cyan-400 font-bold">HP-000001</span>
+                    <span class="text-slate-500 dark:text-slate-400">Next Kode:</span>
+                    <span id="lblNextNota" class="text-cyan-600 dark:text-cyan-400 font-bold">HP-000001</span>
                 </div>
             </div>
 
             <button type="button" onclick="prosesDanTimpaPdf()"
-                class="w-full bg-gradient-to-r from-cyan-500 to-indigo-600 hover:brightness-110 text-white font-bold py-3.5 rounded-xl transition uppercase tracking-wider text-xs shadow-lg">
+                class="w-full bg-gradient-to-r from-cyan-500 to-indigo-500 hover:brightness-110 text-white font-bold py-3.5 rounded-xl transition transform active:scale-95 uppercase tracking-wider text-xs shadow-lg">
                 Buat Nota Kosong
             </button>
         </form>
     </div>
 
+    <!-- FIREBASE SCRIPT (DIBIARKAN UTUH) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
         import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
@@ -102,69 +160,70 @@
             .catch(() => document.getElementById('fallbackFileWrapper').classList.remove('hidden'));
     </script>
 
+    <!-- LOGIKA PDF GENERATOR (DIBIARKAN UTUH) -->
     <script>
         async function prosesDanTimpaPdf() {
-                const jumlahCetak = parseInt(document.getElementById('inJumlahCetak').value) || 1;
-                const fileInput = document.getElementById('inTemplateFile').files[0];
+            const jumlahCetak = parseInt(document.getElementById('inJumlahCetak').value) || 1;
+            const fileInput = document.getElementById('inTemplateFile').files[0];
 
-                try {
-                    let bytesTemplate;
+            try {
+                let bytesTemplate;
 
-                    if (fileInput) {
-                        bytesTemplate = await new Promise((resolve) => {
-                            const reader = new FileReader();
-                            reader.onload = (e) => resolve(e.target.result);
-                            reader.readAsArrayBuffer(fileInput);
-                        });
-                    } else {
-                        bytesTemplate = await fetch('nota-homeprint.pdf').then(res => {
-                            if (!res.ok) throw new Error();
-                            return res.arrayBuffer();
-                        }).catch(() => {
-                            throw new Error("Gagal load otomatis. Silakan pilih file bernama nota-homeprint.pdf pada kotak kuning di atas!");
-                        });
-                    }
-
-                    const pdfDokumenOutput = await PDFLib.PDFDocument.create();
-                    let indexNotaJalan = window.currentNextIndex;
-                    let lastNomorNotaGenerated = "";
-
-                    for (let i = 0; i < jumlahCetak; i++) {
-                        const pdfMasterLoad = await PDFLib.PDFDocument.load(bytesTemplate);
-                        const [halamanMaster] = await pdfDokumenOutput.copyPages(pdfMasterLoad, [0]);
-
-                        const nomorNotaStr = "HP-" + String(indexNotaJalan).padStart(6, '0');
-                        lastNomorNotaGenerated = nomorNotaStr;
-                        halamanMaster.drawText(nomorNotaStr, {
-                            x: 125,
-                            y: 623.5,
-                            size: 20,
-                            color: PDFLib.rgb(0, 0, 0)
-                        });
-
-                        pdfDokumenOutput.addPage(halamanMaster);
-
-                        if (typeof window.uploadNotaKeFirebase === "function") {
-                            await window.uploadNotaKeFirebase(nomorNotaStr);
-                        }
-
-                        indexNotaJalan++;
-                    }
-
-                    const pdfBytesHasil = await pdfDokumenOutput.save();
-                    const blob = new Blob([pdfBytesHasil], { type: 'application/pdf' });
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(blob);
-                    link.download = `NOTA_KOSONG_${lastNomorNotaGenerated}.pdf`;
-                    link.click();
-
-                    alert(`Berhasil! ${jumlahCetak} Halaman Nota kosong telah dibuat.`);
-
-                } catch (error) {
-                    alert(error.message);
-                    console.error(error);
+                if (fileInput) {
+                    bytesTemplate = await new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = (e) => resolve(e.target.result);
+                        reader.readAsArrayBuffer(fileInput);
+                    });
+                } else {
+                    bytesTemplate = await fetch('nota-homeprint.pdf').then(res => {
+                        if (!res.ok) throw new Error();
+                        return res.arrayBuffer();
+                    }).catch(() => {
+                        throw new Error("Gagal load otomatis. Silakan pilih file bernama nota-homeprint.pdf pada kotak peringatan kuning!");
+                    });
                 }
+
+                const pdfDokumenOutput = await PDFLib.PDFDocument.create();
+                let indexNotaJalan = window.currentNextIndex;
+                let lastNomorNotaGenerated = "";
+
+                for (let i = 0; i < jumlahCetak; i++) {
+                    const pdfMasterLoad = await PDFLib.PDFDocument.load(bytesTemplate);
+                    const [halamanMaster] = await pdfDokumenOutput.copyPages(pdfMasterLoad, [0]);
+
+                    const nomorNotaStr = "HP-" + String(indexNotaJalan).padStart(6, '0');
+                    lastNomorNotaGenerated = nomorNotaStr;
+                    halamanMaster.drawText(nomorNotaStr, {
+                        x: 125,
+                        y: 623.5,
+                        size: 20,
+                        color: PDFLib.rgb(0, 0, 0)
+                    });
+
+                    pdfDokumenOutput.addPage(halamanMaster);
+
+                    if (typeof window.uploadNotaKeFirebase === "function") {
+                        await window.uploadNotaKeFirebase(nomorNotaStr);
+                    }
+
+                    indexNotaJalan++;
+                }
+
+                const pdfBytesHasil = await pdfDokumenOutput.save();
+                const blob = new Blob([pdfBytesHasil], { type: 'application/pdf' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `NOTA_KOSONG_${lastNomorNotaGenerated}.pdf`;
+                link.click();
+
+                alert(`Berhasil! ${jumlahCetak} Halaman Nota kosong telah dibuat.`);
+
+            } catch (error) {
+                alert(error.message);
+                console.error(error);
             }
+        }
     </script>
 </body>
 

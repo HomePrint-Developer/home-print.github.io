@@ -30,6 +30,11 @@
             animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
+        .modal-active {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+        }
+
         /* Transisi smooth untuk perpindahan tema */
         body * {
             transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
@@ -38,7 +43,8 @@
         }
 
         /* Hilangkan transisi untuk modal agar responsif instan saat pop-up */
-        #modalBackdrop * {
+        #modalBackdrop *,
+        #toolsBackdrop * {
             transition-property: none;
         }
     </style>
@@ -172,19 +178,82 @@
                 Tambah Stok Barang
             </button>
 
-            <a href="generate-file.html" title="Buka Mesin Pembuat CV & Surat Lamaran"
+            <!-- Ganti href dengan onClick untuk membuka modal Tools -->
+            <button id="btnOpenToolsModal" title="Alat Admin" type="button"
                 class="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/10 text-slate-700 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-cyan-400 shadow-md backdrop-blur-md transition-all duration-200 transform active:scale-95 shrink-0 flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" class="w-5 h-5 sm:w-6 sm:h-6">
+                    stroke="currentColor" class="w-5 h-5 sm:w-6 sm:h-6 hover:animate-[spin_4s_linear_infinite]">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.43l-1.003.767c-.3.23-.45.62-.41.99.01.079.012.16.012.242 0 .083-.002.163-.012.242-.04.369.11.758.41.99l1.003.767a1.125 1.125 0 0 1 .26 1.43l-1.296 2.247a1.125 1.125 0 0 1-1.37.49l-1.216-.456a1.125 1.125 0 0 0-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281a1.125 1.125 0 0 0-.645-.87a6.528 6.528 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.43l1.004-.767c.301-.23.45-.619.41-.99a6.666 6.666 0 0 1-.012-.242c0-.083.004-.164.012-.242.04-.369-.11-.758-.41-.99l-1.004-.767a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.49l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128c.332-.183.582-.495.644-.869l.214-1.28Z" />
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                 </svg>
-            </a>
+            </button>
         </div>
     </div>
 
-    <!-- ================== MODAL / POP-UP OVERLAY ================== -->
+    <!-- ================== MODAL TOOLS / ALAT TAMBAHAN ================== -->
+    <div id="toolsModal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4">
+        <div id="toolsBackdrop"
+            class="absolute inset-0 bg-slate-900/30 dark:bg-slate-900/60 backdrop-blur-md opacity-0"></div>
+        <div id="toolsContent"
+            class="max-w-md w-full bg-white/90 dark:bg-white/[0.06] backdrop-blur-2xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] p-6 sm:p-8 border border-white dark:border-white/10 relative z-10 transform scale-95 opacity-0">
+            <div class="text-center mb-6 border-b border-slate-200 dark:border-white/10 pb-4">
+                <button type="button" id="btnCloseToolsModal"
+                    class="absolute top-6 left-6 text-slate-400 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-400 font-bold text-sm flex items-center group bg-white/50 dark:bg-white/5 p-1.5 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                        stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <h2 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white mt-2 sm:mt-0">
+                    Pilih <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-pink-500 dark:from-cyan-400 dark:to-pink-400">Alat</span>
+                </h2>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Silakan pilih menu generator yang Anda
+                    perlukan</p>
+            </div>
+
+            <form id="toolsForm" class="space-y-4">
+                <div class="space-y-3">
+                    <label
+                        class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-cyan-400 dark:hover:border-cyan-500/40 shadow-sm hover:shadow-md hover:bg-slate-50 dark:hover:bg-white/[0.08] cursor-pointer group group-has-[:checked]:border-cyan-500 dark:group-has-[:checked]:border-cyan-500 group-has-[:checked]:bg-cyan-50/50 dark:group-has-[:checked]:bg-transparent">
+                        <div class="flex items-center gap-3">
+                            <div class="flex flex-col">
+                                <span
+                                    class="text-sm font-bold text-slate-800 dark:text-slate-200 group-hover:text-cyan-600 dark:group-hover:text-white">Cetak
+                                    Nota Kosong</span>
+                                <span class="text-xs text-slate-500 dark:text-slate-400">Generator lembaran nota fisik 2
+                                    Ply per lembar di kertas A4</span>
+                            </div>
+                        </div>
+                        <input type="radio" name="toolsOpt" value="nota-kosong.html" checked
+                            class="w-4 h-4 text-cyan-500 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-white/10 focus:ring-cyan-500 focus:ring-offset-white dark:focus:ring-offset-slate-900 accent-cyan-500 dark:accent-cyan-400">
+                    </label>
+                    <label
+                        class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-pink-400 dark:hover:border-pink-500/40 shadow-sm hover:shadow-md hover:bg-slate-50 dark:hover:bg-white/[0.08] cursor-pointer group group-has-[:checked]:border-pink-500 dark:group-has-[:checked]:border-pink-500 group-has-[:checked]:bg-pink-50/50 dark:group-has-[:checked]:bg-transparent">
+                        <div class="flex items-center gap-3">
+                            <div class="flex flex-col">
+                                <span
+                                    class="text-sm font-bold text-slate-800 dark:text-slate-200 group-hover:text-pink-600 dark:group-hover:text-white">Dokumen
+                                    Lamaran</span>
+                                <span class="text-xs text-slate-500 dark:text-slate-400">Mesin pembuat file CV & Lamaran
+                                    Kerja</span>
+                            </div>
+                        </div>
+                        <input type="radio" name="toolsOpt" value="generate-file.html"
+                            class="w-4 h-4 text-pink-500 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-white/10 focus:ring-pink-500 focus:ring-offset-white dark:focus:ring-offset-slate-900 accent-pink-500 dark:accent-pink-400">
+                    </label>
+                </div>
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-black py-3.5 px-4 rounded-xl mt-4 shadow-[0_10px_25px_rgba(6,182,212,0.3)] border border-white/20 dark:border-white/10 transform active:scale-95 text-sm tracking-wider uppercase">
+                    Buka Alat
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- ================================================================= -->
+
+    <!-- ================== MODAL / POP-UP TAMBAH DATA ================== -->
     <div id="modalBackdrop"
         class="fixed inset-0 bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
 
@@ -259,6 +328,45 @@
         </div>
     </div>
     <!-- ============================================================ -->
+
+
+    <!-- Script Logika Modal Tools -->
+    <script>
+        const toolsModal = document.getElementById('toolsModal');
+        const toolsBackdrop = document.getElementById('toolsBackdrop');
+        const toolsContent = document.getElementById('toolsContent');
+        const btnOpenToolsModal = document.getElementById('btnOpenToolsModal');
+        const btnCloseToolsModal = document.getElementById('btnCloseToolsModal');
+
+        btnOpenToolsModal.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toolsModal.classList.remove('hidden');
+            toolsModal.classList.add('flex');
+            setTimeout(() => {
+                toolsBackdrop.classList.remove('opacity-0');
+                toolsContent.classList.add('modal-active');
+            }, 10);
+        });
+
+        function closeToolsModal() {
+            toolsBackdrop.classList.add('opacity-0');
+            toolsContent.classList.remove('modal-active');
+            setTimeout(() => {
+                toolsModal.classList.add('hidden');
+                toolsModal.classList.remove('flex');
+            }, 300);
+        }
+
+        btnCloseToolsModal.addEventListener('click', closeToolsModal);
+        toolsBackdrop.addEventListener('click', closeToolsModal);
+
+        document.getElementById('toolsForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const halamanTujuan = document.querySelector('input[name="toolsOpt"]:checked').value;
+            window.location.href = halamanTujuan;
+        });
+    </script>
+
 
     <!-- Firebase Script -->
     <script type="module">
