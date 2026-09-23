@@ -222,8 +222,8 @@
                                 <span
                                     class="text-sm font-bold text-slate-800 dark:text-slate-200 group-hover:text-cyan-600 dark:group-hover:text-white">Cetak
                                     Nota Kosong</span>
-                                <span class="text-xs text-slate-500 dark:text-slate-400">Generator lembaran nota fisik 2
-                                    Ply per lembar di kertas A4</span>
+                                <span class="text-xs text-slate-500 dark:text-slate-400">Generator lembaran nota fisik 3
+                                    Ply</span>
                             </div>
                         </div>
                         <input type="radio" name="toolsOpt" value="nota-kosong.html" checked
@@ -253,11 +253,12 @@
     </div>
     <!-- ================================================================= -->
 
-    <!-- ================== MODAL / POP-UP TAMBAH DATA ================== -->
+
+    <!-- ================== MODAL / POP-UP DATA (TAMBAH & EDIT) ================== -->
     <div id="modalBackdrop"
         class="fixed inset-0 bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
 
-        <!-- MODAL TAMBAH STOK -->
+        <!-- 1. MODAL TAMBAH STOK -->
         <div id="modalStokBox"
             class="hidden w-full max-w-md bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl p-6 border border-slate-200 dark:border-white/10 animate-fadeIn relative">
             <button onclick="closeModal()"
@@ -300,7 +301,53 @@
             </form>
         </div>
 
-        <!-- MODAL TAMBAH KERTAS FOTO -->
+        <!-- 2. MODAL EDIT STOK -->
+        <div id="modalEditStokBox"
+            class="hidden w-full max-w-md bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl p-6 border border-slate-200 dark:border-white/10 animate-fadeIn relative">
+            <button onclick="closeModal()"
+                class="absolute top-5 right-5 text-slate-400 hover:text-red-500 font-black text-xl leading-none">&times;</button>
+            <h2
+                class="text-xl font-black text-slate-900 dark:text-white mb-5 tracking-tight border-b border-slate-200 dark:border-white/10 pb-3">
+                Ubah Stok Barang</h2>
+
+            <div id="notifEditStok"
+                class="hidden mb-4 p-3 text-xs rounded-xl border font-semibold tracking-wide shadow-sm">
+            </div>
+
+            <form id="formEditStok" class="space-y-4">
+                <input type="hidden" id="editIdStok">
+                <div>
+                    <label
+                        class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Nama
+                        Barang</label>
+                    <input type="text" id="editNamaStok" required
+                        class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm font-medium text-slate-900 dark:text-white">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label
+                            class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Stok
+                            (Sisa)</label>
+                        <input type="number" id="editSisaStok" required min="0"
+                            class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm font-medium text-slate-900 dark:text-white">
+                    </div>
+                    <div>
+                        <label
+                            class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Harga
+                            Satuan</label>
+                        <input type="number" id="editHargaStok" required min="0"
+                            class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm font-medium text-slate-900 dark:text-white">
+                    </div>
+                </div>
+                <button type="submit" id="btnSimpanEditStok"
+                    class="w-full bg-amber-500 hover:bg-amber-600 text-white font-extrabold py-3.5 rounded-xl mt-2 shadow-md transition-all active:scale-95 text-sm tracking-wide">
+                    Simpan Perubahan
+                </button>
+            </form>
+        </div>
+
+
+        <!-- 3. MODAL TAMBAH KERTAS FOTO -->
         <div id="modalKertasBox"
             class="hidden w-full max-w-sm bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl p-6 border border-slate-200 dark:border-white/10 animate-fadeIn relative">
             <button onclick="closeModal()"
@@ -326,6 +373,35 @@
                 </button>
             </form>
         </div>
+
+        <!-- 4. MODAL EDIT KERTAS FOTO -->
+        <div id="modalEditKertasBox"
+            class="hidden w-full max-w-sm bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl p-6 border border-slate-200 dark:border-white/10 animate-fadeIn relative">
+            <button onclick="closeModal()"
+                class="absolute top-5 right-5 text-slate-400 hover:text-red-500 font-black text-xl leading-none">&times;</button>
+            <h2
+                class="text-xl font-black text-slate-900 dark:text-white mb-5 tracking-tight border-b border-slate-200 dark:border-white/10 pb-3">
+                Ubah Kertas Foto</h2>
+
+            <div id="notifEditKertas"
+                class="hidden mb-4 p-3 text-xs rounded-xl border font-semibold tracking-wide shadow-sm"></div>
+
+            <form id="formEditKertas" class="space-y-4">
+                <input type="hidden" id="editIdKertas">
+                <div>
+                    <label
+                        class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Nama
+                        Varian Kertas</label>
+                    <input type="text" id="editNamaKertas" required
+                        class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm font-medium text-slate-900 dark:text-white">
+                </div>
+                <button type="submit" id="btnSimpanEditKertas"
+                    class="w-full bg-amber-500 hover:bg-amber-600 text-white font-extrabold py-3.5 rounded-xl mt-2 shadow-md transition-all active:scale-95 text-sm tracking-wide">
+                    Simpan Perubahan
+                </button>
+            </form>
+        </div>
+
     </div>
     <!-- ============================================================ -->
 
@@ -423,6 +499,10 @@
             const backdrop = document.getElementById('modalBackdrop');
             backdrop.classList.remove('hidden');
 
+            // Hide Edit Modals
+            document.getElementById('modalEditStokBox').classList.add('hidden');
+            document.getElementById('modalEditKertasBox').classList.add('hidden');
+
             if (activeTab === 'stok') {
                 document.getElementById('modalStokBox').classList.remove('hidden');
                 document.getElementById('modalKertasBox').classList.add('hidden');
@@ -434,11 +514,17 @@
 
         window.closeModal = () => {
             document.getElementById('modalBackdrop').classList.add('hidden');
+            // Reset all forms
             document.getElementById('formAddStok').reset();
             document.getElementById('formAddKertas').reset();
+            document.getElementById('formEditStok').reset();
+            document.getElementById('formEditKertas').reset();
 
+            // Hide all notifs
             document.getElementById('notifStok').classList.add('hidden');
             document.getElementById('notifKertas').classList.add('hidden');
+            document.getElementById('notifEditStok').classList.add('hidden');
+            document.getElementById('notifEditKertas').classList.add('hidden');
         };
 
         // Form Submit: Tambah Stok
@@ -527,6 +613,71 @@
             }
         });
 
+
+        // Form Submit: Edit Stok
+        document.getElementById('formEditStok').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('editIdStok').value;
+            const newNama = document.getElementById('editNamaStok').value.trim();
+            const newStok = document.getElementById('editSisaStok').value;
+            const newHarga = document.getElementById('editHargaStok').value;
+            const notif = document.getElementById('notifEditStok');
+            const btn = document.getElementById('btnSimpanEditStok');
+
+            notif.classList.add("hidden");
+            btn.disabled = true;
+            btn.innerText = 'Menyimpan...';
+
+            try {
+                const updates = {};
+                updates['stok/' + id] = { nama_stok: newNama, sisa_stok: parseInt(newStok), harga: parseInt(newHarga) };
+                await update(ref(db), updates);
+
+                notif.innerText = `Data berhasil diperbarui!`;
+                notif.className = "mb-4 p-3 text-xs rounded-xl border bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 font-semibold tracking-wide block";
+                setTimeout(() => closeModal(), 1500);
+            } catch (error) {
+                notif.innerText = 'Gagal menyimpan: ' + error.message;
+                notif.className = "mb-4 p-3 text-xs rounded-xl border bg-red-50 text-red-600 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 font-semibold tracking-wide block";
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Simpan Perubahan';
+            }
+        });
+
+
+        // Form Submit: Edit Kertas Foto
+        document.getElementById('formEditKertas').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const paperId = document.getElementById('editIdKertas').value;
+            const newNamaPaper = document.getElementById('editNamaKertas').value.trim();
+            const notif = document.getElementById('notifEditKertas');
+            const btn = document.getElementById('btnSimpanEditKertas');
+
+            if (!newNamaPaper) return;
+
+            notif.classList.add("hidden");
+            btn.disabled = true;
+            btn.innerText = 'Menyimpan...';
+
+            try {
+                const updates = {};
+                updates[`foto_paper/${paperId}`] = { nama_paper: newNamaPaper };
+                await update(ref(db), updates);
+
+                notif.innerText = `Varian berhasil diperbarui!`;
+                notif.className = "mb-4 p-3 text-xs rounded-xl border bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 font-semibold tracking-wide block";
+                setTimeout(() => closeModal(), 1500);
+            } catch (error) {
+                notif.innerText = 'Gagal menyimpan: ' + error.message;
+                notif.className = "mb-4 p-3 text-xs rounded-xl border bg-red-50 text-red-600 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 font-semibold tracking-wide block";
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Simpan Perubahan';
+            }
+        });
+
+
         // Read & Load Data Stok
         const stokRef = ref(db, 'stok');
         onValue(stokRef, (snapshot) => {
@@ -599,35 +750,53 @@
             targetRow.classList.toggle('hidden');
         };
 
-        // Edit/Hapus Stok
+
+        // FUNGSI MEMANGGIL MODAL EDIT
+        window.updateStok = (id, currentNama, currentStok, currentHarga) => {
+            const backdrop = document.getElementById('modalBackdrop');
+            backdrop.classList.remove('hidden');
+
+            document.getElementById('modalStokBox').classList.add('hidden');
+            document.getElementById('modalKertasBox').classList.add('hidden');
+            document.getElementById('modalEditKertasBox').classList.add('hidden');
+
+            document.getElementById('modalEditStokBox').classList.remove('hidden');
+
+            // Set Form Data
+            document.getElementById('editIdStok').value = id;
+            document.getElementById('editNamaStok').value = currentNama;
+            document.getElementById('editSisaStok').value = currentStok;
+            document.getElementById('editHargaStok').value = currentHarga;
+        };
+
+        window.updateKertas = (paperId, currentNamaPaper) => {
+            const backdrop = document.getElementById('modalBackdrop');
+            backdrop.classList.remove('hidden');
+
+            document.getElementById('modalStokBox').classList.add('hidden');
+            document.getElementById('modalKertasBox').classList.add('hidden');
+            document.getElementById('modalEditStokBox').classList.add('hidden');
+
+            document.getElementById('modalEditKertasBox').classList.remove('hidden');
+
+            // Set Form Data
+            document.getElementById('editIdKertas').value = paperId;
+            document.getElementById('editNamaKertas').value = currentNamaPaper;
+        };
+
+
+        // Hapus Stok
         window.deleteStok = (id) => {
             if (confirm("Apakah Anda yakin ingin menghapus barang ini dari database?")) {
                 remove(ref(db, 'stok/' + id)).then(() => alert("Barang sukses terhapus!"));
             }
         };
 
-        window.updateStok = (id, currentNama, currentStok, currentHarga) => {
-            const newNama = prompt("Edit Nama Barang:", currentNama); if (newNama === null) return;
-            const newStok = prompt("Edit Sisa Stok:", currentStok); if (newStok === null) return;
-            const newHarga = prompt("Edit Harga (angka saja):", currentHarga); if (newHarga === null) return;
-            const updates = {};
-            updates['stok/' + id] = { nama_stok: newNama.trim(), sisa_stok: parseInt(newStok), harga: parseInt(newHarga) };
-            update(ref(db), updates).then(() => alert("Data barang diperbarui!"));
-        };
-
-        // Edit/Hapus Kertas
+        // Hapus Kertas
         window.deleteKertas = (paperId) => {
-            if (confirm(`Apakah Anda yakin ingin menghapus varian kertas ${paperId}?`)) {
+            if (confirm(`Apakah Anda yakin ingin menghapus varian kertas ini?`)) {
                 remove(ref(db, 'foto_paper/' + paperId)).then(() => alert("Kertas foto berhasil dihapus!"));
             }
-        };
-
-        window.updateKertas = (paperId, currentNamaPaper) => {
-            const newNamaPaper = prompt("Edit Nama Jenis Kertas Foto:", currentNamaPaper);
-            if (!newNamaPaper || newNamaPaper.trim() === "") return;
-            const updates = {};
-            updates[`foto_paper/${paperId}`] = { nama_paper: newNamaPaper.trim() };
-            update(ref(db), updates).then(() => alert("Varian kertas foto diperbarui!"));
         };
 
         // Logout
