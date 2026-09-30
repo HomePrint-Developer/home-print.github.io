@@ -30,11 +30,22 @@
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
             transition-duration: 400ms;
         }
+
+        /* Penyesuaian control layer peta leaflet di dark mode */
+        .dark .leaflet-control-layers {
+            background-color: rgba(30, 41, 59, 0.9) !important;
+            color: #f8fafc !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .dark .leaflet-control-layers-toggle {
+            filter: invert(1);
+        }
     </style>
 </head>
 
 <body
-    class="bg-slate-50 dark:bg-slate-900 font-sans min-h-screen p-4 flex justify-center items-start overflow-x-hidden transition-colors duration-500">
+    class="bg-slate-50 dark:bg-slate-900 font-sans min-h-screen p-4 flex justify-center items-start md:items-center py-8 md:py-12 overflow-x-hidden transition-colors duration-500">
 
     <!-- Script Pengecekan Tema Langsung Agar Tidak Kedip -->
     <script>
@@ -47,322 +58,388 @@
 
     <!-- Background Ornaments -->
     <div
-        class="absolute w-72 h-72 rounded-full bg-cyan-400/30 dark:bg-cyan-500/10 blur-[80px] -top-12 -left-12 pointer-events-none">
+        class="absolute w-72 h-72 md:w-96 md:h-96 rounded-full bg-cyan-400/30 dark:bg-cyan-500/10 blur-[80px] md:blur-[120px] -top-12 md:-top-20 -left-12 md:-left-20 pointer-events-none">
     </div>
     <div
-        class="absolute w-80 h-80 rounded-full bg-pink-400/25 dark:bg-pink-500/10 blur-[100px] bottom-10 right-0 pointer-events-none">
+        class="absolute w-80 h-80 md:w-[28rem] md:h-[28rem] rounded-full bg-pink-400/25 dark:bg-pink-500/10 blur-[100px] md:blur-[140px] bottom-10 right-0 md:-right-10 pointer-events-none">
     </div>
     <div
-        class="absolute w-60 h-60 rounded-full bg-yellow-400/20 dark:bg-yellow-500/5 blur-[90px] top-1/3 right-1/4 pointer-events-none">
+        class="absolute w-60 h-60 md:w-80 md:h-80 rounded-full bg-yellow-400/20 dark:bg-yellow-500/5 blur-[90px] md:blur-[120px] top-1/3 right-1/4 pointer-events-none">
     </div>
 
     <!-- MAIN FORM CONTAINER -->
     <div
-        class="max-w-md w-full bg-white/70 dark:bg-white/[0.06] backdrop-blur-xl border border-white dark:border-white/10 rounded-[32px] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 sm:p-8 my-4 z-10 text-slate-900 dark:text-white">
+        class="max-w-md md:max-w-4xl lg:max-w-5xl w-full bg-white/70 dark:bg-white/[0.06] backdrop-blur-xl border border-white dark:border-white/10 rounded-[32px] md:rounded-[40px] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 sm:p-8 md:p-10 z-10 text-slate-900 dark:text-white relative my-auto">
 
-        <div class="flex items-center mb-6 border-b border-slate-200 dark:border-white/10 pb-4">
+        <!-- HEADER -->
+        <div
+            class="relative flex items-center justify-center mb-6 md:mb-8 border-b border-slate-200 dark:border-white/10 pb-4 md:pb-5">
             <a href="index.html"
-                class="text-cyan-600 dark:text-cyan-400 hover:text-cyan-800 dark:hover:text-white font-bold text-sm flex items-center gap-1.5 transition duration-200 group">
-                Kembali
+                class="absolute left-0 text-cyan-600 dark:text-cyan-400 hover:text-cyan-800 dark:hover:text-white font-bold text-sm md:text-base flex items-center gap-1 md:gap-2 transition duration-200 group bg-white/50 dark:bg-white/5 md:bg-transparent md:dark:bg-transparent px-3 py-1.5 md:px-0 md:py-0 rounded-lg md:rounded-none">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                    stroke="currentColor" class="w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-1 transition-transform">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+                <span class="hidden sm:inline">Kembali</span>
             </a>
-            <h2 class="text-xl font-black text-slate-900 dark:text-white mx-auto pr-14 tracking-tight">Form Pesanan</h2>
+            <h2 class="text-xl md:text-2xl font-black text-slate-900 dark:text-white tracking-tight">Form Pesanan</h2>
         </div>
 
-        <form id="orderForm" class="space-y-4">
-            <div>
-                <label
-                    class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Nama
-                    Lengkap*</label>
-                <input type="text" id="nama" required
-                    class="w-full px-4 py-3 bg-white/60 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all text-sm font-medium placeholder-slate-400 dark:placeholder-slate-600 shadow-inner dark:shadow-none"
-                    placeholder="Masukkan nama Anda">
-            </div>
+        <!-- FORM (Menggunakan Grid di Desktop, Kolom Tunggal di Mobile) -->
+        <form id="orderForm" class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
 
-            <div>
-                <label
-                    class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Jenis
-                    Jasa Layanan*</label>
-                <div
-                    class="grid grid-cols-2 gap-3 bg-white/80 dark:bg-white/5 p-1.5 rounded-xl border border-slate-300/60 dark:border-white/10 shadow-sm dark:shadow-none">
+            <!-- KOLOM KIRI (Data Diri & Spesifikasi Cetak) -->
+            <div class="space-y-4 md:space-y-5">
+                <div>
                     <label
-                        class="flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-bold cursor-pointer text-slate-600 dark:text-slate-300 transition-all has-[:checked]:bg-cyan-500 has-[:checked]:text-white">
-                        <input type="radio" name="jenisJasa" value="print_fotocopy" checked
-                            onchange="switchJenisJasa(this.value)" class="sr-only">Print & Fotocopy
-                    </label>
-                    <label
-                        class="flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-bold cursor-pointer text-slate-600 dark:text-slate-300 transition-all has-[:checked]:bg-pink-500 has-[:checked]:text-white">
-                        <input type="radio" name="jenisJasa" value="cetak_foto" onchange="switchJenisJasa(this.value)"
-                            class="sr-only">Cetak Foto
-                    </label>
+                        class="block text-xs md:text-sm font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5 md:mb-2">Nama
+                        Lengkap*</label>
+                    <input type="text" id="nama" required
+                        class="w-full px-4 md:px-5 py-3 md:py-3.5 bg-white/60 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all text-sm md:text-base font-medium placeholder-slate-400 dark:placeholder-slate-600 shadow-inner dark:shadow-none"
+                        placeholder="Masukkan nama Anda">
                 </div>
-            </div>
 
-            <div id="blokPrintFotocopy" class="space-y-4">
                 <div>
                     <label
-                        class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Jenis
-                        Print (tersedia hanya kertas A4)*</label>
-                    <select id="jenisPrint"
-                        class="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white outline-none focus:ring-2 focus:ring-cyan-500/50 text-sm font-medium shadow-inner dark:shadow-none">
-                        <option value="Warna" class="bg-white dark:bg-slate-800">Warna (Rp500/lembar)</option>
-                        <option value="Hitam putih" class="bg-white dark:bg-slate-800">Hitam Putih (Rp500/lembar)
-                        </option>
-                    </select>
-                </div>
-                <div>
-                    <label
-                        class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Jumlah
-                        Lembar dalam File*</label>
-                    <input type="number" id="jumlahLembar" min="1" value="1"
-                        class="w-full px-4 py-3 bg-white/60 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white outline-none focus:ring-2 focus:ring-cyan-500/50 text-sm font-medium shadow-inner dark:shadow-none">
-                </div>
-                <div>
-                    <label
-                        class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Jumlah
-                        Rangkap (Copy)*</label>
-                    <input type="number" id="jumlahRangkap" min="1" value="1"
-                        class="w-full px-4 py-3 bg-white/60 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white outline-none focus:ring-2 focus:ring-cyan-500/50 text-sm font-medium shadow-inner dark:shadow-none">
-                </div>
-                <div>
-                    <label
-                        class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Jilid
-                        Dokumen (+Rp3.000)*</label>
+                        class="block text-xs md:text-sm font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5 md:mb-2">Jenis
+                        Jasa Layanan*</label>
                     <div
-                        class="flex gap-4 mt-1 bg-white/60 dark:bg-white/5 p-2.5 rounded-xl border border-slate-300 dark:border-white/10 text-sm shadow-sm dark:shadow-none">
+                        class="grid grid-cols-2 gap-3 bg-white/80 dark:bg-white/5 p-1.5 md:p-2 rounded-xl border border-slate-300/60 dark:border-white/10 shadow-sm dark:shadow-none">
                         <label
-                            class="flex items-center gap-2 cursor-pointer text-slate-700 dark:text-slate-300 font-medium">
-                            <input type="radio" name="jilid" value="Ya" class="accent-cyan-500 w-4 h-4"> Ya
+                            class="flex items-center justify-center gap-2 py-2.5 md:py-3 rounded-lg text-xs md:text-sm font-bold cursor-pointer text-slate-600 dark:text-slate-300 transition-all has-[:checked]:bg-cyan-500 has-[:checked]:text-white">
+                            <input type="radio" name="jenisJasa" value="print_fotocopy" checked
+                                onchange="switchJenisJasa(this.value)" class="sr-only">Print & Fotocopy
                         </label>
                         <label
-                            class="flex items-center gap-2 cursor-pointer text-slate-700 dark:text-slate-300 font-medium">
-                            <input type="radio" name="jilid" value="Tidak" checked class="accent-cyan-500 w-4 h-4">
-                            Tidak
+                            class="flex items-center justify-center gap-2 py-2.5 md:py-3 rounded-lg text-xs md:text-sm font-bold cursor-pointer text-slate-600 dark:text-slate-300 transition-all has-[:checked]:bg-pink-500 has-[:checked]:text-white">
+                            <input type="radio" name="jenisJasa" value="cetak_foto"
+                                onchange="switchJenisJasa(this.value)" class="sr-only">Cetak Foto
                         </label>
+                    </div>
+                </div>
+
+                <!-- BLOK PRINT -->
+                <div id="blokPrintFotocopy" class="space-y-4 md:space-y-5">
+                    <div>
+                        <label
+                            class="block text-xs md:text-sm font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5 md:mb-2">Jenis
+                            Print (tersedia hanya kertas A4)*</label>
+                        <select id="jenisPrint"
+                            class="w-full px-4 md:px-5 py-3 md:py-3.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white outline-none focus:ring-2 focus:ring-cyan-500/50 text-sm md:text-base font-medium shadow-inner dark:shadow-none cursor-pointer">
+                            <option value="Warna" class="bg-white dark:bg-slate-800">Warna (Rp500/lembar)</option>
+                            <option value="Hitam putih" class="bg-white dark:bg-slate-800">Hitam Putih (Rp500/lembar)
+                            </option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label
+                                class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5 md:mb-2">Jmlh
+                                File
+                                Lembar*</label>
+                            <input type="number" id="jumlahLembar" min="1" value="1"
+                                class="w-full px-4 py-3 md:py-3.5 bg-white/60 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white outline-none focus:ring-2 focus:ring-cyan-500/50 text-sm md:text-base font-medium shadow-inner dark:shadow-none">
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5 md:mb-2">Jmlh
+                                Rangkap
+                                (Copy)*</label>
+                            <input type="number" id="jumlahRangkap" min="1" value="1"
+                                class="w-full px-4 py-3 md:py-3.5 bg-white/60 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white outline-none focus:ring-2 focus:ring-cyan-500/50 text-sm md:text-base font-medium shadow-inner dark:shadow-none">
+                        </div>
+                    </div>
+                    <div>
+                        <label
+                            class="block text-xs md:text-sm font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5 md:mb-2">Jilid
+                            Dokumen (+Rp3.000)*</label>
+                        <div
+                            class="flex gap-4 md:gap-6 mt-1 bg-white/60 dark:bg-white/5 p-2.5 md:p-3.5 rounded-xl border border-slate-300 dark:border-white/10 text-sm md:text-base shadow-sm dark:shadow-none">
+                            <label
+                                class="flex items-center gap-2 cursor-pointer text-slate-700 dark:text-slate-300 font-medium">
+                                <input type="radio" name="jilid" value="Ya"
+                                    class="accent-cyan-500 w-4 h-4 md:w-5 md:h-5"> Ya
+                            </label>
+                            <label
+                                class="flex items-center gap-2 cursor-pointer text-slate-700 dark:text-slate-300 font-medium">
+                                <input type="radio" name="jilid" value="Tidak" checked
+                                    class="accent-cyan-500 w-4 h-4 md:w-5 md:h-5">
+                                Tidak
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BLOK FOTO -->
+                <div id="blokCetakFoto" class="hidden space-y-4 md:space-y-5">
+                    <div>
+                        <label
+                            class="block text-xs md:text-sm font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5 md:mb-2">Jenis
+                            Kertas*</label>
+                        <select id="jenisKertas"
+                            class="w-full px-4 md:px-5 py-3 md:py-3.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white outline-none focus:ring-2 focus:ring-pink-500/50 text-sm md:text-base font-medium shadow-inner dark:shadow-none cursor-pointer">
+                            <option value="" class="bg-white dark:bg-slate-800">Mengambil data kertas...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label
+                            class="block text-xs md:text-sm font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5 md:mb-2">Ukuran
+                            Foto*</label>
+                        <select id="ukuranFoto"
+                            class="w-full px-4 md:px-5 py-3 md:py-3.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white outline-none focus:ring-2 focus:ring-pink-500/50 text-sm md:text-base font-medium shadow-inner dark:shadow-none cursor-pointer">
+                            <option value="2x3" data-harga="1000" class="bg-white dark:bg-slate-800">2 x 3 - Rp1.000
+                            </option>
+                            <option value="3x4" data-harga="1250" class="bg-white dark:bg-slate-800">3 x 4 - Rp1.250
+                            </option>
+                            <option value="4x6" data-harga="2000" class="bg-white dark:bg-slate-800">4 x 6 - Rp2.000
+                            </option>
+                            <option value="2R" data-harga="3000" class="bg-white dark:bg-slate-800">2R - Rp3.000
+                            </option>
+                            <option value="3R" data-harga="3000" class="bg-white dark:bg-slate-800">3R - Rp3.000
+                            </option>
+                            <option value="4R" data-harga="4000" class="bg-white dark:bg-slate-800">4R - Rp4.000
+                            </option>
+                            <option value="5R" data-harga="5000" class="bg-white dark:bg-slate-800">5R - Rp5.000
+                            </option>
+                            <option value="6R" data-harga="6000" class="bg-white dark:bg-slate-800">6R - Rp6.000
+                            </option>
+                            <option value="8R" data-harga="8000" class="bg-white dark:bg-slate-800">8R - Rp8.000
+                            </option>
+                            <option value="A4" data-harga="10000" class="bg-white dark:bg-slate-800">A4 - Rp10.000
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label
+                            class="block text-xs md:text-sm font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5 md:mb-2">Jumlah
+                            Cetak*</label>
+                        <input type="number" id="jumlahCetak" min="1" value="1"
+                            class="w-full px-4 md:px-5 py-3 md:py-3.5 bg-white/60 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white outline-none focus:ring-2 focus:ring-pink-500/50 text-sm md:text-base font-medium shadow-inner dark:shadow-none">
                     </div>
                 </div>
             </div>
 
-            <div id="blokCetakFoto" class="hidden space-y-4">
+            <!-- KOLOM KANAN (Pengantaran, Tambahan, & Submit) -->
+            <div class="space-y-4 md:space-y-5 flex flex-col">
                 <div>
                     <label
-                        class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Jenis
-                        Kertas*</label>
-                    <select id="jenisKertas"
-                        class="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white outline-none focus:ring-2 focus:ring-pink-500/50 text-sm font-medium shadow-inner dark:shadow-none">
-                        <option value="" class="bg-white dark:bg-slate-800">Mengambil data kertas...</option>
+                        class="block text-xs md:text-sm font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5 md:mb-2">Metode
+                        Pengantaran*</label>
+                    <select id="pengantaran" onchange="toggleMetodeCatatan()"
+                        class="w-full px-4 md:px-5 py-3 md:py-3.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white outline-none focus:ring-2 focus:ring-cyan-500/50 text-sm md:text-base font-medium shadow-inner dark:shadow-none cursor-pointer">
+                        <option value="ambil" class="bg-white dark:bg-slate-800">Ambil Sendiri</option>
+                        <option value="antar" class="bg-white dark:bg-slate-800">Antar ke Lokasi</option>
+                        <option value="ketemuan" class="bg-white dark:bg-slate-800">Ketemuan (COD)</option>
                     </select>
                 </div>
+
+                <div id="wrapperCatatanPengantaran" class="hidden space-y-2 md:space-y-3">
+                    <label id="labelCatatanPengantaran"
+                        class="block text-xs md:text-sm font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Lokasi
+                        Pengantaran*</label>
+
+                    <div class="flex gap-2">
+                        <input type="text" id="catatanPengantaran" readonly required
+                            class="w-full px-4 py-3 md:py-3.5 bg-slate-100 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-slate-500 dark:text-slate-400 text-sm md:text-base focus:outline-none cursor-not-allowed shadow-inner dark:shadow-none"
+                            placeholder="Titik Peta belum di-set">
+                        <button type="button" onclick="openMapModal()" title="Pilih di Peta"
+                            class="shrink-0 bg-cyan-50 dark:bg-cyan-500/10 hover:bg-cyan-100 dark:hover:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 font-bold py-2.5 px-4 rounded-xl border border-cyan-200 dark:border-cyan-500/20 text-xl md:text-2xl flex items-center justify-center transition">
+                            📍
+                        </button>
+                    </div>
+
+                    <div id="infoOngkirForm"
+                        class="text-xs md:text-sm text-cyan-700 dark:text-cyan-300 bg-cyan-50 dark:bg-cyan-500/10 border border-cyan-200 dark:border-cyan-500/20 p-3 md:p-4 rounded-xl hidden">
+                    </div>
+                </div>
+
+                <div onclick="bukaModalTambahan()"
+                    class="bg-white dark:bg-white/5 p-3.5 md:p-4 rounded-xl border border-slate-300 dark:border-white/10 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-white/10 transition active:scale-[0.99] shadow-sm dark:shadow-none mt-2">
+                    <div class="flex flex-col">
+                        <span class="text-sm md:text-base font-bold text-slate-800 dark:text-slate-200">Beli Barang
+                            Tambahan?</span>
+                        <span id="labelSummaryTambahan"
+                            class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-0.5">Belum ada barang
+                            dipilih</span>
+                    </div>
+                    <input type="checkbox" id="checkboxTambahan" disabled
+                        class="w-5 h-5 md:w-6 md:h-6 rounded accent-cyan-500 cursor-pointer pointer-events-none">
+                </div>
+
                 <div>
                     <label
-                        class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Ukuran
-                        Foto*</label>
-                    <select id="ukuranFoto"
-                        class="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white outline-none focus:ring-2 focus:ring-pink-500/50 text-sm font-medium shadow-inner dark:shadow-none">
-                        <option value="2x3" data-harga="1000" class="bg-white dark:bg-slate-800">2 x 3 - Rp1.000
-                        </option>
-                        <option value="3x4" data-harga="1250" class="bg-white dark:bg-slate-800">3 x 4 - Rp1.250
-                        </option>
-                        <option value="4x6" data-harga="2000" class="bg-white dark:bg-slate-800">4 x 6 - Rp2.000
-                        </option>
-                        <option value="2R" data-harga="3000" class="bg-white dark:bg-slate-800">2R - Rp3.000</option>
-                        <option value="3R" data-harga="3000" class="bg-white dark:bg-slate-800">3R - Rp3.000</option>
-                        <option value="4R" data-harga="4000" class="bg-white dark:bg-slate-800">4R - Rp4.000</option>
-                        <option value="5R" data-harga="5000" class="bg-white dark:bg-slate-800">5R - Rp5.000</option>
-                        <option value="6R" data-harga="6000" class="bg-white dark:bg-slate-800">6R - Rp6.000</option>
-                        <option value="8R" data-harga="8000" class="bg-white dark:bg-slate-800">8R - Rp8.000</option>
-                        <option value="A4" data-harga="10000" class="bg-white dark:bg-slate-800">A4 - Rp10.000</option>
-                    </select>
+                        class="block text-xs md:text-sm font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5 md:mb-2">Catatan
+                        (Opsional)</label>
+                    <textarea id="catatanOpsional" rows="2"
+                        class="w-full px-4 md:px-5 py-3 md:py-3.5 bg-white/60 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition text-sm md:text-base font-medium placeholder-slate-400 dark:placeholder-slate-600 shadow-inner dark:shadow-none"
+                        placeholder="Contoh: Patokan pagar hijau, prioritas warna, dll."></textarea>
                 </div>
-                <div>
-                    <label
-                        class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Jumlah
-                        Cetak*</label>
-                    <input type="number" id="jumlahCetak" min="1" value="1"
-                        class="w-full px-4 py-3 bg-white/60 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white outline-none focus:ring-2 focus:ring-pink-500/50 text-sm font-medium shadow-inner dark:shadow-none">
+
+                <!-- Tombol Submit Dibuat Fleksibel (Paling Bawah) -->
+                <div class="mt-auto pt-4">
+                    <button type="submit"
+                        class="w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-black py-4 md:py-5 px-4 rounded-xl shadow-[0_12px_30px_rgba(6,182,212,0.3)] border border-white/20 dark:border-white/10 transition transform active:scale-95 text-base md:text-lg tracking-wider">
+                        Rincian Pesanan
+                    </button>
                 </div>
             </div>
-
-            <div>
-                <label
-                    class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Metode
-                    Pengantaran*</label>
-                <select id="pengantaran" onchange="toggleMetodeCatatan()"
-                    class="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white outline-none focus:ring-2 focus:ring-cyan-500/50 text-sm font-medium shadow-inner dark:shadow-none">
-                    <option value="ambil" class="bg-white dark:bg-slate-800">Ambil Sendiri</option>
-                    <option value="antar" class="bg-white dark:bg-slate-800">Antar ke Lokasi</option>
-                    <option value="ketemuan" class="bg-white dark:bg-slate-800">Ketemuan (COD)</option>
-                </select>
-            </div>
-
-            <div id="wrapperCatatanPengantaran" class="hidden space-y-2">
-                <label id="labelCatatanPengantaran"
-                    class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Lokasi
-                    Pengantaran*</label>
-                <input type="text" id="catatanPengantaran" readonly required
-                    class="w-full px-4 py-3 bg-slate-100 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-slate-500 dark:text-slate-400 text-sm focus:outline-none cursor-not-allowed shadow-inner dark:shadow-none"
-                    placeholder="Koordinat lokasi belum ditentukan">
-                <button type="button" onclick="openMapModal()"
-                    class="w-full bg-cyan-50 dark:bg-cyan-500/10 hover:bg-cyan-100 dark:hover:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 font-bold py-2.5 px-4 rounded-xl border border-cyan-200 dark:border-cyan-500/20 text-sm flex items-center justify-center gap-2 transition">
-                    📍 Tentukan Titik Lokasi Peta
-                </button>
-                <div id="infoOngkirForm"
-                    class="text-xs text-cyan-700 dark:text-cyan-300 bg-cyan-50 dark:bg-cyan-500/10 border border-cyan-200 dark:border-cyan-500/20 p-3 rounded-xl hidden">
-                </div>
-            </div>
-
-            <div onclick="bukaModalTambahan()"
-                class="bg-white dark:bg-white/5 p-3.5 rounded-xl border border-slate-300 dark:border-white/10 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-white/10 transition active:scale-[0.99] shadow-sm dark:shadow-none">
-                <div class="flex flex-col">
-                    <span class="text-sm font-bold text-slate-800 dark:text-slate-200">Beli Barang Tambahan?</span>
-                    <span id="labelSummaryTambahan" class="text-xs text-slate-500 dark:text-slate-400">Belum ada barang
-                        dipilih</span>
-                </div>
-                <input type="checkbox" id="checkboxTambahan" disabled
-                    class="w-5 h-5 rounded accent-cyan-500 cursor-pointer pointer-events-none">
-            </div>
-
-            <div>
-                <label
-                    class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5">Catatan
-                    (Opsional)</label>
-                <textarea id="catatanOpsional" rows="2"
-                    class="w-full px-4 py-3 bg-white/60 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition text-sm font-medium placeholder-slate-400 dark:placeholder-slate-600 shadow-inner dark:shadow-none"
-                    placeholder="Contoh: Patokan rumah cat pagar hijau, jenis kertas, dll."></textarea>
-            </div>
-
-            <button type="submit"
-                class="w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-black py-4 px-4 rounded-xl mt-4 shadow-[0_12px_30px_rgba(6,182,212,0.3)] border border-white/20 dark:border-white/10 transition transform active:scale-95 text-base tracking-wider">
-                Kirim File dan Infokan ke WA!!
-            </button>
         </form>
     </div>
 
     <!-- MODAL MAP -->
-    <div id="modalMap"
+    <!-- Menambahkan onclick di area luar (backdrop) agar menutup otomatis saat diklik -->
+    <div id="modalMap" onclick="if(event.target === this) closeModal('modalMap', 'mapContent')"
         class="fixed inset-0 bg-slate-900/30 dark:bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-[60]">
-        <div
-            class="bg-white/90 dark:bg-slate-800 border border-white dark:border-white/10 rounded-2xl max-w-md w-full p-4 shadow-2xl relative text-slate-900 dark:text-white">
-            <h3 class="text-base font-bold mb-2">Geser Peta Pas di Lokasi Anda</h3>
-            <div class="relative w-full h-72 rounded-xl overflow-hidden border border-slate-300 dark:border-white/10">
+        <div id="mapContent"
+            class="bg-white/90 dark:bg-slate-800 border border-white dark:border-white/10 rounded-2xl max-w-md md:max-w-2xl w-full p-4 md:p-6 shadow-2xl relative text-slate-900 dark:text-white transform transition-all scale-95 opacity-0 duration-300">
+            <h3 class="text-base md:text-lg font-bold mb-3">Geser Peta Pas di Lokasi Anda</h3>
+            <div
+                class="relative w-full h-72 md:h-96 rounded-xl overflow-hidden border border-slate-300 dark:border-white/10">
                 <div id="mapContainer" class="w-full h-full"></div>
                 <div class="map-center-pin">
-                    <svg class="w-8 h-8 text-red-500 drop-shadow-[0_4px_6px_rgba(0,0,0,0.4)]" fill="currentColor"
-                        viewBox="0 0 24 24">
+                    <svg class="w-8 h-8 md:w-10 md:h-10 text-red-500 drop-shadow-[0_4px_6px_rgba(0,0,0,0.4)]"
+                        fill="currentColor" viewBox="0 0 24 24">
                         <path
                             d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-12-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                     </svg>
                 </div>
             </div>
-            <div class="flex gap-2 mt-4">
+            <div class="flex flex-wrap sm:flex-nowrap gap-2 sm:gap-3 mt-4">
+                <button type="button" onclick="closeModal('modalMap', 'mapContent')"
+                    class="flex-1 sm:flex-none bg-white dark:bg-white/5 border border-slate-300 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-300 py-3 md:py-2.5 px-4 rounded-xl transition text-sm font-bold shadow-sm dark:shadow-none text-center">
+                    Kembali
+                </button>
                 <button type="button" onclick="getCurrentGPSLocation()"
-                    class="bg-white dark:bg-white/5 border border-slate-300 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-300 p-2.5 rounded-xl transition text-xs font-bold shadow-sm dark:shadow-none">Lokasi
-                    saya</button>
+                    class="flex-1 sm:flex-none bg-white dark:bg-white/5 border border-slate-300 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-300 py-3 md:py-2.5 px-4 rounded-xl transition text-sm font-bold shadow-sm dark:shadow-none text-center">
+                    📍 Lokasi Saya
+                </button>
                 <button type="button" id="btnSaveLocation" onclick="saveSelectedLocation()"
-                    class="flex-1 bg-gradient-to-r from-cyan-500 to-indigo-500 text-white font-extrabold py-2.5 rounded-xl shadow transition text-sm">Gunakan
+                    class="w-full sm:flex-1 bg-gradient-to-r from-cyan-500 to-indigo-500 text-white font-extrabold py-3 md:py-2.5 rounded-xl shadow md:shadow-lg transition text-sm md:text-base">Gunakan
                     Titik Ini</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL BARANG TAMBAHAN -->
-    <div id="modalTambahan"
+    <!-- Menambahkan onclick di area luar (backdrop) agar menutup otomatis saat diklik -->
+    <div id="modalTambahan" onclick="if(event.target === this) batalPilihanTambahan()"
         class="fixed inset-0 bg-slate-900/30 dark:bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-[55]">
-        <div
-            class="bg-white/95 dark:bg-slate-800 border border-white dark:border-white/10 rounded-2xl max-w-md w-full p-5 shadow-2xl max-h-[85vh] flex flex-col text-slate-900 dark:text-white">
-            <h3 class="text-lg font-black border-b border-slate-200 dark:border-white/10 pb-2 mb-3">Pilih Barang
-                Tambahan</h3>
-            <div class="overflow-y-auto flex-1 space-y-3 pr-1" id="listStokContainer">
-                <p class="text-sm text-slate-500 dark:text-slate-400 text-center py-4">Mengambil data produk...</p>
+        <div class="bg-white/95 dark:bg-slate-800 border border-white dark:border-white/10 rounded-2xl max-w-md md:max-w-xl w-full p-5 md:p-8 shadow-2xl max-h-[85vh] flex flex-col text-slate-900 dark:text-white transform transition-all scale-95 opacity-0 duration-300"
+            id="contentTambahan">
+            <h3 class="text-lg md:text-xl font-black border-b border-slate-200 dark:border-white/10 pb-3 mb-4">Pilih
+                Barang Tambahan</h3>
+
+            <!-- Grid container for desktop items -->
+            <div class="overflow-y-auto flex-1 pr-1 grid grid-cols-1 md:grid-cols-2 gap-3" id="listStokContainer">
+                <p class="text-sm text-slate-500 dark:text-slate-400 text-center py-4 md:col-span-2">Mengambil data
+                    produk...</p>
             </div>
-            <div class="flex gap-3 border-t border-slate-200 dark:border-white/10 pt-3 mt-3">
+
+            <div class="flex gap-3 border-t border-slate-200 dark:border-white/10 pt-4 mt-4">
                 <button type="button" onclick="batalPilihanTambahan()"
-                    class="flex-1 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 font-semibold py-2.5 rounded-xl text-sm transition shadow-sm dark:shadow-none">Batal</button>
+                    class="flex-1 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 font-semibold py-3 rounded-xl text-sm md:text-base transition shadow-sm dark:shadow-none">Batal</button>
                 <button type="button" onclick="simpanPilihanTambahan()"
-                    class="flex-1 bg-gradient-to-r from-cyan-500 to-indigo-500 text-white font-bold py-2.5 rounded-xl text-sm shadow transition">Konfirmasi</button>
+                    class="flex-1 bg-gradient-to-r from-cyan-500 to-indigo-500 text-white font-bold py-3 rounded-xl text-sm md:text-base shadow transition">Konfirmasi</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL RINCIAN PESANAN -->
-    <div id="modalRincian"
+    <!-- Menambahkan onclick di area luar (backdrop) agar menutup otomatis saat diklik -->
+    <div id="modalRincian" onclick="if(event.target === this) closeModal('modalRincian', 'modalContent')"
         class="fixed inset-0 bg-slate-900/30 dark:bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-        <div class="bg-white/95 dark:bg-slate-800 border border-white dark:border-white/10 rounded-2xl max-w-md w-full p-6 shadow-2xl transform transition-all scale-95 opacity-0 duration-300 text-slate-900 dark:text-white"
+        <div class="bg-white/95 dark:bg-slate-800 border border-white dark:border-white/10 rounded-2xl max-w-md md:max-w-lg w-full p-6 md:p-8 shadow-2xl transform transition-all scale-95 opacity-0 duration-300 text-slate-900 dark:text-white"
             id="modalContent">
-            <h3 class="text-lg font-black border-b border-slate-200 dark:border-white/10 pb-3 mb-4">Rincian Pesanan</h3>
-            <div class="space-y-2.5 text-sm text-slate-700 dark:text-slate-300 mb-6 max-h-[50vh] overflow-y-auto pr-1">
+            <h3
+                class="text-lg md:text-xl font-black border-b border-slate-200 dark:border-white/10 pb-3 md:pb-4 mb-4 md:mb-5 text-center md:text-left">
+                Rincian Pesanan</h3>
+            <div
+                class="space-y-3 text-sm md:text-base text-slate-700 dark:text-slate-300 mb-6 max-h-[50vh] overflow-y-auto pr-1">
                 <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">Nama Lengkap:</span>
-                    <span id="resNama" class="font-bold text-slate-900 dark:text-white"></span></div>
+                    <span id="resNama" class="font-bold text-slate-900 dark:text-white text-right ml-4"></span>
+                </div>
                 <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">Jenis Layanan:</span>
-                    <span id="resJasa" class="text-cyan-600 dark:text-cyan-400 font-black"></span></div>
+                    <span id="resJasa" class="text-cyan-600 dark:text-cyan-400 font-black text-right ml-4"></span>
+                </div>
                 <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400"
                         id="lblResDetail">Spesifikasi Detail:</span> <span id="resDetail"
-                        class="font-semibold text-slate-900 dark:text-white"></span></div>
-                <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">Metode
-                        Pengantaran:</span> <span id="resPengantaran"
-                        class="text-slate-900 dark:text-white truncate max-w-[200px]"></span></div>
+                        class="font-semibold text-slate-900 dark:text-white text-right ml-4"></span></div>
+                <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400 shrink-0">Metode
+                        Pengantaran:</span>
+                    <span id="resPengantaran"
+                        class="text-slate-900 dark:text-white text-right ml-4 line-clamp-2"></span>
+                </div>
                 <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400"
                         id="lblResKuantitas">Kuantitas Cetak:</span> <span id="resKuantitas"
-                        class="font-bold text-slate-900 dark:text-white"></span></div>
-                <div id="rowResRangkapJilid" class="space-y-2.5">
+                        class="font-bold text-slate-900 dark:text-white text-right ml-4"></span></div>
+                <div id="rowResRangkapJilid" class="space-y-3">
                     <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">Jumlah
-                            Rangkap:</span> <span id="resRangkap" class="text-slate-900 dark:text-white"></span></div>
+                            Rangkap:</span> <span id="resRangkap"
+                            class="text-slate-900 dark:text-white text-right ml-4"></span></div>
                     <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">Jilid:</span>
-                        <span id="resJilid" class="text-slate-900 dark:text-white"></span></div>
+                        <span id="resJilid" class="text-slate-900 dark:text-white text-right ml-4"></span>
+                    </div>
                 </div>
                 <div id="containerResTambahan"
-                    class="border-t border-b border-slate-200 dark:border-white/10 py-2.5 my-2.5 space-y-1 hidden text-xs bg-slate-50 dark:bg-white/5 p-3 rounded-xl">
-                    <p class="font-bold text-slate-800 dark:text-slate-300 mb-1.5">Daftar Produk Tambahan:</p>
-                    <div id="listResTambahan" class="space-y-1"></div>
+                    class="border-t border-b border-slate-200 dark:border-white/10 py-3 my-3 space-y-1 hidden text-xs md:text-sm bg-slate-50 dark:bg-white/5 p-4 rounded-xl">
+                    <p class="font-bold text-slate-800 dark:text-slate-300 mb-2">Daftar Produk Tambahan:</p>
+                    <div id="listResTambahan" class="space-y-1.5"></div>
                 </div>
-                <div class="flex justify-between text-cyan-600 dark:text-cyan-400 font-bold" id="rowOngkir">
+                <div class="flex justify-between text-cyan-600 dark:text-cyan-400 font-bold text-sm md:text-base"
+                    id="rowOngkir">
                     <span>Ongkos Kirim:</span> <span id="resOngkir"></span>
                 </div>
-                <div class="flex flex-col border-t border-slate-200 dark:border-white/10 pt-2.5 mt-2">
+                <div class="flex flex-col border-t border-slate-200 dark:border-white/10 pt-3 mt-3">
                     <span class="text-slate-500 dark:text-slate-400">Catatan:</span> <span id="resCatatan"
                         class="text-slate-600 dark:text-slate-400 italic break-words mt-1"></span>
                 </div>
                 <div
-                    class="flex justify-between border-t border-dashed border-slate-300 dark:border-white/20 pt-4 mt-4 text-base font-black text-slate-900 dark:text-white">
+                    class="flex justify-between items-center border-t border-dashed border-slate-300 dark:border-white/20 pt-5 mt-5 text-base md:text-lg font-black text-slate-900 dark:text-white">
                     <span>Total Pembayaran:</span>
-                    <span id="resTotal" class="text-pink-500 dark:text-pink-400 text-xl font-black"></span>
+                    <span id="resTotal" class="text-pink-500 dark:text-pink-400 text-xl md:text-2xl font-black"></span>
                 </div>
             </div>
-            <div class="flex gap-3">
+            <div class="flex gap-3 md:gap-4 mt-6">
                 <button onclick="closeModal('modalRincian', 'modalContent')"
-                    class="flex-1 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 font-semibold py-2.5 rounded-xl transition shadow-sm dark:shadow-none">
-                    Batal
+                    class="w-1/3 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-300 dark:border-white/10 text-slate-700 dark:text-slate-300 font-semibold py-3 md:py-3.5 rounded-xl transition shadow-sm dark:shadow-none text-sm md:text-base">
+                    Kembali
                 </button>
                 <button onclick="tampilkanQris()"
-                    class="flex-1 bg-gradient-to-r from-cyan-500 to-indigo-500 text-white font-extrabold py-2.5 rounded-xl shadow transition">
+                    class="w-2/3 bg-gradient-to-r from-cyan-500 to-indigo-500 text-white font-extrabold py-3 md:py-3.5 rounded-xl shadow transition text-sm md:text-base tracking-wide transform active:scale-[0.98]">
                     Konfirmasi & Bayar</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL QRIS -->
-    <div id="modalQris"
+    <!-- Menambahkan onclick di area luar (backdrop) agar menutup otomatis saat diklik -->
+    <div id="modalQris" onclick="if(event.target === this) closeModal('modalQris', 'qrisContent')"
         class="fixed inset-0 bg-slate-900/30 dark:bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-        <div class="bg-white/95 dark:bg-slate-800 border border-white dark:border-white/10 rounded-2xl max-w-md w-full p-6 shadow-2xl text-center transform transition-all scale-95 opacity-0 duration-300 text-slate-900 dark:text-white"
+        <div class="bg-white/95 dark:bg-slate-800 border border-white dark:border-white/10 rounded-2xl max-w-md md:max-w-lg w-full p-6 md:p-8 shadow-2xl text-center transform transition-all scale-95 opacity-0 duration-300 text-slate-900 dark:text-white"
             id="qrisContent">
-            <h3 class="text-lg font-black mb-1">Pembayaran Elektronik QRIS</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Total Ambil Tagihan: <span id="qrisTotalTeks"
-                    class="font-black text-pink-500 dark:text-pink-400 text-sm"></span></p>
+            <h3
+                class="text-lg md:text-xl font-black mb-1 md:mb-2 text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">
+                Pembayaran Elektronik QRIS</h3>
+            <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mb-5">Total Ambil Tagihan: <span
+                    id="qrisTotalTeks" class="font-black text-pink-500 dark:text-pink-400 text-sm md:text-base"></span>
+            </p>
             <div
-                class="bg-white p-2.5 rounded-2xl inline-block shadow-lg mb-4 border border-slate-200 dark:border-transparent">
-                <img src="qris.jpeg" alt="QRIS Pembayaran" class="w-60 h-60 mx-auto object-contain rounded-xl">
+                class="bg-white p-3 md:p-4 rounded-2xl inline-block shadow-lg mb-5 border border-slate-200 dark:border-transparent">
+                <img src="qris.jpeg" alt="QRIS Pembayaran"
+                    class="w-56 h-56 md:w-64 md:h-64 mx-auto object-contain rounded-xl">
             </div>
             <div
-                class="bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 text-xs p-3.5 rounded-xl mb-5 text-left border border-amber-200 dark:border-amber-500/20 leading-relaxed shadow-sm dark:shadow-none">
+                class="bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 text-xs md:text-sm p-4 rounded-xl mb-6 text-left border border-amber-200 dark:border-amber-500/20 leading-relaxed shadow-sm dark:shadow-none">
                 📌 <strong>Langkah Selanjutnya:</strong> Silakan scan kode QRIS di atas melalui dompet digital Anda.
                 Jika pembayaran sudah selesai, klik tombol utama di bawah untuk mengirim spesifikasi detail beserta
                 bukti bayar menuju WhatsApp admin.
             </div>
             <button onclick="kirimKeWhatsApp()"
-                class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white font-black py-4 rounded-xl shadow-[0_10px_25px_rgba(16,185,129,0.3)] transition transform active:scale-95 flex items-center justify-center gap-2 text-base tracking-wide border border-emerald-400/30">
-                Kirim ke WhatsApp
+                class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white font-black py-4 md:py-4 rounded-xl shadow-[0_10px_25px_rgba(16,185,129,0.3)] transition transform active:scale-95 flex items-center justify-center gap-2 text-base md:text-lg tracking-wide border border-emerald-400/30">
+                Lanjut ke WhatsApp
             </button>
             <button onclick="closeModal('modalQris', 'qrisContent')"
-                class="text-xs text-slate-500 dark:text-slate-500 mt-4 underline hover:text-slate-700 dark:hover:text-slate-300 block mx-auto transition">
+                class="text-xs md:text-sm text-slate-500 dark:text-slate-500 mt-5 underline hover:text-slate-700 dark:hover:text-slate-300 block mx-auto transition">
                 Tutup Halaman
             </button>
         </div>
@@ -474,15 +551,15 @@
         }
 
         async function bukaModalTambahan() {
-            openModal('modalTambahan', 'modalTambahan');
+            openModal('modalTambahan', 'contentTambahan');
             const container = document.getElementById('listStokContainer');
-            container.innerHTML = '<p class="text-sm text-slate-500 dark:text-slate-400 text-center py-4">Memuat produk toko...</p>';
+            container.innerHTML = '<p class="text-sm text-slate-500 dark:text-slate-400 text-center py-4 md:col-span-2">Memuat produk toko...</p>';
             const data = await window.loadStokFromFirebase();
             listBarangFirebase = data || {};
             barangTerpilihTemp = JSON.parse(JSON.stringify(barangFixSelesai));
 
             if (!data || Object.keys(data).length === 0) {
-                container.innerHTML = '<p class="text-sm text-red-500 dark:text-red-400 text-center py-4">Stok tambahan kosong.</p>';
+                container.innerHTML = '<p class="text-sm text-red-500 dark:text-red-400 text-center py-4 md:col-span-2">Stok tambahan kosong.</p>';
                 return;
             }
             container.innerHTML = '';
@@ -492,18 +569,18 @@
                 const isChecked = qty > 0 ? 'checked' : '';
                 const showCounter = qty > 0 ? 'flex' : 'hidden';
                 container.innerHTML += `
-                    <div class="flex items-center justify-between border border-slate-200 dark:border-white/5 p-3 rounded-xl bg-white dark:bg-white/5 gap-2 shadow-sm dark:shadow-none">
-                        <div class="flex items-start gap-2.5 flex-1">
-                            <input type="checkbox" id="chk-${key}" ${isChecked} onchange="toggleItemCheck('${key}', this)" class="w-4 h-4 mt-1 rounded accent-cyan-500 cursor-pointer">
-                            <div class="flex flex-col">
-                                <span class="text-sm font-semibold text-slate-800 dark:text-slate-200">${item.nama_stok}</span>
-                                <span class="text-xs text-slate-500 dark:text-slate-400">Sisa: ${item.sisa_stok} | Rp${item.harga.toLocaleString('id-ID')}</span>
+                    <div class="flex items-center justify-between border border-slate-200 dark:border-white/5 p-3 rounded-xl bg-white dark:bg-white/5 gap-2 shadow-sm dark:shadow-none h-auto">
+                        <div class="flex items-start gap-2.5 flex-1 w-full max-w-full truncate">
+                            <input type="checkbox" id="chk-${key}" ${isChecked} onchange="toggleItemCheck('${key}', this)" class="shrink-0 w-4 h-4 md:w-5 md:h-5 mt-1 md:mt-0.5 rounded accent-cyan-500 cursor-pointer">
+                            <div class="flex flex-col truncate pr-2">
+                                <span class="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate" title="${item.nama_stok}">${item.nama_stok}</span>
+                                <span class="text-xs text-slate-500 dark:text-slate-400 truncate">Sisa: ${item.sisa_stok} | Rp${item.harga.toLocaleString('id-ID')}</span>
                             </div>
                         </div>
-                        <div id="counter-${key}" class="${showCounter} items-center border border-slate-200 dark:border-white/10 rounded-lg bg-slate-100 dark:bg-slate-900 overflow-hidden shadow-sm dark:shadow-none">
-                            <button type="button" onclick="ubahQty('${key}', -1)" class="px-2.5 py-1 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/5 font-bold text-sm">-</button>
-                            <span id="qty-txt-${key}" class="px-3 py-1 text-xs font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-white/5 min-w-[28px] text-center">${qty}</span>
-                            <button type="button" onclick="ubahQty('${key}', 1)" class="px-2.5 py-1 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/5 font-bold text-sm">+</button>
+                        <div id="counter-${key}" class="${showCounter} shrink-0 items-center border border-slate-200 dark:border-white/10 rounded-lg bg-slate-100 dark:bg-slate-900 overflow-hidden shadow-sm dark:shadow-none">
+                            <button type="button" onclick="ubahQty('${key}', -1)" class="px-2.5 md:px-3 py-1 md:py-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/5 font-bold text-sm md:text-base">-</button>
+                            <span id="qty-txt-${key}" class="px-3 md:px-4 py-1 md:py-1.5 text-xs md:text-sm font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-white/5 min-w-[28px] md:min-w-[36px] text-center">${qty}</span>
+                            <button type="button" onclick="ubahQty('${key}', 1)" class="px-2.5 md:px-3 py-1 md:py-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-white/5 font-bold text-sm md:text-base">+</button>
                         </div>
                     </div>`;
             }
@@ -512,7 +589,7 @@
         window.toggleItemCheck = (key, chk) => {
             const counterDiv = document.getElementById(`counter-${key}`);
             if (chk.checked) {
-                counterDiv.className = 'flex items-center border border-slate-200 dark:border-white/10 rounded-lg bg-slate-100 dark:bg-slate-900 overflow-hidden shadow-sm dark:shadow-none';
+                counterDiv.className = 'flex shrink-0 items-center border border-slate-200 dark:border-white/10 rounded-lg bg-slate-100 dark:bg-slate-900 overflow-hidden shadow-sm dark:shadow-none';
                 barangTerpilihTemp[key] = { nama: listBarangFirebase[key].nama_stok, harga: listBarangFirebase[key].harga, qty: 1 };
                 document.getElementById(`qty-txt-${key}`).innerText = 1;
             } else {
@@ -535,23 +612,44 @@
         function simpanPilihanTambahan() {
             barangFixSelesai = JSON.parse(JSON.stringify(barangTerpilihTemp));
             const count = Object.keys(barangFixSelesai).length;
-            document.getElementById('labelSummaryTambahan').innerHTML = count > 0 ? `Terpilih <b>${count} jenis produk</b>` : "Belum ada barang dipilih";
+            document.getElementById('labelSummaryTambahan').innerHTML = count > 0 ? `Terpilih <b>${count} produk</b>` : "Belum ada barang dipilih";
             document.getElementById('checkboxTambahan').checked = count > 0;
-            closeModal('modalTambahan', 'modalTambahan');
+            closeModal('modalTambahan', 'contentTambahan');
         }
 
         function batalPilihanTambahan() {
             document.getElementById('checkboxTambahan').checked = Object.keys(barangFixSelesai).length > 0;
-            closeModal('modalTambahan', 'modalTambahan');
+            closeModal('modalTambahan', 'contentTambahan');
         }
 
         function openMapModal() {
-            const modal = document.getElementById('modalMap');
-            // Menyesuaikan kelas blur sesuai tema
-            modal.className = 'fixed inset-0 bg-slate-900/30 dark:bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-[60]';
+            openModal('modalMap', 'mapContent'); // Gunakan openModal untuk animasi smooth
+
             if (map === null) {
                 map = L.map('mapContainer').setView([selectedLat, selectedLng], 15);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map);
+
+                // LAYER 1: Google Maps Peta Dasar (Biasa)
+                const baseMap = L.tileLayer('https://mt0.google.com/vt/lyrs=m&hl=id&x={x}&y={y}&z={z}', {
+                    maxZoom: 20,
+                    attribution: '© Google Maps'
+                });
+
+                // LAYER 2: Google Maps Mode Satelit (Hybrid dengan Label Jalan)
+                const satelitMap = L.tileLayer('https://mt0.google.com/vt/lyrs=y&hl=id&x={x}&y={y}&z={z}', {
+                    maxZoom: 20,
+                    attribution: '© Google Maps'
+                });
+
+                // Set Peta Dasar sebagai default awal
+                baseMap.addTo(map);
+
+                // Tambahkan Control Layer di pojok kanan atas
+                const baseMaps = {
+                    "Peta Dasar": baseMap,
+                    "Satelit": satelitMap
+                };
+                L.control.layers(baseMaps).addTo(map);
+
                 map.on('move', () => { const center = map.getCenter(); selectedLat = center.lat; selectedLng = center.lng; });
             } else {
                 setTimeout(() => { map.invalidateSize(); }, 200);
@@ -575,7 +673,7 @@
                         document.getElementById('infoOngkirForm').innerHTML = `Jarak Tempuh: <b>${jarakKm.toFixed(2)} km</b><br>Biaya Ongkir: <b>Rp${ongkosKirim.toLocaleString('id-ID')}</b>`;
                         document.getElementById('infoOngkirForm').classList.remove('hidden');
                     } else { fallbackHitungManual(); }
-                }).catch(() => fallbackHitungManual()).finally(() => { btn.disabled = false; closeModal('modalMap', 'modalMap'); });
+                }).catch(() => fallbackHitungManual()).finally(() => { btn.disabled = false; closeModal('modalMap', 'mapContent'); });
         }
 
         function fallbackHitungManual() {
@@ -626,7 +724,6 @@
             for (let key in barangFixSelesai) {
                 const b = barangFixSelesai[key]; const totalItem = b.harga * b.qty;
                 subtotalTambahan += totalItem;
-                // Text color disesuaikan dengan light/dark mode untuk list tambahan di Rincian
                 teksHTMLResTambahan += `<div class="flex justify-between text-slate-600 dark:text-slate-400"><span>• ${b.nama} (x${b.qty})</span><span>Rp${totalItem.toLocaleString('id-ID')}</span></div>`;
             }
 
@@ -652,7 +749,7 @@
                 document.getElementById('listResTambahan').innerHTML = teksHTMLResTambahan; containerRes.classList.remove('hidden');
             } else { containerRes.classList.add('hidden'); }
 
-            document.getElementById('rowOngkir').className = pengantaran === 'ambil' ? 'hidden' : 'flex justify-between text-cyan-600 dark:text-cyan-400 font-bold';
+            document.getElementById('rowOngkir').className = pengantaran === 'ambil' ? 'hidden' : 'flex justify-between text-cyan-600 dark:text-cyan-400 font-bold text-sm md:text-base mt-2';
             document.getElementById('resOngkir').innerText = `Rp${ongkosKirim.toLocaleString('id-ID')}`;
             document.getElementById('resTotal').innerText = `Rp${totalKeseluruhan.toLocaleString('id-ID')}`;
             document.getElementById('qrisTotalTeks').innerText = `Rp${totalKeseluruhan.toLocaleString('id-ID')}`;
@@ -660,30 +757,41 @@
             openModal('modalRincian', 'modalContent');
         });
 
+        // Diperbarui agar lebih dinamis menerima contentId
         function openModal(modalId, contentId) {
             const modal = document.getElementById(modalId);
-            modal.className = 'fixed inset-0 bg-slate-900/30 dark:bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50';
-            if (modalId === 'modalRincian') {
-                setTimeout(() => { document.getElementById(contentId).className = 'bg-white/95 dark:bg-slate-800 border border-white dark:border-white/10 rounded-2xl max-w-md w-full p-6 shadow-2xl transform transition-all scale-100 opacity-100 duration-300 text-slate-900 dark:text-white'; }, 10);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            if (contentId) {
+                setTimeout(() => {
+                    const content = document.getElementById(contentId);
+                    if (content) {
+                        content.classList.remove('scale-95', 'opacity-0');
+                        content.classList.add('scale-100', 'opacity-100');
+                    }
+                }, 10);
             }
         }
 
         function closeModal(modalId, contentId) {
             const content = document.getElementById(contentId);
             if (content) {
-                content.classList.replace('scale-100', 'scale-95');
-                content.classList.replace('opacity-100', 'opacity-0');
+                content.classList.remove('scale-100', 'opacity-100');
+                content.classList.add('scale-95', 'opacity-0');
             }
-            setTimeout(() => { document.getElementById(modalId).className = 'hidden'; }, 150);
+            setTimeout(() => {
+                const modal = document.getElementById(modalId);
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 300);
         }
 
         function tampilkanQris() {
-            document.getElementById('modalRincian').className = 'hidden';
-            const modalQris = document.getElementById('modalQris');
-            modalQris.className = 'fixed inset-0 bg-slate-900/30 dark:bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50';
+            closeModal('modalRincian', 'modalContent');
             setTimeout(() => {
-                document.getElementById('qrisContent').className = 'bg-white/95 dark:bg-slate-800 border border-white dark:border-white/10 rounded-2xl max-w-md w-full p-6 shadow-2xl text-center transform transition-all scale-100 opacity-100 duration-300 text-slate-900 dark:text-white';
-            }, 20);
+                openModal('modalQris', 'qrisContent');
+            }, 300);
         }
 
         function kirimKeWhatsApp() {

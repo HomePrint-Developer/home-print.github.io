@@ -51,7 +51,7 @@
 </head>
 
 <body
-    class="bg-slate-50 dark:bg-slate-900 font-sans min-h-screen p-4 pb-32 relative overflow-x-hidden transition-colors duration-500">
+    class="bg-slate-50 dark:bg-slate-900 font-sans min-h-screen p-4 md:p-8 pb-32 md:pb-12 relative overflow-x-hidden transition-colors duration-500">
 
     <!-- Script Pengecekan Tema Langsung Agar Tidak Kedip -->
     <script>
@@ -64,78 +64,83 @@
 
     <!-- Background Ornaments -->
     <div
-        class="absolute w-72 h-72 rounded-full bg-cyan-400/30 dark:bg-cyan-500/10 blur-[80px] -top-12 -left-12 pointer-events-none">
+        class="absolute w-72 h-72 md:w-96 md:h-96 rounded-full bg-cyan-400/30 dark:bg-cyan-500/10 blur-[80px] md:blur-[120px] -top-12 -left-12 pointer-events-none">
     </div>
     <div
-        class="absolute w-80 h-80 rounded-full bg-pink-400/25 dark:bg-pink-500/10 blur-[100px] bottom-10 right-0 pointer-events-none">
+        class="absolute w-80 h-80 md:w-[30rem] md:h-[30rem] rounded-full bg-pink-400/25 dark:bg-pink-500/10 blur-[100px] md:blur-[150px] bottom-10 right-0 pointer-events-none">
     </div>
 
-    <div class="absolute top-4 left-4 z-20">
+    <!-- Tombol Sudut Atas -->
+    <div class="absolute top-4 left-4 md:top-6 md:left-8 z-20">
         <a href="feedback-admin.html"
-            class="text-xs font-extrabold text-white bg-gradient-to-r from-cyan-500 to-indigo-500 hover:brightness-110 px-4 py-2.5 rounded-2xl tracking-wide shadow-md shadow-cyan-500/20 dark:shadow-cyan-500/10 border border-cyan-400/30 dark:border-cyan-400/20 block transform active:scale-95">
+            class="text-xs md:text-sm font-extrabold text-white bg-gradient-to-r from-cyan-500 to-indigo-500 hover:brightness-110 px-4 md:px-5 py-2.5 md:py-3 rounded-2xl tracking-wide shadow-md shadow-cyan-500/20 dark:shadow-cyan-500/10 border border-cyan-400/30 dark:border-cyan-400/20 block transform active:scale-95 transition">
             Kritik & Saran
         </a>
     </div>
-    <div class="absolute top-4 right-4 z-20">
+    <div class="absolute top-4 right-4 md:top-6 md:right-8 z-20">
         <button onclick="logout()"
-            class="text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 bg-white/60 dark:bg-white/5 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-slate-300/60 dark:border-white/10 tracking-wide shadow-sm transform active:scale-95">
+            class="text-xs md:text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 bg-white/60 dark:bg-white/5 backdrop-blur-md px-4 md:px-5 py-2.5 md:py-3 rounded-2xl border border-slate-300/60 dark:border-white/10 tracking-wide shadow-sm transform active:scale-95 transition">
             Logout
         </button>
     </div>
 
-    <!-- MAIN CONTAINER -->
+    <!-- MAIN CONTAINER (Lebih lebar di Desktop agar tidak banyak ruang kosong) -->
     <div
-        class="max-w-4xl mx-auto bg-white/70 dark:bg-white/[0.06] backdrop-blur-xl rounded-[32px] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-4 sm:p-8 mt-16 border border-white dark:border-white/10 relative z-10 text-slate-900 dark:text-white">
+        class="max-w-4xl lg:max-w-6xl mx-auto w-full bg-white/70 dark:bg-white/[0.06] backdrop-blur-xl rounded-[32px] md:rounded-[40px] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-4 sm:p-8 md:p-10 mt-16 md:mt-20 border border-white dark:border-white/10 relative z-10 text-slate-900 dark:text-white flex flex-col min-h-[60vh]">
 
-        <div class="mb-6 sm:mb-8 px-1">
-            <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">
-                Manajemen <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-pink-500 to-yellow-500 dark:from-cyan-400 dark:via-pink-400 dark:to-yellow-400">HomePrint</span>
-            </h2>
-            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-                Pantau dan kelola stok barang, kertas foto, serta kritik dan saran.
-            </p>
+        <!-- HEADER -->
+        <div
+            class="mb-6 sm:mb-8 px-1 flex flex-col md:flex-row md:items-end md:justify-between border-b border-slate-200 dark:border-white/10 pb-4 md:pb-6 gap-3">
+            <div>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-slate-900 dark:text-white">
+                    Manajemen <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-pink-500 to-yellow-500 dark:from-cyan-400 dark:via-pink-400 dark:to-yellow-400">HomePrint</span>
+                </h2>
+                <p class="text-xs sm:text-sm md:text-base text-slate-500 dark:text-slate-400 mt-1 md:mt-2 font-medium">
+                    Pantau dan kelola stok barang, kertas foto, serta kritik dan saran.
+                </p>
+            </div>
         </div>
 
         <!-- TABS -->
         <div
-            class="flex gap-2 p-1.5 bg-white/60 dark:bg-white/5 rounded-2xl mb-6 sm:mb-8 border border-slate-200 dark:border-white/10 shadow-inner dark:shadow-none">
+            class="flex gap-2 p-1.5 md:p-2 bg-white/60 dark:bg-white/5 rounded-2xl md:rounded-3xl mb-6 sm:mb-8 border border-slate-200 dark:border-white/10 shadow-inner dark:shadow-none w-full md:max-w-md">
             <button id="tabStokBtn" onclick="switchTab('stok')"
-                class="flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 bg-cyan-500 dark:bg-white/10 text-white shadow-md dark:shadow-lg tracking-wide flex items-center justify-center gap-1.5">
+                class="flex-1 text-xs sm:text-sm md:text-base font-extrabold py-3.5 px-2 rounded-xl md:rounded-2xl transition-all duration-300 bg-cyan-500 dark:bg-white/10 text-white shadow-md dark:shadow-lg tracking-wide flex items-center justify-center gap-1.5">
                 Barang & ATK
             </button>
             <button id="tabKertasBtn" onclick="switchTab('kertas')"
-                class="flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-transparent tracking-wide flex items-center justify-center gap-1.5">
+                class="flex-1 text-xs sm:text-sm md:text-base font-extrabold py-3.5 px-2 rounded-xl md:rounded-2xl transition-all duration-300 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-transparent tracking-wide flex items-center justify-center gap-1.5">
                 Kertas Foto
             </button>
         </div>
 
         <!-- PANEL STOK -->
-        <div id="panelStok" class="space-y-2 animate-fadeIn">
+        <div id="panelStok" class="space-y-2 animate-fadeIn flex-1">
             <div
                 class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-white/10 bg-white/80 dark:bg-white/5 w-full shadow-sm dark:shadow-none">
-                <table class="w-full text-left border-collapse table-fixed min-w-[320px]">
+                <table class="w-full text-left border-collapse min-w-[400px]">
                     <thead>
                         <tr class="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-transparent">
                             <th
-                                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 w-12 text-center">
+                                class="p-3 sm:p-4 text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 w-12 sm:w-16 md:w-20 text-center">
                                 No</th>
                             <th
-                                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 w-2/5">
+                                class="p-3 sm:p-4 text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
                                 Nama Barang</th>
                             <th
-                                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 text-center w-20 sm:w-28">
+                                class="p-3 sm:p-4 text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 text-center w-20 sm:w-28 md:w-40">
                                 Stok</th>
                             <th
-                                class="p-3 sm:p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 w-24 sm:w-36">
+                                class="p-3 sm:p-4 text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 w-24 sm:w-36 md:w-48 text-right pr-6 md:pr-10">
                                 Harga</th>
                         </tr>
                     </thead>
                     <tbody id="stokTableBody" class="text-slate-700 dark:text-slate-200">
                         <tr>
                             <td colspan="4"
-                                class="p-12 text-center text-slate-500 dark:text-slate-500 font-medium text-sm">Memuat
-                                data barang...</td>
+                                class="p-12 text-center text-slate-500 dark:text-slate-500 font-medium text-sm md:text-base">
+                                Memuat data barang...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -143,52 +148,55 @@
         </div>
 
         <!-- PANEL KERTAS FOTO -->
-        <div id="panelKertas" class="space-y-2 hidden animate-fadeIn">
+        <div id="panelKertas" class="space-y-2 hidden animate-fadeIn flex-1">
             <div
                 class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-white/10 bg-white/80 dark:bg-white/5 w-full shadow-sm dark:shadow-none">
-                <table class="w-full text-left border-collapse table-fixed min-w-[320px]">
+                <table class="w-full text-left border-collapse min-w-[320px]">
                     <thead>
                         <tr class="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-transparent">
                             <th
-                                class="p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 w-16 text-center">
+                                class="p-4 text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 w-16 md:w-24 text-center">
                                 No</th>
                             <th
-                                class="p-4 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                                class="p-4 text-[10px] sm:text-xs md:text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 pl-4 md:pl-8">
                                 Nama Kertas Foto</th>
                         </tr>
                     </thead>
                     <tbody id="kertasTableBody" class="text-slate-700 dark:text-slate-200">
                         <tr>
                             <td colspan="2"
-                                class="p-12 text-center text-slate-500 dark:text-slate-500 font-medium text-sm">Memuat
-                                data kertas foto...</td>
+                                class="p-12 text-center text-slate-500 dark:text-slate-500 font-medium text-sm md:text-base">
+                                Memuat data kertas foto...</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
 
-    <!-- ACTION BUTTONS FIXED BOTTOM -->
-    <div
-        class="fixed bottom-0 left-0 right-0 flex justify-center bg-gradient-to-t from-slate-50 dark:from-slate-900 via-slate-50/90 dark:via-slate-900/80 to-transparent p-4 pb-6 sm:pb-8 z-40 backdrop-blur-sm pointer-events-none">
-        <div class="w-full max-w-md flex gap-3 items-center pointer-events-auto">
-            <button id="mainActionButton" onclick="tambahDataAction()"
-                class="flex-1 bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-extrabold py-3.5 sm:py-4 px-4 rounded-2xl shadow-[0_10px_25px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.97] transition-all duration-200 text-sm sm:text-base tracking-wider border border-white/20 dark:border-white/10 truncate">
-                Tambah Stok Barang
-            </button>
+        <!-- ACTION BUTTONS 
+             Di Mobile: Melayang di Bawah (Fixed)
+             Di Desktop: Bergabung di dalam Panel Card bagian kanan bawah (Static & Rapi) -->
+        <div class="fixed bottom-0 left-0 right-0 flex justify-center bg-gradient-to-t from-slate-50 dark:from-slate-900 via-slate-50/90 dark:via-slate-900/80 to-transparent p-4 pb-6 sm:pb-8 z-40 backdrop-blur-sm pointer-events-none 
+                    md:static md:bg-none md:p-0 md:backdrop-blur-none md:mt-8">
+            <div
+                class="w-full max-w-md md:max-w-full flex md:justify-end gap-3 md:gap-4 items-center pointer-events-auto mt-auto">
+                <button id="mainActionButton" onclick="tambahDataAction()"
+                    class="flex-1 md:flex-none md:w-auto md:px-10 bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-extrabold py-3.5 sm:py-4 px-4 rounded-2xl shadow-[0_10px_25px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.97] transition-all duration-200 text-sm sm:text-base tracking-wider border border-white/20 dark:border-white/10 truncate">
+                    Tambah Stok Barang
+                </button>
 
-            <!-- Ganti href dengan onClick untuk membuka modal Tools -->
-            <button id="btnOpenToolsModal" title="Alat Admin" type="button"
-                class="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/10 text-slate-700 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-cyan-400 shadow-md backdrop-blur-md transition-all duration-200 transform active:scale-95 shrink-0 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" class="w-5 h-5 sm:w-6 sm:h-6 hover:animate-[spin_4s_linear_infinite]">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.43l-1.003.767c-.3.23-.45.62-.41.99.01.079.012.16.012.242 0 .083-.002.163-.012.242-.04.369.11.758.41.99l1.003.767a1.125 1.125 0 0 1 .26 1.43l-1.296 2.247a1.125 1.125 0 0 1-1.37.49l-1.216-.456a1.125 1.125 0 0 0-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281a1.125 1.125 0 0 0-.645-.87a6.528 6.528 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.43l1.004-.767c.301-.23.45-.619.41-.99a6.666 6.666 0 0 1-.012-.242c0-.083.004-.164.012-.242.04-.369-.11-.758-.41-.99l-1.004-.767a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.49l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128c.332-.183.582-.495.644-.869l.214-1.28Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                </svg>
-            </button>
+                <button id="btnOpenToolsModal" title="Alat Admin" type="button"
+                    class="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/10 text-slate-700 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-cyan-400 shadow-md backdrop-blur-md transition-all duration-200 transform active:scale-95 shrink-0 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor" class="w-5 h-5 sm:w-6 sm:h-6 hover:animate-[spin_4s_linear_infinite]">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.43l-1.003.767c-.3.23-.45.62-.41.99.01.079.012.16.012.242 0 .083-.002.163-.012.242-.04.369.11.758.41.99l1.003.767a1.125 1.125 0 0 1 .26 1.43l-1.296 2.247a1.125 1.125 0 0 1-1.37.49l-1.216-.456a1.125 1.125 0 0 0-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281a1.125 1.125 0 0 0-.645-.87a6.528 6.528 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.43l1.004-.767c.301-.23.45-.619.41-.99a6.666 6.666 0 0 1-.012-.242c0-.083.004-.164.012-.242.04-.369-.11-.758-.41-.99l-1.004-.767a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.49l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128c.332-.183.582-.495.644-.869l.214-1.28Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                </button>
+            </div>
         </div>
+
     </div>
 
     <!-- ================== MODAL TOOLS / ALAT TAMBAHAN ================== -->
@@ -196,56 +204,56 @@
         <div id="toolsBackdrop"
             class="absolute inset-0 bg-slate-900/30 dark:bg-slate-900/60 backdrop-blur-md opacity-0"></div>
         <div id="toolsContent"
-            class="max-w-md w-full bg-white/90 dark:bg-white/[0.06] backdrop-blur-2xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] p-6 sm:p-8 border border-white dark:border-white/10 relative z-10 transform scale-95 opacity-0">
+            class="max-w-md w-full bg-white/90 dark:bg-white/[0.06] backdrop-blur-2xl rounded-[32px] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] p-6 sm:p-8 border border-white dark:border-white/10 relative z-10 transform scale-95 opacity-0 transition-all duration-300">
             <div class="text-center mb-6 border-b border-slate-200 dark:border-white/10 pb-4">
                 <button type="button" id="btnCloseToolsModal"
-                    class="absolute top-6 left-6 text-slate-400 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-400 font-bold text-sm flex items-center group bg-white/50 dark:bg-white/5 p-1.5 rounded-full">
+                    class="absolute top-6 left-6 text-slate-400 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-400 font-bold text-sm flex items-center group bg-white/50 dark:bg-white/5 p-1.5 rounded-full transition">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
                         stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
-                <h2 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white mt-2 sm:mt-0">
+                <h2 class="text-2xl md:text-3xl font-black tracking-tight text-slate-900 dark:text-white mt-2 sm:mt-0">
                     Pilih <span
                         class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-pink-500 dark:from-cyan-400 dark:to-pink-400">Alat</span>
                 </h2>
-                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Silakan pilih menu generator yang Anda
-                    perlukan</p>
+                <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1.5">Silakan pilih menu generator
+                    yang Anda perlukan</p>
             </div>
 
             <form id="toolsForm" class="space-y-4">
                 <div class="space-y-3">
                     <label
-                        class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-cyan-400 dark:hover:border-cyan-500/40 shadow-sm hover:shadow-md hover:bg-slate-50 dark:hover:bg-white/[0.08] cursor-pointer group group-has-[:checked]:border-cyan-500 dark:group-has-[:checked]:border-cyan-500 group-has-[:checked]:bg-cyan-50/50 dark:group-has-[:checked]:bg-transparent">
+                        class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-cyan-400 dark:hover:border-cyan-500/40 shadow-sm hover:shadow-md hover:bg-slate-50 dark:hover:bg-white/[0.08] cursor-pointer group group-has-[:checked]:border-cyan-500 dark:group-has-[:checked]:border-cyan-500 group-has-[:checked]:bg-cyan-50/50 dark:group-has-[:checked]:bg-transparent transition">
                         <div class="flex items-center gap-3">
                             <div class="flex flex-col">
                                 <span
-                                    class="text-sm font-bold text-slate-800 dark:text-slate-200 group-hover:text-cyan-600 dark:group-hover:text-white">Cetak
+                                    class="text-sm md:text-base font-bold text-slate-800 dark:text-slate-200 group-hover:text-cyan-600 dark:group-hover:text-white transition">Cetak
                                     Nota Kosong</span>
-                                <span class="text-xs text-slate-500 dark:text-slate-400">Generator lembaran nota fisik 3
-                                    Ply</span>
+                                <span class="text-xs md:text-sm text-slate-500 dark:text-slate-400">Generator lembaran
+                                    nota fisik 3 Ply</span>
                             </div>
                         </div>
                         <input type="radio" name="toolsOpt" value="nota-kosong.html" checked
-                            class="w-4 h-4 text-cyan-500 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-white/10 focus:ring-cyan-500 focus:ring-offset-white dark:focus:ring-offset-slate-900 accent-cyan-500 dark:accent-cyan-400">
+                            class="w-4 h-4 md:w-5 md:h-5 text-cyan-500 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-white/10 focus:ring-cyan-500 focus:ring-offset-white dark:focus:ring-offset-slate-900 accent-cyan-500 dark:accent-cyan-400 cursor-pointer">
                     </label>
                     <label
-                        class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-pink-400 dark:hover:border-pink-500/40 shadow-sm hover:shadow-md hover:bg-slate-50 dark:hover:bg-white/[0.08] cursor-pointer group group-has-[:checked]:border-pink-500 dark:group-has-[:checked]:border-pink-500 group-has-[:checked]:bg-pink-50/50 dark:group-has-[:checked]:bg-transparent">
+                        class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-pink-400 dark:hover:border-pink-500/40 shadow-sm hover:shadow-md hover:bg-slate-50 dark:hover:bg-white/[0.08] cursor-pointer group group-has-[:checked]:border-pink-500 dark:group-has-[:checked]:border-pink-500 group-has-[:checked]:bg-pink-50/50 dark:group-has-[:checked]:bg-transparent transition">
                         <div class="flex items-center gap-3">
                             <div class="flex flex-col">
                                 <span
-                                    class="text-sm font-bold text-slate-800 dark:text-slate-200 group-hover:text-pink-600 dark:group-hover:text-white">Dokumen
+                                    class="text-sm md:text-base font-bold text-slate-800 dark:text-slate-200 group-hover:text-pink-600 dark:group-hover:text-white transition">Dokumen
                                     Lamaran</span>
-                                <span class="text-xs text-slate-500 dark:text-slate-400">Mesin pembuat file CV & Lamaran
-                                    Kerja</span>
+                                <span class="text-xs md:text-sm text-slate-500 dark:text-slate-400">Mesin pembuat file
+                                    CV & Lamaran Kerja</span>
                             </div>
                         </div>
                         <input type="radio" name="toolsOpt" value="generate-file.html"
-                            class="w-4 h-4 text-pink-500 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-white/10 focus:ring-pink-500 focus:ring-offset-white dark:focus:ring-offset-slate-900 accent-pink-500 dark:accent-pink-400">
+                            class="w-4 h-4 md:w-5 md:h-5 text-pink-500 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-white/10 focus:ring-pink-500 focus:ring-offset-white dark:focus:ring-offset-slate-900 accent-pink-500 dark:accent-pink-400 cursor-pointer">
                     </label>
                 </div>
                 <button type="submit"
-                    class="w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-black py-3.5 px-4 rounded-xl mt-4 shadow-[0_10px_25px_rgba(6,182,212,0.3)] border border-white/20 dark:border-white/10 transform active:scale-95 text-sm tracking-wider uppercase">
+                    class="w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-black py-4 px-4 rounded-xl mt-5 md:mt-6 shadow-[0_10px_25px_rgba(6,182,212,0.3)] border border-white/20 dark:border-white/10 transform active:scale-95 text-sm md:text-base tracking-wider uppercase transition">
                     Buka Alat
                 </button>
             </form>
@@ -253,49 +261,49 @@
     </div>
     <!-- ================================================================= -->
 
-
     <!-- ================== MODAL / POP-UP DATA (TAMBAH & EDIT) ================== -->
     <div id="modalBackdrop"
         class="fixed inset-0 bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
 
         <!-- 1. MODAL TAMBAH STOK -->
         <div id="modalStokBox"
-            class="hidden w-full max-w-md bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl p-6 border border-slate-200 dark:border-white/10 animate-fadeIn relative">
+            class="hidden w-full max-w-md md:max-w-lg bg-white dark:bg-slate-800 rounded-[32px] md:rounded-[40px] shadow-2xl p-6 md:p-8 border border-slate-200 dark:border-white/10 animate-fadeIn relative">
             <button onclick="closeModal()"
-                class="absolute top-5 right-5 text-slate-400 hover:text-red-500 font-black text-xl leading-none">&times;</button>
+                class="absolute top-5 right-5 text-slate-400 hover:text-red-500 font-black text-2xl leading-none transition">&times;</button>
             <h2
-                class="text-xl font-black text-slate-900 dark:text-white mb-5 tracking-tight border-b border-slate-200 dark:border-white/10 pb-3">
+                class="text-xl md:text-2xl font-black text-slate-900 dark:text-white mb-5 md:mb-6 tracking-tight border-b border-slate-200 dark:border-white/10 pb-3 md:pb-4">
                 Tambah Stok</h2>
 
-            <div id="notifStok" class="hidden mb-4 p-3 text-xs rounded-xl border font-semibold tracking-wide shadow-sm">
+            <div id="notifStok"
+                class="hidden mb-4 p-3 text-xs md:text-sm rounded-xl border font-semibold tracking-wide shadow-sm">
             </div>
 
-            <form id="formAddStok" class="space-y-4">
+            <form id="formAddStok" class="space-y-4 md:space-y-5">
                 <div>
                     <label
-                        class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Nama
+                        class="block text-[11px] md:text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 md:mb-1.5">Nama
                         Barang</label>
                     <input type="text" id="inputNamaStok" required placeholder="Contoh: Kertas HVS A4"
-                        class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 text-sm font-medium text-slate-900 dark:text-white">
+                        class="w-full px-4 py-3 md:py-3.5 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 text-sm md:text-base font-medium text-slate-900 dark:text-white">
                 </div>
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-2 gap-3 md:gap-4">
                     <div>
                         <label
-                            class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Stok
+                            class="block text-[11px] md:text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 md:mb-1.5">Stok
                             (Sisa)</label>
                         <input type="number" id="inputSisaStok" required min="0" placeholder="Contoh: 500"
-                            class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 text-sm font-medium text-slate-900 dark:text-white">
+                            class="w-full px-4 py-3 md:py-3.5 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 text-sm md:text-base font-medium text-slate-900 dark:text-white">
                     </div>
                     <div>
                         <label
-                            class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Harga
+                            class="block text-[11px] md:text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 md:mb-1.5">Harga
                             Satuan</label>
                         <input type="number" id="inputHargaStok" required min="0" placeholder="Contoh: 300"
-                            class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 text-sm font-medium text-slate-900 dark:text-white">
+                            class="w-full px-4 py-3 md:py-3.5 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 text-sm md:text-base font-medium text-slate-900 dark:text-white">
                     </div>
                 </div>
                 <button type="submit" id="btnSimpanStok"
-                    class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-extrabold py-3.5 rounded-xl mt-2 shadow-md transition-all active:scale-95 text-sm tracking-wide">
+                    class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-extrabold py-3.5 md:py-4 rounded-xl mt-3 shadow-md md:shadow-lg transition-all active:scale-95 text-sm md:text-base tracking-wide">
                     Simpan Data Stok
                 </button>
             </form>
@@ -303,72 +311,72 @@
 
         <!-- 2. MODAL EDIT STOK -->
         <div id="modalEditStokBox"
-            class="hidden w-full max-w-md bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl p-6 border border-slate-200 dark:border-white/10 animate-fadeIn relative">
+            class="hidden w-full max-w-md md:max-w-lg bg-white dark:bg-slate-800 rounded-[32px] md:rounded-[40px] shadow-2xl p-6 md:p-8 border border-slate-200 dark:border-white/10 animate-fadeIn relative">
             <button onclick="closeModal()"
-                class="absolute top-5 right-5 text-slate-400 hover:text-red-500 font-black text-xl leading-none">&times;</button>
+                class="absolute top-5 right-5 text-slate-400 hover:text-red-500 font-black text-2xl leading-none transition">&times;</button>
             <h2
-                class="text-xl font-black text-slate-900 dark:text-white mb-5 tracking-tight border-b border-slate-200 dark:border-white/10 pb-3">
+                class="text-xl md:text-2xl font-black text-slate-900 dark:text-white mb-5 md:mb-6 tracking-tight border-b border-slate-200 dark:border-white/10 pb-3 md:pb-4">
                 Ubah Stok Barang</h2>
 
             <div id="notifEditStok"
-                class="hidden mb-4 p-3 text-xs rounded-xl border font-semibold tracking-wide shadow-sm">
+                class="hidden mb-4 p-3 text-xs md:text-sm rounded-xl border font-semibold tracking-wide shadow-sm">
             </div>
 
-            <form id="formEditStok" class="space-y-4">
+            <form id="formEditStok" class="space-y-4 md:space-y-5">
                 <input type="hidden" id="editIdStok">
                 <div>
                     <label
-                        class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Nama
+                        class="block text-[11px] md:text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 md:mb-1.5">Nama
                         Barang</label>
                     <input type="text" id="editNamaStok" required
-                        class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm font-medium text-slate-900 dark:text-white">
+                        class="w-full px-4 py-3 md:py-3.5 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm md:text-base font-medium text-slate-900 dark:text-white">
                 </div>
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-2 gap-3 md:gap-4">
                     <div>
                         <label
-                            class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Stok
+                            class="block text-[11px] md:text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 md:mb-1.5">Stok
                             (Sisa)</label>
                         <input type="number" id="editSisaStok" required min="0"
-                            class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm font-medium text-slate-900 dark:text-white">
+                            class="w-full px-4 py-3 md:py-3.5 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm md:text-base font-medium text-slate-900 dark:text-white">
                     </div>
                     <div>
                         <label
-                            class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Harga
+                            class="block text-[11px] md:text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 md:mb-1.5">Harga
                             Satuan</label>
                         <input type="number" id="editHargaStok" required min="0"
-                            class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm font-medium text-slate-900 dark:text-white">
+                            class="w-full px-4 py-3 md:py-3.5 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm md:text-base font-medium text-slate-900 dark:text-white">
                     </div>
                 </div>
                 <button type="submit" id="btnSimpanEditStok"
-                    class="w-full bg-amber-500 hover:bg-amber-600 text-white font-extrabold py-3.5 rounded-xl mt-2 shadow-md transition-all active:scale-95 text-sm tracking-wide">
+                    class="w-full bg-amber-500 hover:bg-amber-600 text-white font-extrabold py-3.5 md:py-4 rounded-xl mt-3 shadow-md md:shadow-lg transition-all active:scale-95 text-sm md:text-base tracking-wide">
                     Simpan Perubahan
                 </button>
             </form>
         </div>
 
-
         <!-- 3. MODAL TAMBAH KERTAS FOTO -->
         <div id="modalKertasBox"
-            class="hidden w-full max-w-sm bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl p-6 border border-slate-200 dark:border-white/10 animate-fadeIn relative">
+            class="hidden w-full max-w-sm md:max-w-md bg-white dark:bg-slate-800 rounded-[32px] md:rounded-[40px] shadow-2xl p-6 md:p-8 border border-slate-200 dark:border-white/10 animate-fadeIn relative">
             <button onclick="closeModal()"
-                class="absolute top-5 right-5 text-slate-400 hover:text-red-500 font-black text-xl leading-none">&times;</button>
+                class="absolute top-5 right-5 text-slate-400 hover:text-red-500 font-black text-2xl leading-none transition">&times;</button>
             <h2
-                class="text-xl font-black text-slate-900 dark:text-white mb-5 tracking-tight border-b border-slate-200 dark:border-white/10 pb-3">
+                class="text-xl md:text-2xl font-black text-slate-900 dark:text-white mb-5 md:mb-6 tracking-tight border-b border-slate-200 dark:border-white/10 pb-3 md:pb-4">
                 Tambah Kertas Foto</h2>
 
             <div id="notifKertas"
-                class="hidden mb-4 p-3 text-xs rounded-xl border font-semibold tracking-wide shadow-sm"></div>
+                class="hidden mb-4 p-3 text-xs md:text-sm rounded-xl border font-semibold tracking-wide shadow-sm">
+            </div>
 
-            <form id="formAddKertas" class="space-y-4">
+            <form id="formAddKertas" class="space-y-4 md:space-y-5">
                 <div>
                     <label
-                        class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Nama
+                        class="block text-[11px] md:text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 md:mb-1.5">Nama
                         Varian Kertas</label>
                     <input type="text" id="inputNamaKertas" required placeholder="Contoh: Silky Paper 230gsm"
-                        class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 text-sm font-medium text-slate-900 dark:text-white">
+                        class="w-full px-4 py-3 md:py-3.5 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 text-sm md:text-base font-medium text-slate-900 dark:text-white">
                 </div>
                 <button type="submit" id="btnSimpanKertas"
-                    class="w-full bg-pink-500 hover:bg-pink-600 text-white font-extrabold py-3.5 rounded-xl mt-2 shadow-md transition-all active:scale-95 text-sm tracking-wide">
+                    class="w-full bg-pink-500 hover:bg-pink-600 text-white font-extrabold py-3.5 md:py-4 rounded-xl mt-3 shadow-md md:shadow-lg transition-all active:scale-95 text-sm md:text-base tracking-wide">
                     Simpan Kertas Foto
                 </button>
             </form>
@@ -376,32 +384,32 @@
 
         <!-- 4. MODAL EDIT KERTAS FOTO -->
         <div id="modalEditKertasBox"
-            class="hidden w-full max-w-sm bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl p-6 border border-slate-200 dark:border-white/10 animate-fadeIn relative">
+            class="hidden w-full max-w-sm md:max-w-md bg-white dark:bg-slate-800 rounded-[32px] md:rounded-[40px] shadow-2xl p-6 md:p-8 border border-slate-200 dark:border-white/10 animate-fadeIn relative">
             <button onclick="closeModal()"
-                class="absolute top-5 right-5 text-slate-400 hover:text-red-500 font-black text-xl leading-none">&times;</button>
+                class="absolute top-5 right-5 text-slate-400 hover:text-red-500 font-black text-2xl leading-none transition">&times;</button>
             <h2
-                class="text-xl font-black text-slate-900 dark:text-white mb-5 tracking-tight border-b border-slate-200 dark:border-white/10 pb-3">
+                class="text-xl md:text-2xl font-black text-slate-900 dark:text-white mb-5 md:mb-6 tracking-tight border-b border-slate-200 dark:border-white/10 pb-3 md:pb-4">
                 Ubah Kertas Foto</h2>
 
             <div id="notifEditKertas"
-                class="hidden mb-4 p-3 text-xs rounded-xl border font-semibold tracking-wide shadow-sm"></div>
+                class="hidden mb-4 p-3 text-xs md:text-sm rounded-xl border font-semibold tracking-wide shadow-sm">
+            </div>
 
-            <form id="formEditKertas" class="space-y-4">
+            <form id="formEditKertas" class="space-y-4 md:space-y-5">
                 <input type="hidden" id="editIdKertas">
                 <div>
                     <label
-                        class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">Nama
+                        class="block text-[11px] md:text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1 md:mb-1.5">Nama
                         Varian Kertas</label>
                     <input type="text" id="editNamaKertas" required
-                        class="w-full px-4 py-3 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm font-medium text-slate-900 dark:text-white">
+                        class="w-full px-4 py-3 md:py-3.5 bg-slate-50 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm md:text-base font-medium text-slate-900 dark:text-white">
                 </div>
                 <button type="submit" id="btnSimpanEditKertas"
-                    class="w-full bg-amber-500 hover:bg-amber-600 text-white font-extrabold py-3.5 rounded-xl mt-2 shadow-md transition-all active:scale-95 text-sm tracking-wide">
+                    class="w-full bg-amber-500 hover:bg-amber-600 text-white font-extrabold py-3.5 md:py-4 rounded-xl mt-3 shadow-md md:shadow-lg transition-all active:scale-95 text-sm md:text-base tracking-wide">
                     Simpan Perubahan
                 </button>
             </form>
         </div>
-
     </div>
     <!-- ============================================================ -->
 
@@ -480,14 +488,14 @@
             const actionBtn = document.getElementById('mainActionButton');
 
             if (tabName === 'stok') {
-                tabStok.className = "flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 bg-cyan-500 dark:bg-white/10 text-white shadow-md dark:shadow-lg tracking-wide flex items-center justify-center gap-1.5";
-                tabKertas.className = "flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-transparent tracking-wide flex items-center justify-center gap-1.5";
+                tabStok.className = "flex-1 text-xs sm:text-sm md:text-base font-extrabold py-3.5 px-2 rounded-xl md:rounded-2xl transition-all duration-300 bg-cyan-500 dark:bg-white/10 text-white shadow-md dark:shadow-lg tracking-wide flex items-center justify-center gap-1.5";
+                tabKertas.className = "flex-1 text-xs sm:text-sm md:text-base font-extrabold py-3.5 px-2 rounded-xl md:rounded-2xl transition-all duration-300 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-transparent tracking-wide flex items-center justify-center gap-1.5";
                 panelStok.classList.remove('hidden');
                 panelKertas.classList.add('hidden');
                 actionBtn.innerText = "Tambah Stok Barang";
             } else {
-                tabKertas.className = "flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 bg-cyan-500 dark:bg-white/10 text-white shadow-md dark:shadow-lg tracking-wide flex items-center justify-center gap-1.5";
-                tabStok.className = "flex-1 text-xs sm:text-sm font-extrabold py-3.5 px-2 rounded-xl transition-all duration-300 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-transparent tracking-wide flex items-center justify-center gap-1.5";
+                tabKertas.className = "flex-1 text-xs sm:text-sm md:text-base font-extrabold py-3.5 px-2 rounded-xl md:rounded-2xl transition-all duration-300 bg-cyan-500 dark:bg-white/10 text-white shadow-md dark:shadow-lg tracking-wide flex items-center justify-center gap-1.5";
+                tabStok.className = "flex-1 text-xs sm:text-sm md:text-base font-extrabold py-3.5 px-2 rounded-xl md:rounded-2xl transition-all duration-300 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-transparent tracking-wide flex items-center justify-center gap-1.5";
                 panelKertas.classList.remove('hidden');
                 panelStok.classList.add('hidden');
                 actionBtn.innerText = "Tambah Varian Kertas Foto";
@@ -559,12 +567,12 @@
                 });
 
                 notif.innerText = `Stok berhasil ditambahkan!`;
-                notif.className = "mb-4 p-3 text-xs rounded-xl border bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 font-semibold tracking-wide block";
+                notif.className = "mb-4 p-3 text-xs md:text-sm rounded-xl border bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 font-semibold tracking-wide block";
                 document.getElementById('formAddStok').reset();
                 setTimeout(() => closeModal(), 1500);
             } catch (error) {
                 notif.innerText = 'Gagal menyimpan: ' + error.message;
-                notif.className = "mb-4 p-3 text-xs rounded-xl border bg-red-50 text-red-600 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 font-semibold tracking-wide block";
+                notif.className = "mb-4 p-3 text-xs md:text-sm rounded-xl border bg-red-50 text-red-600 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 font-semibold tracking-wide block";
             } finally {
                 btn.disabled = false;
                 btn.innerText = 'Simpan Data Stok';
@@ -601,12 +609,12 @@
                 });
 
                 notif.innerText = `Varian berhasil ditambahkan!`;
-                notif.className = "mb-4 p-3 text-xs rounded-xl border bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 font-semibold tracking-wide block";
+                notif.className = "mb-4 p-3 text-xs md:text-sm rounded-xl border bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 font-semibold tracking-wide block";
                 document.getElementById('formAddKertas').reset();
                 setTimeout(() => closeModal(), 1500);
             } catch (error) {
                 notif.innerText = 'Gagal menyimpan: ' + error.message;
-                notif.className = "mb-4 p-3 text-xs rounded-xl border bg-red-50 text-red-600 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 font-semibold tracking-wide block";
+                notif.className = "mb-4 p-3 text-xs md:text-sm rounded-xl border bg-red-50 text-red-600 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 font-semibold tracking-wide block";
             } finally {
                 btn.disabled = false;
                 btn.innerText = 'Simpan Kertas Foto';
@@ -634,11 +642,11 @@
                 await update(ref(db), updates);
 
                 notif.innerText = `Data berhasil diperbarui!`;
-                notif.className = "mb-4 p-3 text-xs rounded-xl border bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 font-semibold tracking-wide block";
+                notif.className = "mb-4 p-3 text-xs md:text-sm rounded-xl border bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 font-semibold tracking-wide block";
                 setTimeout(() => closeModal(), 1500);
             } catch (error) {
                 notif.innerText = 'Gagal menyimpan: ' + error.message;
-                notif.className = "mb-4 p-3 text-xs rounded-xl border bg-red-50 text-red-600 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 font-semibold tracking-wide block";
+                notif.className = "mb-4 p-3 text-xs md:text-sm rounded-xl border bg-red-50 text-red-600 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 font-semibold tracking-wide block";
             } finally {
                 btn.disabled = false;
                 btn.innerText = 'Simpan Perubahan';
@@ -666,11 +674,11 @@
                 await update(ref(db), updates);
 
                 notif.innerText = `Varian berhasil diperbarui!`;
-                notif.className = "mb-4 p-3 text-xs rounded-xl border bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 font-semibold tracking-wide block";
+                notif.className = "mb-4 p-3 text-xs md:text-sm rounded-xl border bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20 font-semibold tracking-wide block";
                 setTimeout(() => closeModal(), 1500);
             } catch (error) {
                 notif.innerText = 'Gagal menyimpan: ' + error.message;
-                notif.className = "mb-4 p-3 text-xs rounded-xl border bg-red-50 text-red-600 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 font-semibold tracking-wide block";
+                notif.className = "mb-4 p-3 text-xs md:text-sm rounded-xl border bg-red-50 text-red-600 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20 font-semibold tracking-wide block";
             } finally {
                 btn.disabled = false;
                 btn.innerText = 'Simpan Perubahan';
@@ -690,16 +698,16 @@
                     const item = data[id];
                     const row = `
                         <tr onclick="toggleActionRow('stok-${id}')" class="border-b border-slate-200 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/5 transition cursor-pointer">
-                            <td class="p-3 sm:p-4 text-xs font-semibold text-slate-500 dark:text-slate-400 text-center">${index++}</td>
-                            <td class="p-3 sm:p-4 text-xs sm:text-sm font-bold text-slate-800 dark:text-white break-words">${item.nama_stok}</td>
-                            <td class="p-3 sm:p-4 text-xs sm:text-sm text-center"><span class="bg-cyan-50 dark:bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 px-2 sm:px-3 py-1 rounded-lg border border-cyan-200 dark:border-cyan-500/20">${item.sisa_stok}</span></td>
-                            <td class="p-3 sm:p-4 text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-bold truncate">Rp ${parseInt(item.harga).toLocaleString('id-ID')}</td>
+                            <td class="p-3 sm:p-4 text-xs md:text-sm font-semibold text-slate-500 dark:text-slate-400 text-center">${index++}</td>
+                            <td class="p-3 sm:p-4 text-xs sm:text-sm md:text-base font-bold text-slate-800 dark:text-white break-words">${item.nama_stok}</td>
+                            <td class="p-3 sm:p-4 text-xs sm:text-sm md:text-base text-center"><span class="bg-cyan-50 dark:bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 px-2 md:px-4 py-1 md:py-1.5 rounded-lg border border-cyan-200 dark:border-cyan-500/20">${item.sisa_stok}</span></td>
+                            <td class="p-3 sm:p-4 text-xs sm:text-sm md:text-base text-slate-700 dark:text-slate-300 font-bold truncate text-right pr-6 md:pr-10">Rp ${parseInt(item.harga).toLocaleString('id-ID')}</td>
                         </tr>
                         <tr id="action-stok-${id}" class="hidden bg-slate-100 dark:bg-white/5 border-b border-slate-300 dark:border-white/5 animate-fadeIn">
                             <td colspan="4" class="p-3 text-right">
-                                <div class="flex justify-end gap-2 sm:gap-3 px-1">
-                                    <button onclick="event.stopPropagation(); updateStok('${id}', '${item.nama_stok}', ${item.sisa_stok}, ${item.harga})" class="bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-300 dark:border-amber-500/20 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-amber-100 dark:hover:bg-amber-500/20 transition">Ubah</button>
-                                    <button onclick="event.stopPropagation(); deleteStok('${id}')" class="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-500/20 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-red-100 dark:hover:bg-red-500/20 transition">Hapus</button>
+                                <div class="flex justify-end gap-2 md:gap-3 px-1 md:px-6">
+                                    <button onclick="event.stopPropagation(); updateStok('${id}', '${item.nama_stok}', ${item.sisa_stok}, ${item.harga})" class="bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-300 dark:border-amber-500/20 px-4 md:px-5 py-2 md:py-2.5 rounded-xl text-xs md:text-sm font-bold hover:bg-amber-100 dark:hover:bg-amber-500/20 transition">Ubah</button>
+                                    <button onclick="event.stopPropagation(); deleteStok('${id}')" class="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-500/20 px-4 md:px-5 py-2 md:py-2.5 rounded-xl text-xs md:text-sm font-bold hover:bg-red-100 dark:hover:bg-red-500/20 transition">Hapus</button>
                                 </div>
                             </td>
                         </tr>
@@ -725,13 +733,15 @@
                     const item = data[paperId];
                     const row = `
                         <tr onclick="toggleActionRow('kertas-${paperId}')" class="border-b border-slate-200 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/5 transition cursor-pointer">
-                            <td class="p-4 text-xs font-semibold text-slate-500 dark:text-slate-400 text-center w-16">${index++}</td>
-                            <td class="p-4 text-sm font-bold text-slate-800 dark:text-white flex justify-between">${item.nama_paper}</td>
+                            <td class="p-4 text-xs md:text-sm font-semibold text-slate-500 dark:text-slate-400 text-center w-16 md:w-24">${index++}</td>
+                            <td class="p-4 text-sm md:text-base font-bold text-slate-800 dark:text-white flex justify-between pl-4 md:pl-8">${item.nama_paper}</td>
                         </tr>
                         <tr id="action-kertas-${paperId}" class="hidden bg-slate-100 dark:bg-white/5 border-b border-slate-300 dark:border-white/5 animate-fadeIn">
                             <td colspan="2" class="p-3 text-right">
-                                <button onclick="event.stopPropagation(); updateKertas('${paperId}', '${item.nama_paper}')" class="bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-300 dark:border-amber-200/50 px-3 py-1.5 rounded-lg text-xs font-bold mx-2 hover:bg-amber-100 dark:hover:bg-amber-500/20 transition">Ubah</button>
-                                <button onclick="event.stopPropagation(); deleteKertas('${paperId}')" class="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-200/50 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-red-100 dark:hover:bg-red-500/20 transition">Hapus</button>
+                                <div class="flex justify-end gap-2 md:gap-3 px-2 md:px-6">
+                                    <button onclick="event.stopPropagation(); updateKertas('${paperId}', '${item.nama_paper}')" class="bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-300 dark:border-amber-200/50 px-4 md:px-5 py-2 md:py-2.5 rounded-xl text-xs md:text-sm font-bold hover:bg-amber-100 dark:hover:bg-amber-500/20 transition">Ubah</button>
+                                    <button onclick="event.stopPropagation(); deleteKertas('${paperId}')" class="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-200/50 px-4 md:px-5 py-2 md:py-2.5 rounded-xl text-xs md:text-sm font-bold hover:bg-red-100 dark:hover:bg-red-500/20 transition">Hapus</button>
+                                </div>
                             </td>
                         </tr>`;
                     tbody.innerHTML += row;

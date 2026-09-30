@@ -49,69 +49,90 @@
 
     <!-- Ornamen Background -->
     <div
-        class="absolute w-72 h-72 rounded-full bg-cyan-400/30 dark:bg-cyan-500/20 blur-[80px] -top-12 -left-12 pointer-events-none">
+        class="absolute w-72 h-72 md:w-96 md:h-96 rounded-full bg-cyan-400/30 dark:bg-cyan-500/20 blur-[80px] md:blur-[120px] -top-12 md:-top-20 -left-12 md:-left-20 pointer-events-none">
     </div>
     <div
-        class="absolute w-80 h-80 rounded-full bg-pink-400/25 dark:bg-pink-500/15 blur-[100px] bottom-10 right-0 pointer-events-none">
+        class="absolute w-80 h-80 md:w-[30rem] md:h-[30rem] rounded-full bg-pink-400/25 dark:bg-pink-500/15 blur-[100px] md:blur-[140px] bottom-10 md:-bottom-20 right-0 md:-right-20 pointer-events-none">
     </div>
     <div
-        class="absolute w-60 h-60 rounded-full bg-yellow-400/20 dark:bg-yellow-500/10 blur-[90px] top-1/3 right-1/4 pointer-events-none">
+        class="absolute w-60 h-60 md:w-80 md:h-80 rounded-full bg-yellow-400/20 dark:bg-yellow-500/10 blur-[90px] md:blur-[120px] top-1/3 right-1/4 pointer-events-none">
     </div>
 
-    <!-- Tombol Header -->
-    <div class="absolute top-4 left-4 z-20">
+    <!-- Tombol Header (Absolute) -->
+    <div class="absolute top-4 md:top-8 left-4 md:left-8 z-20">
         <a href="feedback.html"
-            class="text-xs font-extrabold text-white bg-gradient-to-r from-cyan-500 to-indigo-500 hover:brightness-110 px-4 py-2.5 rounded-2xl tracking-wide shadow-md shadow-cyan-500/20 dark:shadow-cyan-500/10 border border-cyan-400/30 dark:border-cyan-400/20 block transform active:scale-95">
+            class="text-xs md:text-sm font-extrabold text-white bg-gradient-to-r from-cyan-500 to-indigo-500 hover:brightness-110 px-4 md:px-5 py-2.5 md:py-3 rounded-2xl md:rounded-3xl tracking-wide shadow-md shadow-cyan-500/20 dark:shadow-cyan-500/10 border border-cyan-400/30 dark:border-cyan-400/20 block transform active:scale-95 transition-all">
             Kritik & Saran
         </a>
     </div>
-    <div class="absolute top-4 right-4 z-20">
+    <div class="absolute top-4 md:top-8 right-4 md:right-8 z-20">
         <button id="btnOpenLoginModal" type="button"
-            class="text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-white/60 dark:bg-white/5 hover:bg-white/90 dark:hover:bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-slate-300/60 dark:border-white/10 tracking-wide shadow-sm block transform active:scale-95">
+            class="text-xs md:text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-white/60 dark:bg-white/5 hover:bg-white/90 dark:hover:bg-white/10 backdrop-blur-md px-4 md:px-5 py-2.5 md:py-3 rounded-2xl md:rounded-3xl border border-slate-300/60 dark:border-white/10 tracking-wide shadow-sm block transform active:scale-95 transition-all">
             Admin Area
         </button>
     </div>
 
-    <!-- Konten Utama (Tengah) -->
+    <!-- Konten Utama -->
     <div
-        class="max-w-md w-full bg-white/70 dark:bg-white/[0.06] backdrop-blur-xl rounded-[32px] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 sm:p-8 text-center mb-24 border border-white dark:border-white/10 relative z-10">
-        <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white mb-2">
-            Home <span
-                class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-pink-500 to-yellow-500 dark:from-cyan-400 dark:via-pink-400 dark:to-yellow-400">Print</span>
-        </h1>
-        <p class="text-slate-600 dark:text-slate-300 text-sm font-medium px-4 leading-relaxed">
-            Cetak dokumen & foto Anda dengan kualitas tajam, cepat, dan siap antar langsung ke depan pintu rumah.
-        </p>
+        class="max-w-md md:max-w-4xl lg:max-w-5xl w-full bg-white/70 dark:bg-white/[0.06] backdrop-blur-xl rounded-[32px] md:rounded-[40px] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 sm:p-8 md:p-12 mb-24 md:mb-0 border border-white dark:border-white/10 relative z-10 flex flex-col md:flex-row items-center md:justify-between gap-8 md:gap-12">
 
-        <!-- AREA LOGO DENGAN TOOLTIP BUBBLE -->
-        <div class="my-8 relative group inline-block">
+        <!-- KOLOM KIRI (Teks & Tombol Desktop) -->
+        <div class="flex-1 text-center md:text-left flex flex-col items-center md:items-start">
+            <h1
+                class="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white mb-3 md:mb-5">
+                Home <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 via-pink-500 to-yellow-500 dark:from-cyan-400 dark:via-pink-400 dark:to-yellow-400">Print</span>
+            </h1>
+            <p
+                class="text-slate-600 dark:text-slate-300 text-sm md:text-base lg:text-lg font-medium px-4 md:px-0 leading-relaxed md:max-w-md">
+                Cetak dokumen & foto Anda dengan kualitas tajam, cepat, dan siap antar langsung ke depan pintu rumah.
+            </p>
 
-            <!-- Notifikasi Bubble Tooltip -->
-            <div id="tooltipBubble"
-                class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-[240px] bg-slate-800 text-white text-[10px] font-medium p-3 rounded-xl shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 z-50 text-center leading-relaxed">
-                Anda dapat mengganti tema hanya dengan klik logo ini, klik lagi jika ingin kembali ke tema sebelumnya.
-                <!-- Segitiga penunjuk ke bawah -->
-                <div class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-800 rotate-45"></div>
-            </div>
+            <p
+                class="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium tracking-wide hidden md:block mt-8 mb-3">
+                Tekan tombol di bawah untuk mulai pemesanan.
+            </p>
 
-            <div
-                class="absolute inset-0 bg-gradient-to-tr from-cyan-400 via-pink-400 to-yellow-400 dark:from-cyan-500 dark:via-pink-500 dark:to-yellow-500 rounded-full blur-2xl opacity-30 dark:opacity-20 group-hover:opacity-50 dark:group-hover:opacity-40 w-44 h-44 mx-auto pointer-events-none">
-            </div>
-
-            <!-- Gambar diberi ID dan class cursor-pointer untuk trigger fungsi Tema -->
-            <img src="ic.png" alt="Home Print Logo" id="themeToggleBtn" title="Klik untuk ubah tema"
-                class="relative rounded-3xl mx-auto w-44 object-contain animate-float drop-shadow-[0_10px_15px_rgba(0,0,0,0.15)] dark:drop-shadow-[0_10px_15px_rgba(0,0,0,0.3)] cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-300 z-10">
+            <!-- Tombol Pilih Pesanan (Hanya Tampil di Desktop) -->
+            <button id="btnOpenServiceModalDesktop" type="button"
+                class="hidden md:block w-full max-w-[250px] bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-extrabold py-4 px-6 rounded-2xl shadow-[0_12px_30px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.97] transition-all duration-200 text-base tracking-wider border border-white/20 dark:border-white/10">
+                Pilih Pesanan
+            </button>
         </div>
 
-        <p class="text-xs text-slate-500 dark:text-slate-400 font-medium tracking-wide">
+        <!-- KOLOM KANAN (Logo & Tooltip) -->
+        <div class="my-4 md:my-0 relative group inline-block flex-1 flex justify-center w-full">
+            <!-- Notifikasi Bubble Tooltip -->
+            <div id="tooltipBubble"
+                class="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-[240px] md:w-[280px] bg-slate-800 text-white text-[10px] md:text-xs font-medium p-3 md:p-4 rounded-xl shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 z-50 text-center leading-relaxed">
+                Anda dapat mengganti tema hanya dengan klik logo ini, klik lagi jika ingin kembali ke tema sebelumnya.
+                <!-- Segitiga penunjuk ke bawah -->
+                <div
+                    class="absolute -bottom-1.5 md:-bottom-2 left-1/2 -translate-x-1/2 w-3 h-3 md:w-4 md:h-4 bg-slate-800 rotate-45">
+                </div>
+            </div>
+
+            <!-- Efek Glow di belakang logo -->
+            <div
+                class="absolute inset-0 bg-gradient-to-tr from-cyan-400 via-pink-400 to-yellow-400 dark:from-cyan-500 dark:via-pink-500 dark:to-yellow-500 rounded-full blur-2xl opacity-30 dark:opacity-20 group-hover:opacity-50 dark:group-hover:opacity-40 w-44 h-44 md:w-64 md:h-64 mx-auto pointer-events-none transition-all duration-500">
+            </div>
+
+            <!-- Gambar Logo -->
+            <img src="ic.png" alt="Home Print Logo" id="themeToggleBtn" title="Klik untuk ubah tema"
+                class="relative rounded-3xl md:rounded-[40px] mx-auto w-44 md:w-64 lg:w-72 object-contain animate-float drop-shadow-[0_10px_15px_rgba(0,0,0,0.15)] dark:drop-shadow-[0_10px_15px_rgba(0,0,0,0.3)] cursor-pointer hover:scale-105 active:scale-95 transition-transform duration-300 z-10">
+        </div>
+
+        <!-- Teks Bawah (Hanya Tampil di Mobile) -->
+        <p
+            class="text-xs text-slate-500 dark:text-slate-400 font-medium tracking-wide md:hidden mt-4 w-full text-center">
             Tekan tombol di bawah untuk mulai pemesanan.
         </p>
     </div>
 
-    <!-- Tombol Pilih Pesanan (Fixed Bawah) -->
+    <!-- Tombol Pilih Pesanan Melayang Fixed Bawah (Hanya Tampil di Mobile) -->
     <div
-        class="fixed bottom-0 left-0 right-0 flex justify-center bg-gradient-to-t from-slate-50 dark:from-slate-900 via-slate-50/90 dark:via-slate-900/80 to-transparent p-4 pb-6 sm:pb-8 z-20 backdrop-blur-sm">
-        <button id="btnOpenServiceModal" type="button"
+        class="fixed md:hidden bottom-0 left-0 right-0 flex justify-center bg-gradient-to-t from-slate-50 dark:from-slate-900 via-slate-50/90 dark:via-slate-900/80 to-transparent p-4 pb-6 sm:pb-8 z-20 backdrop-blur-sm">
+        <button id="btnOpenServiceModalMobile" type="button"
             class="w-full max-w-md bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 hover:brightness-110 text-white font-extrabold py-4 px-6 rounded-2xl shadow-[0_12px_30px_rgba(6,182,212,0.3)] text-center transform active:scale-[0.97] transition-all duration-200 text-base tracking-wider border border-white/20 dark:border-white/10 block">
             Pilih Pesanan
         </button>
@@ -235,39 +256,32 @@
         if (localStorage.getItem('theme') === 'dark') {
             html.classList.add('dark');
         } else {
-            // Default adalah Light, hilangkan jika ada
             html.classList.remove('dark');
         }
 
-        // Fungsi ketika Logo (ic.png) ditekan
+        // Fungsi ketika Logo ditekan
         themeBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Cegah merambat ke document
+            e.stopPropagation();
             html.classList.toggle('dark');
 
-            // Simpan ke local storage
             if (html.classList.contains('dark')) {
                 localStorage.setItem('theme', 'dark');
             } else {
                 localStorage.setItem('theme', 'light');
             }
 
-            // Sembunyikan bubble jika sedang tampil
             tooltipBubble.classList.remove('opacity-100');
             tooltipBubble.classList.add('opacity-0');
         });
 
-        // Event listener klik diluar logo (Memicu Tooltip Bubble)
+        // Event listener klik diluar logo (Memicu Tooltip)
         document.addEventListener('click', (e) => {
-            // Memastikan klik tidak terjadi pada gambar logo
             if (!themeBtn.contains(e.target)) {
-                // Tampilkan Bubble
                 tooltipBubble.classList.remove('opacity-0');
                 tooltipBubble.classList.add('opacity-100');
 
-                // Reset timer (agar tidak bentrok jika user klik berkali-kali)
                 clearTimeout(bubbleTimeout);
 
-                // Hilangkan setelah 4 detik (4000ms)
                 bubbleTimeout = setTimeout(() => {
                     tooltipBubble.classList.remove('opacity-100');
                     tooltipBubble.classList.add('opacity-0');
@@ -332,18 +346,24 @@
         const serviceModal = document.getElementById('serviceModal');
         const serviceBackdrop = document.getElementById('serviceBackdrop');
         const serviceContent = document.getElementById('serviceContent');
-        const btnOpenServiceModal = document.getElementById('btnOpenServiceModal');
+
+        // Tangkap kedua tombol (Mobile & Desktop)
+        const btnOpenMobile = document.getElementById('btnOpenServiceModalMobile');
+        const btnOpenDesktop = document.getElementById('btnOpenServiceModalDesktop');
         const btnCloseServiceModal = document.getElementById('btnCloseServiceModal');
 
-        btnOpenServiceModal.addEventListener('click', (e) => {
-            e.stopPropagation(); // Hindari memicu klik document
+        function openServiceModal(e) {
+            e.stopPropagation();
             serviceModal.classList.remove('hidden');
             serviceModal.classList.add('flex');
             setTimeout(() => {
                 serviceBackdrop.classList.remove('opacity-0');
                 serviceContent.classList.add('modal-active');
             }, 10);
-        });
+        }
+
+        if (btnOpenMobile) btnOpenMobile.addEventListener('click', openServiceModal);
+        if (btnOpenDesktop) btnOpenDesktop.addEventListener('click', openServiceModal);
 
         function closeServiceModal() {
             serviceBackdrop.classList.add('opacity-0');
@@ -371,7 +391,7 @@
         const btnCloseLoginModal = document.getElementById('btnCloseLoginModal');
 
         btnOpenLoginModal.addEventListener('click', (e) => {
-            e.stopPropagation(); // Hindari memicu klik document
+            e.stopPropagation();
             loginModal.classList.remove('hidden');
             loginModal.classList.add('flex');
             setTimeout(() => {
