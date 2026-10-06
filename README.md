@@ -1,8 +1,19 @@
-# Home Print
+# Home Print 
+**Version 2.0.0 - 2026 Release**
 
 Home Print adalah platform layanan cetak dokumen dan foto berbasis web. Aplikasi ini dirancang untuk memberikan kemudahan bagi pengguna dalam menentukan spesifikasi cetak secara interaktif, menghitung biaya transaksi dan ongkos kirim secara otomatis menggunakan integrasi peta, serta memfasilitasi komunikasi pesanan langsung ke WhatsApp admin.
 
 Platform ini juga dilengkapi dengan halaman dasbor khusus admin untuk manajemen stok barang, varian kertas foto, penyedia alat cerdas pembuat dokumen (CV/Lamaran & Nota Resmi otomatis), serta pengelolaan kritik dan saran dari pelanggan dengan sistem keamanan maksimal untuk skala aplikasi web statis.
+
+---
+
+## Informasi Versi
+
+Aplikasi ini menggunakan standar *Semantic Versioning* (SemVer). Saat ini sistem berada pada **Versi 2.0.0 (2026 Release)**, dengan rincian makna angka sebagai berikut:
+
+- **2 (Major)**: Menggambarkan perombakan besar-besaran pada antarmuka UI/UX (migrasi dari halaman terpisah menjadi arsitektur _Pop-Up Modal_ bergaya SPA), penambahan fitur inti tingkat lanjut (Integrasi API Peta Interaktif & Mesin Generator PDF), serta perombakan struktur keamanan sistem.
+- **0 (Minor)**: Menandakan bahwa kumpulan fitur utama yang baru saja dirilis ini berstatus stabil dan siap beroperasi.
+- **0 (Patch)**: Menunjukkan bahwa belum ada tambalan perbaikan _bug_ tambahan yang diaplikasikan setelah rilis mayor ini diluncurkan.
 
 ---
 
@@ -56,7 +67,7 @@ Database dilindungi dari serangan _Database Deface_ dan _Malicious Code Injectio
 
 ## Struktur File Proyek
 
-- `index.html` - Halaman beranda pelanggan (Berisi trigger pemesanan & _login modal_ admin).
+- `index.html` - Halaman beranda pelanggan (Berisi trigger pemesanan, informasi versi, & _login modal_ admin).
 - `pesan.html` - Formulir layanan percetakan dokumen & cetak foto (terintegrasi API Peta).
 - `jasa.html` - Formulir layanan jasa (CV, Surat Lamaran, Ketik) yang terhubung ke pembelian produk fisik toko dan Peta Ongkir.
 - `feedback.html` - Halaman untuk pelanggan mengirim masukan/saran anonim.
